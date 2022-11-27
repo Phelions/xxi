@@ -8,7 +8,7 @@ from .settings import BASE_DIR
 
 # key and debugging settings should not changed without care
 SECRET_KEY = os.environ.get("CR_SECRET_KEY") or ImproperlyConfigured("CR_SECRET_KEY not set")
-DEBUG = True
+DEBUG = False
 
 # allowed hosts get parsed from a comma-separated list
 hosts = os.environ.get("CR_HOSTS") or ImproperlyConfigured("CR_HOSTS not set")
@@ -45,8 +45,8 @@ else:
 
 
 # Static Files
-STATIC_ROOT = os.path.join(BASE_DIR, "src/static")
 STATIC_URL = "/static/"
-STATIC_DIRS = [
-     os.path.join(BASE_DIR, 'src/static')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR ,'src/static') 
 ]
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")

@@ -10,7 +10,7 @@ SECRET_KEY = "nzcm$_84@4qd6e^#yinut58p%r0+qlveqjcg8@7rvq@-t)zxv1"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
@@ -23,5 +23,9 @@ DATABASES = {
 }
 
 # Static Files
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
 STATIC_URL = "/static/"
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR ,'src/static') 
+]
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
