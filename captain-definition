@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "dockerfileLines": [
-    "FROM library/python:3.6.3-alpine",
+    "FROM library/python:3.10.8-alpine3.16",
     "RUN apk update && apk upgrade && apk add --no-cache make g++ bash git openssh postgresql-dev curl",
     "RUN mkdir -p /usr/src/app",
     "WORKDIR /usr/src/app",
