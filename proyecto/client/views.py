@@ -19,6 +19,6 @@ def reservas(request):
     return render(request, 'dashboard/client/reservas.html')
 
 def perfil(request):
-    return render(request, 'dashboard/dashboard.html')
+    return render(request, 'dashboard/client/perfil.html')
 
 '''----Dashboard - cliente - FIN---'''
