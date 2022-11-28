@@ -1,3 +1,12 @@
 {
-    "python.analysis.typeCheckingMode": "basic"
+    "python.analysis.typeCheckingMode": "basic",
+    "sqltools.useNodeRuntime": true,
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "database": "C:\\Users\\pheli\\Escritorio\\xxi\\proyecto\\db.sqlite3",
+            "name": "db.sqlite3"
+        }
+    ]
 }
