@@ -71,6 +71,11 @@
 		<form action="" method="post">
 			{% csrf_token %}
 			<h1 class="h3 mb-3 fw-normal">Inicie sesión</h1>
+      {% if r2 %}
+        <div class="alert alert-danger" role="alert">
+          <h5>{{ r2 }}</h5>
+        </div>
+      {% endif %}
 			<div class="form-floating">
 				<input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email">
 				<label for="floatingInput">Correo</label>
@@ -87,8 +92,15 @@
 			<div class="mt-2 mb-3" >
 				<a class="text-muted" href=" {% url 'index' %} ">Volver al Inicio</a>
 			</div>
+
+
 			<p class="mt-5 mb-3 text-muted">Restaurante Siglo-xxi &copy; 2022–2023</p>
 		</form>
+
+    
+
+      
+
 	</main>
 
 
