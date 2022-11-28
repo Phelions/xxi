@@ -4,7 +4,6 @@ from manager.models import Usuario
 
 
 def login(request):
-
     if request.method == 'POST':
         email = request.POST['email']
         password = request.POST['password']
@@ -14,6 +13,9 @@ def login(request):
             request.session['idUser'] = checklogin[0]['id']
             request.session['email'] = checklogin[0]['email']
             
+            if es_admin() == True:
+                return redirect('dashboard/manager/empleados_admin.html')
+
         else:
             checklogin = {'r2' : 'Error de Usuario y/o Contraseña!!'}
             return render(request, 'accounts/login.html', checklogin)
