@@ -18,7 +18,7 @@ ALLOWED_HOSTS = ["*"]
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME':'postgres',
+        'NAME':'restaurant',
         'POSTGRES_DB': 'restaurant',
         'USER': 'dbadmin',
         'PASSWORD': 'dbpassword',

@@ -29,6 +29,7 @@ BASE_APPS = [
 LOCAL_APPS = [
     'client',
     'users',
+    'manager',
 ]
 
 THIRD_APPS = [

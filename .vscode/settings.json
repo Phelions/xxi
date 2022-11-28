@@ -9,5 +9,6 @@
             "name": "db.sqlite3"
         }
     ],
-    "python.linting.enabled": false
+    "python.linting.enabled": true,
+    "python.linting.pylintEnabled": true
 }

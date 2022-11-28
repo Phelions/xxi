@@ -22,7 +22,7 @@ if os.environ.get("CR_USESQLITE"):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME':'postgres',
+            'NAME':'restaurant',
             'POSTGRES_DB': 'restaurant',
             'USER': 'dbadmin',
             'PASSWORD': 'dbpassword',
