@@ -21,12 +21,15 @@ class Historial(models.Model):
     fecha_hora = models.DateTimeField(null=False)
 
 class Turno(models.Model):
+    id_turno = models.IntegerField(primary_key=True,null=False)
     horario = models.CharField(max_length=255,null=False)
 
 class Tipo_empleado(models.Model):
+    id_tipo_empleado = models.IntegerField(primary_key=True,null=False)
     nombre_rol = models.CharField(max_length=20,null=False)
 
 class Empleado(models.Model):
+    id_empleado = models.a (primary_key=True)
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     tipo_empleado = models.ForeignKey(Tipo_empleado, on_delete=models.CASCADE)
     turno = models.ForeignKey(Turno, on_delete=models.CASCADE)
