@@ -1,5 +1,5 @@
 {
-    "python.analysis.typeCheckingMode": "basic",
+    "python.analysis.typeCheckingMode": "off",
     "sqltools.useNodeRuntime": true,
     "sqltools.connections": [
         {
@@ -8,5 +8,6 @@
             "database": "C:\\Users\\pheli\\Escritorio\\xxi\\proyecto\\db.sqlite3",
             "name": "db.sqlite3"
         }
-    ]
+    ],
+    "python.linting.enabled": false
 }
