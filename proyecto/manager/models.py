@@ -142,7 +142,6 @@ class DjangoSession(models.Model):
 class Empleado(models.Model):
     id_empleado = models.IntegerField(primary_key=True)
     id_usuario = models.ForeignKey('Usuario', models.DO_NOTHING, db_column='id_usuario')
-    id_rol = models.ForeignKey('TipoRol', models.DO_NOTHING, db_column='id_rol')
     id_turno = models.ForeignKey('Turno', models.DO_NOTHING, db_column='id_turno')
     hora_entrada = models.CharField(max_length=5)
     hora_salida = models.CharField(max_length=5)
@@ -257,7 +256,7 @@ class Proveedor(models.Model):
     id_proveedor = models.IntegerField(primary_key=True)
     nombre_proveedor = models.CharField(max_length=100)
     correo_proveedor = models.CharField(max_length=100)
-    telefono_proveedor = models.DecimalField(max_digits=9, decimal_places=0)
+    telefono_proveedor = models.DecimalField(max_digits=20, decimal_places=0)
 
     class Meta:
         managed = False
@@ -338,15 +337,14 @@ class Turno(models.Model):
 
 class Usuario(models.Model):
     id_usuario = models.IntegerField(primary_key=True)
+    id_rol = models.ForeignKey(TipoRol, models.DO_NOTHING, db_column='id_rol')
     rut = models.DecimalField(max_digits=9, decimal_places=0)
     nombre = models.CharField(max_length=50)
     apellido = models.CharField(max_length=50)
     celular = models.DecimalField(max_digits=9, decimal_places=0)
     email = models.CharField(unique=True, max_length=100)
     password = models.CharField(max_length=12)
-    es_admin = models.DecimalField(max_digits=1, decimal_places=0)
-    es_empleado = models.DecimalField(max_digits=1, decimal_places=0)
-    activo = models.DecimalField(max_digits=1, decimal_places=0)
+    activo = models.BooleanField()
     intentos = models.DecimalField(max_digits=1, decimal_places=0)
 
     class Meta:
