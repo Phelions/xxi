@@ -12,6 +12,7 @@ def menu(request):
     return render(request, 'dashboard/client/menu.html')
 
 def reservar(request):
+    
     return render(request, 'dashboard/client/reservar.html')
 
 def reservas(request):
