@@ -24,11 +24,11 @@ BASE_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'account.apps.AccountConfig',
 ]
 
 LOCAL_APPS = [
     'client',
-    'users',
     'manager',
 ]
 
@@ -106,6 +106,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
+
+AUTH_USER_MODEL = 'account.User'
 
 
 # Default primary key field type

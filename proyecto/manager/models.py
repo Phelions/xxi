@@ -324,7 +324,8 @@ class TipoRol(models.Model):
     class Meta:
         managed = False
         db_table = 'tipo_rol'
-
+    def __str__(self):
+        return f"{self.id_rol} - {self.descripcion}"
 
 class Turno(models.Model):
     id_turno = models.IntegerField(primary_key=True)
@@ -350,3 +351,6 @@ class Usuario(models.Model):
     class Meta:
         managed = False
         db_table = 'usuario'
+
+    def __str__(self):
+        return f"{self.nombre}  {self.apellido} | RUT: {self.rut}"
