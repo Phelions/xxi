@@ -8,7 +8,10 @@ class LoginForm(forms.Form):
                 "placeholder": "Correo",
                 "class": "form-control"
             }
-        )
+        ),
+        error_messages={
+            'required': 'Los campos son obligatorios'
+            }
     , label='')
     password = forms.CharField(
         widget= forms.PasswordInput(
@@ -24,52 +27,66 @@ class SignupForm(UserCreationForm):
         widget= forms.NumberInput(
             attrs = {
                 "class": "form-control",
+                "placeholder": "111111110"
             }
         )
+    , label=''
     )
-    nombre = forms.CharField(
+    first_name = forms.CharField(
         widget= forms.TextInput(
             attrs = {
                 "class": "form-control",
+                "placeholder": "Nombre"
             }
         )
+    , label=''
     )
-    apellido = forms.CharField(
+    last_name = forms.CharField(
         widget= forms.TextInput(
             attrs = {
                 "class": "form-control",
+                "placeholder": "Apellido"
             }
         )
+    , label=''
     )
     celular = forms.IntegerField(
         widget= forms.NumberInput(
             attrs = {
                 "class": "form-control",
+                "placeholder": "celular"
             }
         )
+    , label=''
     )
 
     email = forms.CharField(
         widget= forms.EmailInput(
             attrs = {
                 "class": "form-control",
+                "placeholder": "Correo"
             }
         )
+    , label=''
     )
     password1 = forms.CharField(
         widget= forms.PasswordInput(
             attrs = {
                 "class": "form-control",
+                "placeholder": "Contraseña"
             }
         )
+    , label=''
     )
     password2 = forms.CharField(
         widget= forms.PasswordInput(
             attrs = {
                 "class": "form-control",
+                "placeholder": "Repita su contraseña"
             }
         )
+    , label=''
     )
     class Meta:
         model = User
-        fields = ('rut','nombre','apellido','celular','email','password1','password2')
+        fields = ('rut','first_name','last_name','celular','email','password1','password2')

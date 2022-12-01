@@ -33,7 +33,7 @@ LOCAL_APPS = [
 ]
 
 THIRD_APPS = [
-
+    'axes',
 ]
 
 INSTALLED_APPS = BASE_APPS + LOCAL_APPS + THIRD_APPS
@@ -47,6 +47,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'axes.middleware.AxesMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -87,7 +88,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+AUTHENTICATION_BACKENDS = [
+   'axes.backends.AxesBackend', # Axes must be first
+   'django.contrib.auth.backends.ModelBackend',
+]
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
@@ -108,7 +112,16 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 
 AUTH_USER_MODEL = 'account.User'
+ACCOUNT_USER_MODEL_USERNAME_FIELD = 'email'
+ACCOUNT_UNIQUE_USERNAME = False
+ACCOUNT_USERNAME_REQUIRED = False
 
+
+AXES_FAILURE_LIMIT: 3
+AXES_COOLOFF_TIME: 0.30
+AXES_RESET_ON_SUCCESS = True
+
+AXES_LOCKOUT_CALLABLE = 'account.views.lockout'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

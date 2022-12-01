@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
 from .forms import  LoginForm, SignupForm
 from django.contrib.auth import authenticate, login as django_login
-from django.contrib.auth.hashers import make_password
-
+from axes.decorators import axes_dispatch
+from django.http import HttpResponse
 # Create your views here.
+
+@axes_dispatch
 def login(request):
     form = LoginForm(request.POST)
     msg=None
@@ -11,7 +13,7 @@ def login(request):
         if form.is_valid():
             email = form.cleaned_data.get('email')
             password = form.cleaned_data.get('password')
-            user = authenticate(email=email, password=password)
+            user = authenticate(request=request,email=email, password=password)
             if user is not None and user.is_client:
                 django_login(request, user)
                 return redirect('reservar')
@@ -38,6 +40,9 @@ def login(request):
         else:
             msg = 'Error al crear usuario'
     return render(request, 'accounts/login.html', {'form':form, 'msg':msg})
+
+def lockout(request, credentials, *args, **kwargs):
+    return HttpResponse("Bloqueado debido a demasiadas fallas de inicio de sesión| N° Intentos: 3 | <a href='/'>Volver</a>")
 
 def signup(request):
     msg=None

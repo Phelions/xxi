@@ -3,8 +3,8 @@ from django.contrib.auth.models import AbstractUser
 
 
 class User(AbstractUser):
+    username = None
     email = models.CharField("Correo",unique=True, max_length=100)
-    #username = models.CharField("Nombre de usuario", max_length=150)
     rut = models.DecimalField(max_digits=9, decimal_places=0)
     celular = models.DecimalField(max_digits=9, decimal_places=0)
     is_client = models.BooleanField('Rol cliente',default=True)
