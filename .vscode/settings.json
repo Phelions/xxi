@@ -4,11 +4,15 @@
     "sqltools.connections": [
         {
             "previewLimit": 50,
-            "driver": "SQLite",
-            "database": "C:\\Users\\pheli\\Escritorio\\xxi\\proyecto\\db.sqlite3",
-            "name": "db.sqlite3"
+            "server": "postgres.restaurante-xxi.live",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "database": "restaurant",
+            "name": "restaurant",
+            "username": "dbadmin",
+            "password": "dbpassword"
         }
     ],
-    "python.linting.enabled": true,
+    "python.linting.enabled": false,
     "python.linting.pylintEnabled": true
 }
