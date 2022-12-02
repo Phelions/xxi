@@ -8,6 +8,56 @@
 from django.db import models
 
 
+class AccountUser(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    password = models.CharField(max_length=128)
+    last_login = models.DateTimeField(blank=True, null=True)
+    is_superuser = models.BooleanField()
+    username = models.CharField(unique=True, max_length=150, blank=True, null=True)
+    first_name = models.CharField(max_length=150)
+    last_name = models.CharField(max_length=150)
+    is_staff = models.BooleanField()
+    is_active = models.BooleanField()
+    date_joined = models.DateTimeField()
+    email = models.CharField(unique=True, max_length=100)
+    rut = models.DecimalField(max_digits=9, decimal_places=0)
+    celular = models.DecimalField(max_digits=9, decimal_places=0)
+    is_client = models.BooleanField()
+    is_admin = models.BooleanField()
+    is_finanza = models.BooleanField()
+    is_bodega = models.BooleanField()
+    is_cocina = models.BooleanField()
+    is_barman = models.BooleanField()
+    is_garzon = models.BooleanField()
+    intentos = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'account_user'
+
+
+class AccountUserGroups(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    user = models.ForeignKey(AccountUser, models.DO_NOTHING)
+    group = models.ForeignKey('AuthGroup', models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'account_user_groups'
+        unique_together = (('user', 'group'),)
+
+
+class AccountUserUserPermissions(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    user = models.ForeignKey(AccountUser, models.DO_NOTHING)
+    permission = models.ForeignKey('AuthPermission', models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'account_user_user_permissions'
+        unique_together = (('user', 'permission'),)
+
+
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=150)
 
@@ -38,43 +88,49 @@ class AuthPermission(models.Model):
         unique_together = (('content_type', 'codename'),)
 
 
-class AuthUser(models.Model):
-    password = models.CharField(max_length=128)
-    last_login = models.DateTimeField(blank=True, null=True)
-    is_superuser = models.BooleanField()
-    username = models.CharField(unique=True, max_length=150)
-    first_name = models.CharField(max_length=150)
-    last_name = models.CharField(max_length=150)
-    email = models.CharField(max_length=254)
-    is_staff = models.BooleanField()
-    is_active = models.BooleanField()
-    date_joined = models.DateTimeField()
+class AxesAccessattempt(models.Model):
+    user_agent = models.CharField(max_length=255)
+    ip_address = models.GenericIPAddressField(blank=True, null=True)
+    username = models.CharField(max_length=255, blank=True, null=True)
+    http_accept = models.CharField(max_length=1025)
+    path_info = models.CharField(max_length=255)
+    attempt_time = models.DateTimeField()
+    get_data = models.TextField()
+    post_data = models.TextField()
+    failures_since_start = models.IntegerField()
 
     class Meta:
         managed = False
-        db_table = 'auth_user'
+        db_table = 'axes_accessattempt'
+        unique_together = (('username', 'ip_address', 'user_agent'),)
 
 
-class AuthUserGroups(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
-    group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
-
-    class Meta:
-        managed = False
-        db_table = 'auth_user_groups'
-        unique_together = (('user', 'group'),)
-
-
-class AuthUserUserPermissions(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
-    permission = models.ForeignKey(AuthPermission, models.DO_NOTHING)
+class AxesAccessfailurelog(models.Model):
+    user_agent = models.CharField(max_length=255)
+    ip_address = models.GenericIPAddressField(blank=True, null=True)
+    username = models.CharField(max_length=255, blank=True, null=True)
+    http_accept = models.CharField(max_length=1025)
+    path_info = models.CharField(max_length=255)
+    attempt_time = models.DateTimeField()
+    locked_out = models.BooleanField()
 
     class Meta:
         managed = False
-        db_table = 'auth_user_user_permissions'
-        unique_together = (('user', 'permission'),)
+        db_table = 'axes_accessfailurelog'
+
+
+class AxesAccesslog(models.Model):
+    user_agent = models.CharField(max_length=255)
+    ip_address = models.GenericIPAddressField(blank=True, null=True)
+    username = models.CharField(max_length=255, blank=True, null=True)
+    http_accept = models.CharField(max_length=1025)
+    path_info = models.CharField(max_length=255)
+    attempt_time = models.DateTimeField()
+    logout_time = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'axes_accesslog'
 
 
 class Boleta(models.Model):
@@ -101,7 +157,7 @@ class DjangoAdminLog(models.Model):
     action_flag = models.SmallIntegerField()
     change_message = models.TextField()
     content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING, blank=True, null=True)
-    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+    user = models.ForeignKey(AccountUser, models.DO_NOTHING)
 
     class Meta:
         managed = False
@@ -141,7 +197,7 @@ class DjangoSession(models.Model):
 
 class Empleado(models.Model):
     id_empleado = models.IntegerField(primary_key=True)
-    id_usuario = models.ForeignKey('Usuario', models.DO_NOTHING, db_column='id_usuario')
+    id_usuario = models.ForeignKey(AccountUser, models.DO_NOTHING, db_column='id_usuario')
     id_turno = models.ForeignKey('Turno', models.DO_NOTHING, db_column='id_turno')
     hora_entrada = models.CharField(max_length=5)
     hora_salida = models.CharField(max_length=5)
@@ -278,7 +334,7 @@ class Receta(models.Model):
 
 class Reserva(models.Model):
     id_reserva = models.IntegerField(primary_key=True)
-    id_usuario = models.ForeignKey('Usuario', models.DO_NOTHING, db_column='id_usuario')
+    id_usuario = models.ForeignKey(AccountUser, models.DO_NOTHING, db_column='id_usuario')
     id_mesa = models.ForeignKey(Mesa, models.DO_NOTHING, db_column='id_mesa')
     fecha_hora = models.CharField(max_length=20)
 
@@ -317,16 +373,6 @@ class TipoMenu(models.Model):
         db_table = 'tipo_menu'
 
 
-class TipoRol(models.Model):
-    id_rol = models.IntegerField(primary_key=True)
-    descripcion = models.CharField(max_length=20)
-
-    class Meta:
-        managed = False
-        db_table = 'tipo_rol'
-    def __str__(self):
-        return f"{self.id_rol} - {self.descripcion}"
-
 class Turno(models.Model):
     id_turno = models.IntegerField(primary_key=True)
     horario = models.CharField(max_length=255)
@@ -334,23 +380,3 @@ class Turno(models.Model):
     class Meta:
         managed = False
         db_table = 'turno'
-
-
-class Usuario(models.Model):
-    id_usuario = models.IntegerField(primary_key=True)
-    id_rol = models.ForeignKey(TipoRol, models.DO_NOTHING, db_column='id_rol')
-    rut = models.DecimalField(max_digits=9, decimal_places=0)
-    nombre = models.CharField(max_length=50)
-    apellido = models.CharField(max_length=50)
-    celular = models.DecimalField(max_digits=9, decimal_places=0)
-    email = models.CharField(unique=True, max_length=100)
-    password = models.CharField(max_length=12)
-    activo = models.BooleanField()
-    intentos = models.DecimalField(max_digits=1, decimal_places=0)
-
-    class Meta:
-        managed = False
-        db_table = 'usuario'
-
-    def __str__(self):
-        return f"{self.nombre}  {self.apellido} | RUT: {self.rut}"

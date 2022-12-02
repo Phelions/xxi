@@ -36,13 +36,13 @@ def login(request):
                 login(request, user)
                 return redirect('reservar')
             else:
-                msg = 'Usuario o contraseña incorrectos'
+                msg = 'Correos o contraseña incorrectos'
         else:
             msg = 'Error al crear usuario'
     return render(request, 'accounts/login.html', {'form':form, 'msg':msg})
 
 def lockout(request, credentials, *args, **kwargs):
-    return HttpResponse("Bloqueado debido a demasiadas fallas de inicio de sesión| N° Intentos: 3 | <a href='/'>Volver</a>")
+    return HttpResponse("Bloqueado debido a demasiadas fallas de inicio de sesión| Contacte al Administrador | <a href='/'>Volver</a>")
 
 def signup(request):
     msg=None
