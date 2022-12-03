@@ -66,61 +66,19 @@
     <link href=" {% static 'accounts/signin.css' %}" rel="stylesheet">
   </head>
   <body class="text-center">
-    
 	<main class="form-signin w-100 m-auto">
-		<form action="" method="post">
-			{% csrf_token %}
-			<h1 class="h3 mb-3 fw-normal">Inicie sesión</h1>
       {% if msg %}
         <div class="alert alert-danger" role="alert">
           <h5>{{ msg }}</h5>
         </div>
       {% endif %}
-       {{ form }} 
-      {% comment %} <div class="form-floating">
-				<input type="number" class="form-control" id="floatingInput" placeholder="sin guion, sin puntos" name="nom">
-				<label for="floatingInput">rut</label>
-			</div>
-      <div class="form-floating">
-				<input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="nom">
-				<label for="floatingInput">nombre</label>
-			</div>
-      <div class="form-floating">
-				<input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="nom">
-				<label for="floatingInput">apellido</label>
-			</div>
-      <div class="form-floating">
-				<input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="nom">
-				<label for="floatingInput">celular</label>
-			</div>
-			<div class="form-floating">
-				<input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="nom">
-				<label for="floatingInput">Correo</label>
-			</div>
-				<div class="form-floating">
-				<input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password">
-				<label for="floatingPassword">Contraseña</label>
-			</div>  {% endcomment %}
+      {{ field.errors }}
+		<div class="mt-2 mb-3" >
+			<a class="text-muted" href=" {% url 'index' %} ">Volver al Inicio</a>
+		</div>
 
-			<button class="w-100 btn btn-lg btn-warning" type="submit">Registrarse</button>
-			<div class="mt-2 mb-3" >
-				<a class="text-muted" href=" {% url 'login' %}  ">Ya se encuentra registrado? Ingresar</a>
-			</div>
-			<div class="mt-2 mb-3" >
-				<a class="text-muted" href=" {% url 'index' %} ">Volver al Inicio</a>
-			</div>
-
-
-			<p class="mt-5 mb-3 text-muted">Restaurante Siglo-xxi &copy; 2022–2023</p>
-		</form>
-
-    
-
-      
+		<p class="mt-5 mb-3 text-muted">Restaurante Siglo-xxi &copy; 2022–2023</p>
 
 	</main>
-
-
-    
   </body>
 </html>

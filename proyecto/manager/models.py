@@ -13,7 +13,7 @@ class AccountUser(models.Model):
     password = models.CharField(max_length=128)
     last_login = models.DateTimeField(blank=True, null=True)
     is_superuser = models.BooleanField()
-    username = models.CharField(unique=True, max_length=150, blank=True, null=True)
+    username = models.CharField(unique=False, max_length=150, blank=True, null=True)
     first_name = models.CharField(max_length=150)
     last_name = models.CharField(max_length=150)
     is_staff = models.BooleanField()

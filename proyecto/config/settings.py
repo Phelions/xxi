@@ -88,6 +88,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+PASSWORD_HASHERS = (
+    'django.contrib.auth.hashers.UnsaltedMD5PasswordHasher',
+)
+
 AUTHENTICATION_BACKENDS = [
    'axes.backends.AxesBackend', # Axes must be first
    'django.contrib.auth.backends.ModelBackend',
