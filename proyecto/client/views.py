@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -8,17 +9,40 @@ def index(request):
 
 '''----Dashboard - cliente---'''
 
+@login_required
 def menu(request):
-    return render(request, 'dashboard/client/menu.html')
+    if request.user.is_client:
+        return render(request, 'dashboard/client/menu.html')
+    else:
+        msg = {'msg':'No tiene permisos para acceder a esta sección'}
+        return render(request, 'accounts/request.html', msg)
+    #return render(request, 'dashboard/client/menu.html')
 
+@login_required
 def reservar(request):
-    
-    return render(request, 'dashboard/client/reservar.html')
+    if request.user.is_client:
+        return render(request, 'dashboard/client/reservar.html')
+    else:
+        msg = {'msg':'No tiene permisos para acceder a esta sección'}
+        return render(request, 'accounts/request.html', msg)
+    #return render(request, 'dashboard/client/reservar.html')
 
+@login_required
 def reservas(request):
-    return render(request, 'dashboard/client/reservas.html')
+    if request.user.is_client:
+        return render(request, 'dashboard/client/reservas.html')
+    else:
+        msg = {'msg':'No tiene permisos para acceder a esta sección'}
+        return render(request, 'accounts/request.html', msg)
+    #return render(request, 'dashboard/client/reservas.html')
 
+@login_required
 def perfil(request):
-    return render(request, 'dashboard/client/perfil.html')
+    if request.user.is_client:
+        return render(request, 'dashboard/client/perfil.html')
+    else:
+        msg = {'msg':'No tiene permisos para acceder a esta sección'}
+        return render(request, 'accounts/request.html', msg)
+    #return render(request, 'dashboard/client/perfil.html')
 
 '''----Dashboard - cliente - FIN---'''
