@@ -19,7 +19,7 @@ def perfil_admin(request):
 @login_required
 def listar_cliente(request):
     if request.user.is_admin:
-        return render(request, 'dashboard/manager/cliente/listar_cliente.htm')
+        return render(request, 'dashboard/manager/cliente/listar_cliente.html')
     else:
         msg = {'msg':'No tiene permisos para acceder a esta sección'}
         return render(request, 'accounts/request.html', msg)
@@ -37,7 +37,7 @@ def administrar_mesas(request):
 ''' Empleados '''
 @login_required
 def crear_empleado(request):
-    if request.user.is_admin.is_authenticated:
+    if request.user.is_admin:
         msg=None
         if request.method =='POST':
             form = SignupEmployeeForm(request.POST)
