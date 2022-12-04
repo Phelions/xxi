@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from .forms import  LoginForm, SignupForm
 from django.contrib.auth import authenticate, login as django_login, logout as django_logout
 from axes.decorators import axes_dispatch
-from django.http import HttpResponse
 # Create your views here.
 
 @axes_dispatch

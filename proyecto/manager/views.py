@@ -37,7 +37,7 @@ def administrar_mesas(request):
 ''' Empleados '''
 @login_required
 def crear_empleado(request):
-    if request.user.is_admin:
+    if request.user.is_admin.is_authenticated:
         msg=None
         if request.method =='POST':
             form = SignupEmployeeForm(request.POST)
