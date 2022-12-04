@@ -10,10 +10,9 @@
                 <a name="" id="" class="btn btn-success" href="{% url 'crear_empleado' %}" role="button">Agregar Empleado</a>
             </div>
             <div class="card-body">
-                <h4 class="card-title">Empleados</h4>
         
                 <div class="table-responsive">
-                    <table class="table table-primary">
+                    <table class="table table-light">
                         <thead>
                             <tr>
                                 <th scope="col">Rut</th>
@@ -33,7 +32,7 @@
                                 <td>carlos@bodega.com</td>
                                 <td>987654321</td>
                                 <td>Bodega</td>
-                                <td>Editar | Borrar</td>
+                                <td> <a name="" id="" class="btn btn-info" href="{% url 'modificar_empleado' %}" role="button">Modificar</a> | <a name="" id="" class="btn btn-danger" href="#" role="button">Eliminar</a></td>
                             </tr>
                         </tbody>
                     </table>

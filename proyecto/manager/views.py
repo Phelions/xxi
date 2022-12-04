@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from account.forms import SignupEmployeeForm
 from django.contrib.auth.decorators import login_required
-
+from django.db import connection
 # Create your views here.
 
 
@@ -19,6 +19,7 @@ def perfil_admin(request):
 @login_required
 def listar_cliente(request):
     if request.user.is_admin:
+        
         return render(request, 'dashboard/manager/cliente/listar_cliente.html')
     else:
         msg = {'msg':'No tiene permisos para acceder a esta sección'}
@@ -58,7 +59,17 @@ def crear_empleado(request):
 
 @login_required
 def empleados(request):
+    data = {
+        'empleados': listar_empleado()
+    }
     if request.user.is_admin:
+        Rut = request.POST.get('id_menu')
+        nombre = request.POST.get('nombre')
+        apellido = request.POST.get('porcion')
+        correo = request.POST.get('detalle')
+        celular = request.POST.get('precio')
+        rol = request.POST.get('precio')
+
         return render(request, 'dashboard/manager/empleado/index.html')
     else:
         msg = {'msg':'No tiene permisos para acceder a esta sección'}
@@ -68,7 +79,18 @@ def empleados(request):
 @login_required
 def listar_empleado(request):
     if request.user.is_admin:
-        return render(request, 'dashboard/manager/empleado/listar_empleado.html')
+        connect = connection.cursor()
+        db = connect.connection.cursor()
+        regresar = connect.connection.cursor()
+        db.callproc('SP_LISTAR_MENU', [regresar])
+        lista = []
+        for fila in regresar:
+            data = {
+                'data': fila,
+            }
+            lista.append(data)
+        return lista
+        #return render(request, 'dashboard/manager/empleado/listar_empleado.html')
     else:
         msg = {'msg':'No tiene permisos para acceder a esta sección'}
         return render(request, 'accounts/request.html', msg)
