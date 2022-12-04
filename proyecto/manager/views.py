@@ -59,18 +59,11 @@ def crear_empleado(request):
 
 @login_required
 def empleados(request):
-    data = {
-        'empleados': listar_empleado()
-    }
     if request.user.is_admin:
-        Rut = request.POST.get('id_menu')
-        nombre = request.POST.get('nombre')
-        apellido = request.POST.get('porcion')
-        correo = request.POST.get('detalle')
-        celular = request.POST.get('precio')
-        rol = request.POST.get('precio')
-
-        return render(request, 'dashboard/manager/empleado/index.html')
+        data = {
+            'listado_empleados': 'listar_empleado()'
+        }
+        return render(request, 'dashboard/manager/empleado/index.html',data)
     else:
         msg = {'msg':'No tiene permisos para acceder a esta sección'}
         return render(request, 'accounts/request.html', msg)
