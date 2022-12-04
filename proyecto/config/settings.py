@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
+from datetime import timedelta
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -34,7 +35,13 @@ LOCAL_APPS = [
 
 THIRD_APPS = [
     'axes',
+    'crispy_forms',
+    'crispy_bootstrap5',
 ]
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
+
 
 INSTALLED_APPS = BASE_APPS + LOCAL_APPS + THIRD_APPS
 
@@ -123,7 +130,7 @@ ACCOUNT_USERNAME_REQUIRED = False
 
 
 AXES_FAILURE_LIMIT: 3
-AXES_COOLOFF_TIME: 0.30
+AXES_COOLOFF_TIME: timedelta(minutes=5)
 AXES_RESET_ON_SUCCESS = True
 
 AXES_LOCKOUT_CALLABLE = 'account.views.lockout'

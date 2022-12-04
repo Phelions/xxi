@@ -7,7 +7,7 @@ from django.http import HttpResponse
 
 @axes_dispatch
 def login(request):
-    form = LoginForm(request.POST)
+    form = LoginForm(request.POST or None)
     msg=None
     if request.method == 'POST':
         if form.is_valid():
@@ -19,7 +19,7 @@ def login(request):
                 return redirect('reservar')
             elif user is not None and user.is_admin:
                 django_login(request, user)
-                return redirect('administrar_clientes')
+                return redirect('listar_cliente')
             elif user is not None and user.is_finanzas:
                 login(request, user)
                 return redirect('reservar')
@@ -42,7 +42,9 @@ def login(request):
     return render(request, 'accounts/login.html', {'form':form, 'msg':msg})
 
 def lockout(request, credentials, *args, **kwargs):
-    return HttpResponse("Bloqueado debido a demasiadas fallas de inicio de sesión| Contacte al Administrador | <a href='/'>Volver</a>")
+    msg = {'msg':'Bloqueado debido a demasiadas fallas de inicio de sesión. Espere 5 minutos y vuelva a intentar'}
+    django_logout(request)
+    return render(request, 'accounts/request.html', msg)
 
 def signup(request):
     msg=None

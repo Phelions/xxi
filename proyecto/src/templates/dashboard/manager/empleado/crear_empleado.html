@@ -1,0 +1,35 @@
+{% extends 'dashboard/manager/base.html' %}
+{% load crispy_forms_tags %}
+
+{% load static %}
+
+{% block admin-contenido %}
+
+<section>
+    <div class="container">
+        <div class="card mx-auto">
+            <form action="" method="POST"  class="row g-3">
+                {% csrf_token %}
+                {% if msg %}
+                    <div class="alert alert-danger" role="alert">
+                        <h5>{{ msg }}</h5>
+                    </div>
+                {% endif %}
+                <div class="card">
+                    <div class="card-body">
+                        {{ form | crispy }}
+
+                        <button class="w-100 btn btn-lg btn-warning" type="submit">Registrar</button>
+
+                    </div>
+                </div>
+
+
+            </form>
+
+            
+        </div>
+    </div>
+</section>
+
+{% endblock admin-contenido %}
