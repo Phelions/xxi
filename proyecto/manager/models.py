@@ -13,7 +13,6 @@ class AccountUser(models.Model):
     password = models.CharField(max_length=128)
     last_login = models.DateTimeField(blank=True, null=True)
     is_superuser = models.BooleanField()
-    username = models.CharField(unique=False, max_length=150, blank=True, null=True)
     first_name = models.CharField(max_length=150)
     last_name = models.CharField(max_length=150)
     is_staff = models.BooleanField()
@@ -22,6 +21,8 @@ class AccountUser(models.Model):
     email = models.CharField(unique=True, max_length=100)
     rut = models.DecimalField(max_digits=9, decimal_places=0)
     celular = models.DecimalField(max_digits=9, decimal_places=0)
+    username = models.CharField(max_length=32, blank=True, null=True)
+    intentos = models.IntegerField()
     is_client = models.BooleanField()
     is_admin = models.BooleanField()
     is_finanza = models.BooleanField()
@@ -29,7 +30,6 @@ class AccountUser(models.Model):
     is_cocina = models.BooleanField()
     is_barman = models.BooleanField()
     is_garzon = models.BooleanField()
-    intentos = models.IntegerField()
 
     class Meta:
         managed = False
@@ -225,6 +225,15 @@ class EstadoPedido(models.Model):
         db_table = 'estado_pedido'
 
 
+class EstadoSolicitud(models.Model):
+    id_estado = models.IntegerField(primary_key=True)
+    estado_solicitud = models.CharField(max_length=20)
+
+    class Meta:
+        managed = False
+        db_table = 'estado_solicitud'
+
+
 class Finanza(models.Model):
     id_finanza = models.IntegerField(primary_key=True)
     id_empleado = models.ForeignKey(Empleado, models.DO_NOTHING, db_column='id_empleado')
@@ -345,6 +354,7 @@ class Reserva(models.Model):
 
 class Solicitud(models.Model):
     id_solicitud = models.IntegerField(primary_key=True)
+    id_estado = models.ForeignKey(EstadoSolicitud, models.DO_NOTHING, db_column='id_estado')
     id_empleado = models.ForeignKey(Empleado, models.DO_NOTHING, db_column='id_empleado')
     menaje = models.CharField(max_length=1000)
 
@@ -355,7 +365,7 @@ class Solicitud(models.Model):
 
 class SolicitudInsumo(models.Model):
     id_relacion = models.IntegerField(primary_key=True)
-    id_solicitud = models.ForeignKey(Solicitud, models.DO_NOTHING, db_column='id_solicitud')
+    id_solicitud = models.IntegerField()
     id_insumo = models.ForeignKey(Insumo, models.DO_NOTHING, db_column='id_insumo')
     cantidad = models.IntegerField()
 

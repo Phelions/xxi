@@ -21,19 +21,27 @@
                                 <th scope="col">Correo</th>
                                 <th scope="col">Celular</th>
                                 <th scope="col">Rol</th>
+                                <!-- <th scope="col">Hora Entrada</th>
+                                <th scope="col">Hora Salida</th>
+                                <th scope="col">Turno</th> -->
                                 <th scope="col">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
+                        {% for e in empleados %}
                             <tr>
-                                <td>111111111</td>
-                                <td>Carlos</td>
-                                <td>Bodega</td>
-                                <td>carlos@bodega.com</td>
-                                <td>987654321</td>
-                                <td>Bodega</td>
+                                <td>{{ e.0 }}</td>
+                                <td>{{ e.1 }}</td>
+                                <td>{{ e.2 }}</td>
+                                <td>{{ e.3 }}</td>
+                                <td>{{ e.4 }}</td>
+                                <td>{{ e.5 }}</td>
+                                <!-- <td>{{ e.hora_entrada }}</td> 
+                                <td>{{ e.hora_salida }}</td> 
+                                <td>{{ e.horario }}</td>  -->
                                 <td> <a name="" id="" class="btn btn-info" href="{% url 'modificar_empleado' %}" role="button">Modificar</a> | <a name="" id="" class="btn btn-danger" href="#" role="button">Eliminar</a></td>
                             </tr>
+                        {% endfor %}
                         </tbody>
                     </table>
                 </div>  
