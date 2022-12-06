@@ -62,10 +62,7 @@ def crear_empleado(request):
 @login_required
 def empleados(request):
     if request.user.is_admin:
-        #qs1 =  Empleado.objects.values_list('hora_entrada','hora_salida')
-        #qs2 =  Turno.objects.values_list('horario')
-        
-        empleados = AccountUser.objects.select_related('empleado','turno').annotate(
+        empleados = AccountUser.objects.annotate(
             rol=Case(
                 When(is_admin=True, then=Value('Admin')),
                 When(is_bodega=True, then=Value('Bodega')),
@@ -80,6 +77,12 @@ def empleados(request):
         msg = {'msg':'No tiene permisos para acceder a esta sección'}
         return render(request, 'accounts/request.html', msg)
     #return render(request, 'dashboard/manager/empleado/index.html')
+
+def eliminar_empleado(request, rut):
+    empleado = AccountUser.objects.get(rut=rut)
+    empleado.delete()
+    return redirect('empleados')
+
 
 @login_required
 def listar_empleado(request):
