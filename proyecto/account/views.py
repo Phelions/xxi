@@ -18,7 +18,7 @@ def login(request):
                 return redirect('reservar')
             elif user is not None and user.is_admin:
                 django_login(request, user)
-                return redirect('listar_cliente')
+                return redirect('empleados')
             elif user is not None and user.is_finanzas:
                 login(request, user)
                 return redirect('reservar')

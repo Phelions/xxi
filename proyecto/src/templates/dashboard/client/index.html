@@ -1,13 +1,17 @@
-{% extends 'dashboard/manager/base.html' %}
+{% extends 'dashboard/client/base.html' %}
+{% load static %}
 
+{% block client-css %}
+<link rel="stylesheet" href="{% static '/client/css/menu.css' %}">
 
-{% block admin-contenido %}
+{% endblock client-css %}
 
+{% block client-contenido %}
 <section>
     <div class="container">
         <div class="card">
             <div class="card-header">
-                <a name="" id="" class="btn btn-success" href="{% url 'crear_empleado' %}" role="button">Agregar Empleado</a>
+                <a name="" id="" class="btn btn-success" href="#" role="button">Agregar Empleado</a>
             </div>
             <div class="card-body">
         
@@ -15,21 +19,21 @@
                     <table class="table table-light">
                         <thead>
                             <tr>
-                                
                                 <th scope="col">Rut</th>
                                 <th scope="col">Nombre</th>
                                 <th scope="col">Apellido</th>
                                 <th scope="col">Correo</th>
                                 <th scope="col">Celular</th>
                                 <th scope="col">Rol</th>
-                                <!-- <th scope="col">Hora Entrada</th>
-                                <th scope="col">Hora Salida</th>
-                                <th scope="col">Turno</th> -->
                                 <th scope="col">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
+                       
+                       {% comment %}
                         {% for e in empleados %}
+                       {% endcomment %}
+                         
                             <tr>
                                 <td>{{ e.0 }}</td>
                                 <td>{{ e.1 }}</td>
@@ -37,22 +41,19 @@
                                 <td>{{ e.3 }}</td>
                                 <td>{{ e.4 }}</td>
                                 <td>{{ e.5 }}</td>
-                                
-                                <!-- <td>{{ e.6 }}</td> 
-                                <td>{{ e.7 }}</td> 
-                                <td>{{ e.8 }}</td>  -->
-                                <td> <a name="" id="" class="btn btn-info" href="{% url 'modificar'  e.0 %}" role="button">Modificar</a> | <a name="" id="" class="btn btn-danger" href="{% url 'eliminar' e.0 %}" role="button">Eliminar</a></td>
+                                <td> <a name="" id="" class="btn btn-info" href="#" role="button">Modificar</a> | <a name="" id="" class="btn btn-danger" href="#" role="button">Eliminar</a></td>
                             </tr>
-                        {% endfor %}
+                        
+                        {% comment %}
+                            {% endfor %}
+                        {% endcomment %}
                         </tbody>
                     </table>
                 </div>  
             </div>
             <div class="card-footer text-muted">
-                
             </div>
         </div>
     </div>
 </section>
-
-{% endblock admin-contenido %}
+{% endblock client-contenido %}
