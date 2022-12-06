@@ -31,16 +31,7 @@
             </a>
             <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
                 <div class="btn-group">
-                    <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false">
-                      Empleados
-                    </button>
-                    <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href=" {% url 'empleados' %} ">Empleados</a></li>
-
-                      <li><a class="dropdown-item" href=" {% url 'crear_empleado' %} ">Crear Empleados</a></li>
-                      <li><a class="dropdown-item" href="{% url 'listar_empleado' %}">Ver Empleados</a></li>
-                      <li><a class="dropdown-item" href=" {% url 'modificar_empleado' %} ">Modificar Empleados</a></li>
-                    </ul>
+                    <a class="btn btn-light" type="button" href=" {% url 'empleados' %} ">Empleados </a>
                 </div>
                 <div class="btn-group">
                     <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false">

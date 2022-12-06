@@ -1,6 +1,6 @@
 from . import views
 from django.urls import path
-from manager.views import  perfil_admin, listar_cliente, administrar_mesas, crear_empleado, modificar_empleado ,listar_empleado, administrar_reservas, administrar_menu, administrar_inventario, empleados, eliminar_empleado
+from manager.views import  perfil_admin, listar_cliente, administrar_mesas, crear_empleado, modificar_empleado , administrar_reservas, administrar_menu, administrar_inventario, empleados, eliminar_empleado
 
 urlpatterns = [ 
     path('perfil_admin/',perfil_admin, name='perfil_admin'),
@@ -8,8 +8,7 @@ urlpatterns = [
     path('administrar_mesas/',administrar_mesas, name='administrar_mesas'),
     
     path('crear_empleado/',crear_empleado, name='crear_empleado'),
-    path('listar_empleado/',listar_empleado, name='listar_empleado'),
-    path('modificar_empleado/',modificar_empleado, name='modificar_empleado'),
+    path('empleado/modificar/<int:rut>',modificar_empleado, name='modificar'),
     path('empleados/',empleados, name='empleados'),
     path('eliminar/<int:rut>',eliminar_empleado, name='eliminar'),
 

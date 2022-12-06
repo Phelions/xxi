@@ -1,17 +1,45 @@
 {% extends 'dashboard/manager/base.html' %}
-
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block admin-contenido %}
 
 <section>
     <div class="container">
         <div class="card">
+            <div class="card-header">
+                Modificar Empleado
+            </div>
             <div class="card-body">
-                <h1>Modificar Empleado</h1>
+                <h4 class="card-title text-center">Datos del Empleado</h4>
+                <form action="" method="POST" class="row g-3">
+                    {% csrf_token %}
+                    {% if msg %}
+                    <div class="alert alert-danger" role="alert">
+                        <h5>{{ msg }}</h5>
+                    </div>
+                    {% endif %}
+                    <div class="card">
+                        <div class="card-body">
+                            {{ form | crispy }}
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between btn-group" role="group">
+                        <button class="btn btn-success" type="submit">Modificar</button>
+
+                        <a type="button" href=" {% url 'empleados' %} " class="btn btn-danger">Cancelar</a>
+                    </div>
+                  
+                </form>
             </div>
         </div>
     </div>
+    <div class="card-footer text-muted">
+        admin
+    </div>
+    </div>
+    </div>
+
 </section>
 
 {% endblock admin-contenido %}
