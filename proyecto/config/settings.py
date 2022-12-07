@@ -104,6 +104,21 @@ AUTHENTICATION_BACKENDS = [
    'axes.backends.AxesBackend', # Axes must be first
    'django.contrib.auth.backends.ModelBackend',
 ]
+
+# Database
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql.psycopg2',
+        'NAME':'restaurant',
+        'POSTGRES_DB': 'restaurant',
+        'USER': 'dbadmin',
+        'PASSWORD': 'dbpassword',
+        'HOST': 'postgres.restaurante-xxi.live',
+        'PORT': '5432',
+    }
+}
+
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 

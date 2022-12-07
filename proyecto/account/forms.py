@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from crispy_forms.helper import FormHelper
-from manager.models import AccountUser
+from manager.models import AccountUser, Empleado, Turno
 from .models import User
 class LoginForm(forms.Form):
     email = forms.CharField (
