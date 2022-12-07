@@ -46,11 +46,21 @@
                                 <li class="nav-item"><a class="nav-link" href="#">Listar Reserva</a></li>
                                 <li class="nav-item"><a class="nav-link" href="#">Reservar</a></li>
                             -->
-                                <li class="nav-item"><a class="nav-link" href=" {% url 'empleados' %} ">dashboard admin</a></li>
+                                {% comment %} <li class="nav-item"><a class="nav-link" href=" {% url 'empleados' %} ">dashboard admin</a></li>
 
-                                <li class="nav-item"><a class="nav-link" href="{% url 'menu' %} ">Mi dashboard</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{% url 'menu' %} ">Mi dashboard</a></li> {% endcomment %}
+                                {% if user.is_authenticated %}
+                                    {% if user.is_admin %}
+                                        <li class="nav-item"><a class="nav-link link-warning" href=" {% url 'empleados' %} ">Ingresar</a></li>
+                                    {% endif %}
+                                    {% if user.is_client %}
+                                        <li class="nav-item"><a class="nav-link link-warning" href=" {% url 'reservar' %} ">INGRESAR</a></li>
+                                    {% endif %}
+                                {% else %}
+                                    <li class="nav-item"><a class="nav-link link-warning" href=" {% url 'login' %} ">INGRESAR</a></li>
 
-                                <li class="nav-item"><a class="nav-link link-warning" href=" {% url 'login' %} ">INGRESAR</a></li>
+                                {% endif %}
+                                
                             </li>
                         </ul>
                     </div>

@@ -28,8 +28,10 @@
     <div class="container">
         <header
             class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between  py-3 mb-4 border-bottom">
-            <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
-                <span style="font-weight: normal !important; color: rgb(0, 0, 0);">Siglo XXI
+            <a class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+                <span style="font-weight: normal !important; color: rgb(0, 0, 0);">Bienvenido {{ user.first_name | title  }} &#x2661
+
+
                     <use xlink:href="#bootstrap" />
                 </span>
             </a>
@@ -38,6 +40,8 @@
                 <li><a href="{% url 'menu' %}" class="nav-link px-2 link-dark">Menu</a></li>
                 <li><a href="{% url 'reservas' %}" class="nav-link px-2 link-dark">Ver reservas</a></li>
                 <li><a href="{% url 'reservar' %}" class="nav-link px-2 link-dark">Reservar</a></li>
+                <li><a href="{% url 'reservas' %}" class="nav-link px-2 link-dark">Mis reservas</a></li>
+
             </ul>
 
             <div class="col-md-3 text-end">

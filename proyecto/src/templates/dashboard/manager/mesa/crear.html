@@ -1,8 +1,6 @@
 {% extends 'dashboard/manager/base.html' %}
 {% load crispy_forms_tags %}
 
-{% load static %}
-
 {% block admin-contenido %}
 
 <section>
@@ -19,9 +17,9 @@
                     <div class="card-body">
                         {{ form | crispy }}
                         <div class="d-flex justify-content-between btn-group" role="group">
-                            <button class=" btn  btn-warning" type="submit">Registrar</button>
+                            <button class=" btn  btn-warning" type="submit">Crear</button>
     
-                            <a type="button" href=" {% url 'empleados' %} " class="btn btn-danger">Cancelar</a>
+                            <a type="button" href=" {% url 'mesas' %} " class="btn btn-danger">Cancelar</a>
                         </div>
                     </div>
                     <div class="card-footer text-muted">

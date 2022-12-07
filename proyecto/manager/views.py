@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from .models import AccountUser, Empleado, Turno
 from django.shortcuts import get_list_or_404, get_object_or_404
 from account.forms import EmpleadoForm
+from .forms import MesaForm
 from django.db.models import Case, When, Value
 from account.models import User
 
@@ -28,16 +29,25 @@ def listar_cliente(request):
     else:
         msg = {'msg':'No tiene permisos para acceder a esta sección'}
         return render(request, 'accounts/request.html', msg)
-    #return render(request, 'dashboard/manager/cliente/listar_cliente.html')
 
 @login_required
-def administrar_mesas(request):
+def crear_mesas(request):
     if request.user.is_admin:
-        return render(request, 'dashboard/manager/mesas_admin.html')
+        msg=None
+        if request.method =='POST':
+            form = MesaForm(request.POST)
+            if form.is_valid():
+                form.save()
+                msg = 'Mesa creada correctamente'
+                return redirect('mesas')
+            else:
+                msg = 'Error al crear mesa'
+        else:
+            form = MesaForm()
+        return render(request, 'dashboard/manager/mesa/crear.html',{'form':form, 'msg':msg})
     else:
         msg = {'msg':'No tiene permisos para acceder a esta sección'}
         return render(request, 'accounts/request.html', msg)
-    #return render(request, 'dashboard/manager/mesas_admin.html')
 
 ''' Empleados '''
 @login_required
@@ -58,7 +68,6 @@ def crear_empleado(request):
     else:
         msg = {'msg':'No tiene permisos para acceder a esta sección'}
         return render(request, 'accounts/request.html', msg)
-    #return render(request, 'dashboard/manager/empleado/crear_empleado.html',{'form':form, 'msg':msg})
 
 @login_required
 def empleados(request):
@@ -110,7 +119,7 @@ def administrar_reservas(request):
     else:
         msg = {'msg':'No tiene permisos para acceder a esta sección'}
         return render(request, 'accounts/request.html', msg)
-    #return render(request, 'dashboard/manager/reservas_admin.html')
+
 
 @login_required
 def administrar_menu(request):
@@ -129,5 +138,17 @@ def administrar_inventario(request):
         msg = {'msg':'No tiene permisos para acceder a esta sección'}
         return render(request, 'accounts/request.html', msg)
     #return render(request, 'dashboard/manager/inventario.html')
+
+
+@login_required
+def admin_mesas(request):
+    if request.user.is_admin:
+
+        return render(request, 'dashboard/manager/mesa/index.html')
+    else:
+        msg = {'msg':'No tiene permisos para acceder a esta sección'}
+        return render(request, 'accounts/request.html', msg)
+    #return render(request, 'dashboard/manager/reservas.html')
+
 
 '''----Dashboard - admin - FIN ---'''

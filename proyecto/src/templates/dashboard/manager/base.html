@@ -24,14 +24,16 @@
     <div class="container">
         <header
             class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between  py-3 mb-4 border-bottom">
-            <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
-                <span style="font-weight: normal !important; color: rgb(0, 0, 0);">Siglo XXI
+            <a  class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+                <span style="font-weight: normal !important; color: rgb(0, 0, 0);">Bienvenido {{ user.first_name | title  }}</span>
                     <use xlink:href="#bootstrap" />
                 </span>
             </a>
             <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
                 <div class="btn-group">
                     <a class="btn btn-light" type="button" href=" {% url 'empleados' %} ">Empleados </a>
+                    <a class="btn btn-light" type="button" href=" {% url 'mesas' %} ">Mesas </a>
+
                 </div>
                 <div class="btn-group">
                     <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false">
@@ -41,16 +43,6 @@
                       <li><a class="dropdown-item" href="#">Crear Clientes</a></li>
                       <li><a class="dropdown-item" href="{% url 'listar_cliente' %} ">Ver Clientes</a></li>
                       <li><a class="dropdown-item" href="#">Modificar Clientes</a></li>
-                    </ul>
-                </div>
-                <div class="btn-group">
-                    <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false">
-                      Mesas
-                    </button>
-                    <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href="#">Crear Mesas</a></li>
-                      <li><a class="dropdown-item" href="#">Ver Mesas</a></li>
-                      <li><a class="dropdown-item" href="#">Modificar Mesas</a></li>
                     </ul>
                 </div>
                 <div class="btn-group">

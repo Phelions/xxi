@@ -1,0 +1,49 @@
+{% extends 'dashboard/manager/base.html' %}
+{% block admin-contenido %}
+
+<section>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <a name="" id="" class="btn btn-success" href="{% url 'crear' %}" role="button">Agregar Mesa</a>
+            </div>
+            <div class="card-body">
+        
+                <div class="table-responsive">
+                    <table class="table table-light">
+                        <thead>
+                            <tr>
+                                <th scope="col">N° Mesa</th>
+                                <th scope="col">Empleado</th>
+                                <th scope="col">Estado Mesa</th>
+                                <th scope="col" class="text-center">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% comment %} {% for e in empleados %} {% endcomment %}
+                            <tr>
+                                <td> 1  </td>
+                                <td> 2 </td>
+                                <td> 3 </td>
+                                
+                                
+                                <!-- <td>{{ e.6 }}</td> 
+                                <td>{{ e.7 }}</td> 
+                                <td>{{ e.8 }}</td>  -->
+                                <td  class="d-flex justify-content-between btn-group" role="group"> 
+                                    <a name="" id="" class="btn btn-info" href="#" role="button">Modificar</a> 
+                                    <a name="" id="" class="btn btn-danger" href="#" role="button">Eliminar</a></td>
+                                </tr>
+                        {% comment %} {% endfor %} {% endcomment %}
+                        </tbody>
+                    </table>
+                </div>  
+            </div>
+            <div class="card-footer text-muted">
+                
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock admin-contenido %}

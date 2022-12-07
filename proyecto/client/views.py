@@ -10,10 +10,14 @@ def index(request):
 
 '''----Dashboard - cliente---'''
 
+
 @login_required
 def menu(request):
     if request.user.is_client:
-        return render(request, 'dashboard/client/menu.html')
+        data = {
+            'mesas': listado_estados_mesas(),
+        }
+        return render(request, 'dashboard/client/menu.html', data)
     else:
         msg = {'msg':'No tiene permisos para acceder a esta sección'}
         return render(request, 'accounts/request.html', msg)
@@ -32,7 +36,7 @@ def reservar(request):
 @login_required
 def reservas(request):
     if request.user.is_client:
-        return render(request, 'dashboard/client/reservas.html')
+        return render(request, 'dashboard/client/index.html')
     else:
         msg = {'msg':'No tiene permisos para acceder a esta sección'}
         return render(request, 'accounts/request.html', msg)
@@ -56,7 +60,7 @@ def listado_estados_mesas():
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     out_cur = django_cursor.connection.cursor()
-    cursor.callproc('SP_LISTAR_ESTADOS_MESAS', [out_cur])
+    cursor.callproc('SP_LISTAR_MESAS', [out_cur])
 
     lista = []
     for fila in out_cur:

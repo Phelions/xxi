@@ -11,7 +11,7 @@
     <div class="container">
         <div class="card">
             <div class="card-header">
-                <a name="" id="" class="btn btn-success" href="#" role="button">Agregar Empleado</a>
+                <a name="" id="" class="btn btn-success" href="#" role="button">Crear Reserva</a>
             </div>
             <div class="card-body">
         
@@ -20,20 +20,17 @@
                         <thead>
                             <tr>
                                 <th scope="col">Rut</th>
-                                <th scope="col">Nombre</th>
-                                <th scope="col">Apellido</th>
-                                <th scope="col">Correo</th>
-                                <th scope="col">Celular</th>
-                                <th scope="col">Rol</th>
+                                <th scope="col">N° reserva</th>
+                                <th scope="col">N° mesa</th>
+                                <th scope="col">Estado</th>
+                                <th scope="col">Fecha y Hora</th>
+                                <th scope="col">Garzon</th>
                                 <th scope="col">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
                        
-                       {% comment %}
-                        {% for e in empleados %}
-                       {% endcomment %}
-                         
+                        {% for e in mesas %}
                             <tr>
                                 <td>{{ e.0 }}</td>
                                 <td>{{ e.1 }}</td>
@@ -41,12 +38,13 @@
                                 <td>{{ e.3 }}</td>
                                 <td>{{ e.4 }}</td>
                                 <td>{{ e.5 }}</td>
-                                <td> <a name="" id="" class="btn btn-info" href="#" role="button">Modificar</a> | <a name="" id="" class="btn btn-danger" href="#" role="button">Eliminar</a></td>
+                                <td class="d-flex justify-content-between btn-group" role="group"> 
+                                    <a name="" id="" class="btn btn-info " href="#" role="button">Modificar</a> 
+                                    <a name="" id="" class="btn btn-danger" href="#" role="button">Eliminar</a>
+                                </td>
                             </tr>
                         
-                        {% comment %}
-                            {% endfor %}
-                        {% endcomment %}
+                        {% endfor %}
                         </tbody>
                     </table>
                 </div>  
