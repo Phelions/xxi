@@ -29,12 +29,6 @@ def listar_cliente(request):
         msg = {'msg':'No tiene permisos para acceder a esta sección'}
         return render(request, 'accounts/request.html', msg)
 
-
-
-
-
-
-
 ''' Empleados '''
 @login_required
 def crear_empleado(request):
