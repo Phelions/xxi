@@ -44,8 +44,8 @@
                                 <td>{{ e.8 }}</td> 
                                 <td>{{ e.9 }}</td> 
                                 <td class="d-flex justify-content-between btn-group" role="group"> 
-                                    <a name="" id="" class="btn btn-info" href=" {% url 'modificar' e.0 %} " role="button">Modificar</a> 
-                                    <a name="" id="" class="btn btn-danger" href="#" role="button">Eliminar</a></td>
+                                    <a name="" id="" class="btn btn-info" href=" {% url 'modificar' e.0 %} " role="button">Modificar</a>
+                                    <a name="" id="" class="btn btn-danger" href="{% url 'eliminar' e.0 %}" role="button">Eliminar</a></td>
                                 </tr>
                         {% endfor %}
                         </tbody>
