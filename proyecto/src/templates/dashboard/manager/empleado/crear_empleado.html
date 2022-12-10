@@ -1,8 +1,5 @@
 {% extends 'dashboard/manager/base.html' %}
 {% load crispy_forms_tags %}
-
-{% load static %}
-
 {% block admin-contenido %}
 
 <section>
@@ -17,122 +14,9 @@
                 {% endif %}
                 <div class="card">
                     <div class="card-body">
-                        <!-- {{ form | crispy }} -->
-
-                        <form action="" method="post">
-                            {% csrf_token %}
-                            <div id="div_id_rut" class="mb-3">
-                                <label for="id_rut" class="form-label requiredField">
-                                    Rut<span class="asteriskField">*</span>
-                                </label>
-                                <input type="text" name="rut" pattern="[0-9]{9}" title="9 numeros - rut sin puntos y guion, remplace &quot;K&quot; por 0" maxlength="9" minlength="9" class="textinput textInput form-control" required="" id="id_rut">
-                            </div>
-                            <div id="div_id_first_name" class="mb-3">
-                                <label for="id_first_name" class="form-label requiredField"> 
-                                    Nombre<span class="asteriskField">*</span>
-                                </label>
-                                <input type="text" name="first_name" class="textinput textInput form-control" required="" id="id_first_name">
-                            </div>
-                            <div id="div_id_last_name" class="mb-3"> 
-                                <label for="id_last_name" class="form-label requiredField">
-                                    Apellido<span class="asteriskField">*</span> 
-                                </label> 
-                                <input type="text" name="last_name" class="textinput textInput form-control" required="" id="id_last_name">
-                            </div>
-                            <div id="div_id_celular" class="mb-3">
-                                <label for="id_celular" class="form-label requiredField"> 
-                                    Celular<span class="asteriskField">*</span>
-                                </label>
-                                <input type="text" name="celular" pattern="[0-9]{9}" title="Solo se aceptan numeros, Total = 9" maxlength="9" minlength="9" class="textinput textInput form-control" required="" id="id_celular">
-                            </div>
-                            <div id="div_id_email" class="mb-3">
-                                <label for="id_email" class="form-label requiredField">
-                                    Correo<span class="asteriskField">*</span> 
-                                </label> 
-                                <input type="text" name="email" maxlength="100" autofocus="" class="textinput textInput form-control" required="" id="id_email"> 
-                            </div>
-                            <div id='div_id_turno' class="mb-3">
-                                <label for="id_turno" class="form-label requiredField">
-                                    Turno<span class="asteriskField">*</span>
-                                </label>
-                                <select name="turno_box" id="id_turno_box" class="form-select">
-                                    <option selected>Selecciona el turno</option>
-                                    {% for t in turnos %}
-                                        <option value="{{ t.0 }}">{{ t.1 }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            <div id="div_id_hora_entrada" class="mb-3">
-                                <label for="id_hora_entrada" class="form-label requiredField">
-                                    Hora Entrada<span class="asteriskField">*</span>
-                                </label>
-                                <input type="time" name="hora_entrada" class="textinput textInput form-control" required="" id="id_hora_entrada">
-                            </div>
-                            <div id="div_id_hora_salida" class="mb-3">
-                                <label for="id_hora_salida" class="form-label requiredField">
-                                    Hora Salida<span class="asteriskField">*</span>
-                                </label>
-                                <input type="time" name="hora_salida" class="textinput textInput form-control" required="" id="id_hora_salida">
-                            </div>
-                            <div id="div_id_password1" class="mb-3"> 
-                                <label for="id_password1" class="form-label requiredField">
-                                    Contraseña<span class="asteriskField">*</span> 
-                                </label> 
-                                <input type="password" name="password1" autocomplete="new-password" class="textinput textInput form-control" required="" id="id_password1">
-                                <div id="hint_id_password1" class="form-text">
-                                    <ul>
-                                        <li>Su contraseña no puede asemejarse tanto a su otra información personal.</li>
-                                        <li>Su contraseña debe contener al menos 8 caracteres.</li>
-                                        <li>Su contraseña no puede ser una clave utilizada comúnmente.</li>
-                                        <li>Su contraseña no puede ser completamente numérica.</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div id="div_id_password2" class="mb-3">
-                                <label for="id_password2" class="form-label requiredField">
-                                    Contraseña (confirmación)<span class="asteriskField">*</span>
-                                </label> 
-                                <input type="password" name="password2" autocomplete="new-password" class="textinput textInput form-control" required="" id="id_password2">
-                                <div id="hint_id_password2" class="form-text">Para verificar, introduzca la misma contraseña anterior.</div>
-                            </div>
-                            <div class="mb-3">
-                                <div id="div_checkbox" class="mb-3 form-check"> 
-                                    <input type="checkbox" name="is_admin" class="checkboxinput form-check-input" id="id_is_admin"> 
-                                    <label for="id_is_admin" class="form-check-label">Rol admin</label>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <div id="div_id_is_finanza" class="mb-3 form-check">
-                                    <input type="checkbox" name="is_finanza" class="checkboxinput form-check-input" id="id_is_finanza">
-                                    <label for="id_is_finanza" class="form-check-label">Rol finanza</label>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <div id="div_id_is_bodega" class="mb-3 form-check"> 
-                                    <input type="checkbox" name="is_bodega" class="checkboxinput form-check-input" id="id_is_bodega">
-                                    <label for="id_is_bodega" class="form-check-label">Rol bodega</label>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <div id="div_id_is_cocina" class="mb-3 form-check"> <input type="checkbox" name="is_cocina" class="checkboxinput form-check-input" id="id_is_cocina">
-                                    <label for="id_is_cocina" class="form-check-label">Rol cocina</label>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <div id="div_id_is_barman" class="mb-3 form-check"> <input type="checkbox" name="is_barman" class="checkboxinput form-check-input" id="id_is_barman">
-                                    <label for="id_is_barman" class="form-check-label">Rol barman</label> 
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <div id="div_id_is_garzon" class="mb-3 form-check">
-                                    <input type="checkbox" name="is_garzon" class="checkboxinput form-check-input" id="id_is_garzon">
-                                    <label for="id_is_garzon" class="form-check-label">Rol garzon</label>
-                                </div>
-                            </div>
-                        </form>
-
+                        {{ form | crispy }}
                         <div class="d-flex justify-content-between btn-group" role="group">
-                            <button class=" btn   btn-warning" type="submit">Registrar</button>
+                            <button class=" btn   btn-warning" type="submit">Siguente</button>
                             <a type="button" href=" {% url 'empleados' %} " class="btn btn-danger">Cancelar</a>
                         </div>
                     </div>
