@@ -138,7 +138,7 @@ USE_TZ = True
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 
-AUTH_USER_MODEL = 'account.User'
+AUTH_USER_MODEL = 'account.Usuario'
 ACCOUNT_USER_MODEL_USERNAME_FIELD = 'email'
 ACCOUNT_UNIQUE_USERNAME = False
 ACCOUNT_USERNAME_REQUIRED = False

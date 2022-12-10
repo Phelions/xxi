@@ -15,25 +15,25 @@ def login(request):
             user = authenticate(request=request,email=email, password=password)
             if user is not None and user.is_client:
                 django_login(request, user)
-                return redirect('reservar')
-            elif user is not None and user.is_admin:
+                return redirect('reservas')
+            elif user is not None and user.is_employee and user.empleado.rol == 'Admin':
                 django_login(request, user)
                 return redirect('empleados')
-            elif user is not None and user.is_finanzas:
+            elif user is not None and user.is_employee and user.empleado.rol == 'Bodega':
                 login(request, user)
-                return redirect('reservar')
-            elif user is not None and user.is_bodega:
+                return redirect('reservas')
+            elif user is not None and user.is_employee and user.empleado.rol == 'Cocina':
                 login(request, user)
-                return redirect('reservar')
-            elif user is not None and user.is_cocina:
+                return redirect('reservas')
+            elif user is not None and user.is_employee and user.empleado.rol == 'Barman':
                 login(request, user)
-                return redirect('reservar')
-            elif user is not None and user.is_barman:
+                return redirect('reservas')
+            elif user is not None and user.is_employee and user.empleado.rol == 'Garzon':
                 login(request, user)
-                return redirect('reservar')
-            elif user is not None and user.is_garzon:
+                return redirect('reservas')
+            elif user is not None and user.is_employee and user.empleado.rol == 'Finanza':
                 login(request, user)
-                return redirect('reservar')
+                return redirect('reservas')
             else:
                 msg = 'Correos o contraseña incorrectos'
         else:

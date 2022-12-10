@@ -1,13 +1,11 @@
 from django.shortcuts import render, redirect
-from account.forms import SignupEmployeeForm
 from django.contrib.auth.decorators import login_required
-from .models import AccountUser, Empleado, Turno
-import hashlib
-from account.forms import EmpleadoForm
-from .forms import MesaForm
-from django.db.models import Case, When, Value
-from account.models import User
+from .forms import SignupEmployeeForm, EmployeeForm , MenuForm, TipoMenuForm, MesasForm
 from django.db import connection
+from account.models import Usuario, Empleado
+from .models import AccountUsuario, AccountEmpleado, Mesa
+
+
 
 # Create your views here.
 
@@ -16,7 +14,7 @@ from django.db import connection
 '''----Dashboard - admin---'''
 @login_required
 def perfil_admin(request):
-    if request.user.is_admin:
+    if request.user.is_employee and request.user.empleado.rol == 'Admin':
         return render(request, 'dashboard/manager/perfil_admin.html')
     else:
         msg = {'msg':'No tiene permisos para acceder a esta sección'}
@@ -25,151 +23,122 @@ def perfil_admin(request):
 
 @login_required
 def listar_cliente(request):
-    if request.user.is_admin:
+    if request.user.is_employee and request.user.empleado.rol == 'Admin':
         return render(request, 'dashboard/manager/cliente/listar_cliente.html')
     else:
         msg = {'msg':'No tiene permisos para acceder a esta sección'}
         return render(request, 'accounts/request.html', msg)
 
-@login_required
-def crear_mesas(request):
-    if request.user.is_admin:
-        msg=None
-        if request.method =='POST':
-            form = MesaForm(request.POST)
-            if form.is_valid():
-                
-                form.save()
-                msg = 'Mesa creada correctamente'
-                return redirect('mesas')
-            else:
-                msg = 'Error al crear mesa'
-        else:
-            form = MesaForm()
-        return render(request, 'dashboard/manager/mesa/crear.html',{'form':form, 'msg':msg})
-    else:
-        msg = {'msg':'No tiene permisos para acceder a esta sección'}
-        return render(request, 'accounts/request.html', msg)
+
+
+
+
+
 
 ''' Empleados '''
 @login_required
 def crear_empleado(request):
-    if request.user.is_admin:
-        msg=None
-        data = {
-            'turnos': listar_turno(),
-        }
-        return render(request, 'dashboard/manager/empleado/crear_empleado.html', data)
-    else:
-        msg = {'msg':'No tiene permisos para acceder a esta sección'}
-        return render(request, 'accounts/request.html', msg)
-
-@login_required
-def agregar_empleado(request):
-    if request.user.is_admin:
+    if request.user.is_employee and request.user.empleado.rol == 'Admin':
         msg=None
         if request.method =='POST':
-            
-            # Tabla Account_user
-            con = request.POST.get('password1')
-            h = hashlib.md5(con.encode())
-            contrasena = h.hexdigest()
-            nombre = request.POST.get('first_name')
-            apellido = request.POST.get('last_name')
-            correo = request.POST.get('email')
-            rut = request.POST.get('rut')
-            celular = request.POST.get('celular')
-            es_admin = request.POST.get('is_admin')
-            es_finanza = request.POST.get('is_finanza')
-            es_bodega = request.POST.get('is_bodega')
-            es_cocina = request.POST.get('is_cocina')
-            es_barman = request.POST.get('is_barman')
-            es_garzon = request.POST.get('is_garzon')
-            
-            # Tabla Empleado
-            id_turno = request.POST.get('turno_box')
-            hora_entrada = request.POST.get('hora_entrada')
-            hora_salida = request.POST.get('hora_salida')
-            
-            with connection.cursor() as cursor:
-                cursor.execute("INSERT INTO account_user (password, is_superuser, first_name, last_name, is_staff, is_active, email, rut, celular, username, intentos, is_client, is_admin, is_finanza, is_bodega, is_cocina, is_barman, is_garzon) VALUES ('"+contrasena+"', 'false', '"+nombre+"', '"+apellido+"', 'true', 'true', '"+correo+"', '"+rut+"', '"+celular+"', Null, 0, 'false', '"+es_admin+"', '"+es_finanza+"', '"+es_bodega+"', '"+es_cocina+"', '"+es_barman+"', '"+es_garzon+"')")
-                cursor.execute("INSERT INTO empleado (id_usuario, id_turno, hora_entrada, hora_salida) VALUES (currval('account_user_id_seq'), '"+id_turno+"', '"+hora_entrada+"', '"+hora_salida+"')")
-                msg = {'msg':'Empleado creado correctamente'}
-                return redirect('empleados')
+            form = SignupEmployeeForm(request.POST)
+            if form.is_valid():
+                form.save(commit=False)
+                form.instance.is_employee = True
+                form.save()
+                msg = 'Usuario creado correctamente'
+                return redirect('ingresar_empleado')
+            else:
+                msg = 'Error al crear Usuario'
         else:
-            msg = {'msg':'Error al crear empleado'}
-            return render(request, 'dashboard/manager/empleado/crear_empleado.html', msg)
+             form = SignupEmployeeForm()
+        return render(request, 'dashboard/manager/empleado/crear_empleado.html',{'form':form, 'msg':msg})
     else:
         msg = {'msg':'No tiene permisos para acceder a esta sección'}
         return render(request, 'accounts/request.html', msg)
-            
 
 
-def listar_empleados():
-    with connection.cursor() as cursor:
-        cursor.execute("SELECT em.id_empleado, au.rut, au.first_name, au.last_name, au.email, au.celular, CASE WHEN au.is_admin='true' then 'Admin' WHEN au.is_bodega='true' then 'Bodega' WHEN au.is_finanza='true' then 'Finanza' WHEN au.is_cocina='true' then 'Cocina' WHEN au.is_barman='true' then 'Barman' WHEN au.is_garzon='true' then 'Garzón' end AS rol, em.hora_entrada, em.hora_salida, tu.horario FROM empleado em JOIN account_user au ON au.id = em.id_usuario JOIN turno tu ON em.id_turno = tu.id_turno where not au.is_client")
-        out_cur = cursor.fetchall()
-                
-        lista = []
-        for fila in out_cur:
-            lista.append(fila)
-        return lista
 
-def listar_turno():
-    with connection.cursor() as cursor:
-        cursor.execute("SELECT id_turno, horario FROM turno")
-        out_cur = cursor.fetchall()
-                
-        lista = []
-        for fila in out_cur:
-            lista.append(fila)
-        return lista
+
+@login_required
+def ingresar_empleado(request):
+    if request.user.is_employee and request.user.empleado.rol == 'Admin':
+        msg=None
+        if request.POST:
+            form = EmployeeForm(request.POST)
+            if form.is_valid():
+                form.save()
+                msg = 'Empleado ingresado correctamente'
+                return redirect('empleados')
+            else:
+                msg = 'Error al ingresar el Empleado'
+        else:
+            form = EmployeeForm(request.POST)
+        return render(request, 'dashboard/manager/empleado/ingresar_empleado.html',{'form':form, 'msg':msg})
+    else:
+        msg = {'msg':'No tiene permisos para acceder a esta sección'}
+        return render(request, 'accounts/request.html', msg)
+
 
 @login_required
 def empleados(request):
-    if request.user.is_admin:
-        # empleados = AccountUser.objects.annotate(
-        #     rol=Case(
-        #         When(is_admin=True, then=Value('Admin')),
-        #         When(is_bodega=True, then=Value('Bodega')),
-        #         When(is_finanza=True, then=Value('Finanza')),
-        #         When(is_cocina=True, then=Value('Cocina')),
-        #         When(is_barman=True, then=Value('Barman')),
-        #         When(is_garzon=True, then=Value('Garzón')),
-        #     ), 
-        # ).exclude(rol= 'is_client' ).values_list('rut','first_name', 'last_name', 'email', 'celular', 'rol')
-        
-        # empleado = AccountUser.objects.raw('''SELECT em.id_empleado as id, au.rut as rut, au.first_name as first_name, au.last_name as last_name, au.email as email, au.celular as celular, CASE WHEN au.is_admin='true' then 'Admin' WHEN au.is_bodega='true' then 'Bodega' WHEN au.is_finanza='true' then 'Finanza' WHEN au.is_cocina='true' then 'Cocina' WHEN au.is_barman='true' then 'Barman' WHEN au.is_garzon='true' then 'Garzón' end AS rol, em.hora_entrada as hora_entrada, em.hora_salida as hora_salida, tu.horario as horario FROM empleado em JOIN account_user au ON au.id = em.id_usuario JOIN turno tu ON em.id_turno = tu.id_turno where not au.is_client;''')
-        # empleados = empleado.columns
-        
+    if request.user.is_employee and request.user.empleado.rol == 'Admin':
+        # empleados = AccountUsuario.objects.exclude(rol= 'is_client' ).values_list('rut','first_name', 'last_name', 'email', 'celular')
         data = {
-            'empleados': listar_empleados(),
+            'empleados': listado_empleados()
         }
-        
-        return render(request, 'dashboard/manager/empleado/index.html', data)
+        return render(request, 'dashboard/manager/empleado/index.html',data)
     else:
         msg = {'msg':'No tiene permisos para acceder a esta sección'}
         return render(request, 'accounts/request.html', msg)
     #return render(request, 'dashboard/manager/empleado/index.html')
+    
+def listado_empleados():
+    with connection.cursor() as cursor:
+        cursor.execute("select * from public.fn_listar_empleados() ")
+        out_cur = cursor.fetchall()
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+        # return render(request, 'dashboard/manager/empleado/listado_empleados.html',{'empleados':empleados})
+    # else:
+    #     msg = {'msg':'No tiene permisos para acceder a esta sección'}
+    #     return render(request, 'accounts/request.html', msg)
 
 
-def eliminar_empleado(request, rut):
-    empleado = AccountUser.objects.get(rut=rut)
+def eliminar_empleado(request, id):
+    empleado = Usuario.objects.get(id_usuario=id)
     empleado.delete()
     return redirect('empleados')
 
-
 @login_required
-def modificar_empleado(request,rut):
-    if request.user.is_admin:
-        empleado = User.objects.get(rut=rut)
-        form = EmpleadoForm(request.POST or None,instance=empleado)
+def modificar_turno(request,id):
+    if request.user.is_employee and request.user.empleado.rol == 'Admin':
+        turno = Empleado.objects.get(usuario_id=id)
+        form = EmployeeForm(request.POST or None,instance=turno)
         if form.is_valid() and request.POST:
             form.save()
             return redirect('empleados')
         else:
-            empleado = User.objects.get(rut=rut)
-            form = EmpleadoForm(instance=empleado)
+            turno = Empleado.objects.get(usuario_id=id)
+            form = EmployeeForm(instance=turno)
+        return render(request, 'dashboard/manager/empleado/modificar_turno.html',{'form':form})
+    else:
+        msg = {'msg':'No tiene permisos para acceder a esta sección'}
+        return render(request, 'accounts/request.html', msg)
+
+@login_required
+def modificar_empleado(request,id):
+    if request.user.is_employee and request.user.empleado.rol == 'Admin':
+        empleado = Usuario.objects.get(id_usuario=id)
+        form = SignupEmployeeForm(request.POST or None,instance=empleado)
+        if form.is_valid() and request.POST:
+            form.save()
+            return redirect('empleados')
+        else:
+            empleado = Usuario.objects.get(id_usuario=id)
+            form = SignupEmployeeForm(instance=empleado)
         return render(request, 'dashboard/manager/empleado/modificar_empleado.html',{'form':form})
     else:
         msg = {'msg':'No tiene permisos para acceder a esta sección'}
@@ -179,25 +148,79 @@ def modificar_empleado(request,rut):
 
 @login_required
 def administrar_reservas(request):
-    if request.user.is_admin:
+    if request.user.is_employee and request.user.empleado.rol == 'Admin':
         return render(request, 'dashboard/manager/reservas_admin.html')
     else:
         msg = {'msg':'No tiene permisos para acceder a esta sección'}
         return render(request, 'accounts/request.html', msg)
 
+@login_required
+def crear_menu(request):
+    if request.user.is_employee and request.user.empleado.rol == 'Admin':
+        msg = None
+        if request.method == 'POST':
+            form = MenuForm(request.POST)
+            if form.is_valid():
+                form.save()
+                msg = 'Menu ingresado correctamente'
+                return redirect('menu')
+            else:
+                msg = 'Error al ingresar el Menu'
+        else:
+            form = MenuForm(request.POST)
+        return render(request, 'dashboard/manager/menu/crear.html',{'form':form, 'msg':msg})
+    else:
+        msg = {'msg':'No tiene permisos para acceder a esta sección'}
+        return render(request, 'accounts/request.html', msg)
+@login_required
+def crear_tipo_menu(request):
+    if request.user.is_employee and request.user.empleado.rol == 'Admin':
+        msg = None
+        if request.method == 'POST':
+            form = TipoMenuForm(request.POST)
+            if form.is_valid():
+                form.save()
+                msg = 'Tipo de Menu ingresado correctamente'
+                return redirect('administrar_menu')
+            else:
+                msg = 'Error al ingresar el Tipo de Menu'
+        else:
+            form = TipoMenuForm(request.POST)
+        return render(request, 'dashboard/manager/menu/tipo_menu.html',{'form':form, 'msg':msg})
+    else:
+        msg = {'msg':'No tiene permisos para acceder a esta sección'}
+        return render(request, 'accounts/request.html', msg)
 
 @login_required
 def administrar_menu(request):
-    if request.user.is_admin:
-        return render(request, 'dashboard/manager/menu_admin.html')
+    if request.user.is_employee and request.user.empleado.rol == 'Admin':
+        data = {
+            'menus': listar_menu()
+        }
+        return render(request, 'dashboard/manager/menu/index.html',data)
     else:
         msg = {'msg':'No tiene permisos para acceder a esta sección'}
         return render(request, 'accounts/request.html', msg)
     #return render(request, 'dashboard/manager/menu_admin.html')
 
+def listar_menu():
+    # if request.user.is_employee and request.user.empleado.rol == 'Admin':
+        # cursor = connection.cursor()
+        # cursor.execute("SELECT * FROM accounts_usuario WHERE rol != 'is_client' ")
+        # empleados = cursor.fetchall()
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+    cursor.callproc('SP_LISTAR_MENU', [out_cur])
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
+
 @login_required
 def administrar_inventario(request):
-    if request.user.is_admin:
+    if request.user.is_employee and request.user.empleado.rol == 'Admin':
         return render(request, 'dashboard/manager/inventario.html')
     else:
         msg = {'msg':'No tiene permisos para acceder a esta sección'}
@@ -205,15 +228,57 @@ def administrar_inventario(request):
     #return render(request, 'dashboard/manager/inventario.html')
 
 
+def eliminar_mesa(request, id):
+    mesa = Mesa.objects.get(id_mesa=id)
+    mesa.delete()
+    return redirect('mesas')
+
+
 @login_required
 def admin_mesas(request):
-    if request.user.is_admin:
-
-        return render(request, 'dashboard/manager/mesa/index.html')
+    if request.user.is_employee and request.user.empleado.rol == 'Admin':
+        data = {
+            'mesas': listar_mesas()
+        }
+        return render(request, 'dashboard/manager/mesa/index.html',data)
     else:
         msg = {'msg':'No tiene permisos para acceder a esta sección'}
         return render(request, 'accounts/request.html', msg)
     #return render(request, 'dashboard/manager/reservas.html')
 
 
+def listar_mesas():
+    # if request.user.is_employee and request.user.empleado.rol == 'Admin':
+        # cursor = connection.cursor()
+        # cursor.execute("SELECT * FROM accounts_usuario WHERE rol != 'is_client' ")
+        # empleados = cursor.fetchall()
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+    cursor.callproc('SP_LISTAR_MESAS', [out_cur])
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
+
+@login_required
+def crear_mesas(request):
+    if request.user.is_employee and request.user.empleado.rol == 'Admin':
+        msg=None
+        if request.method =='POST':
+            form = MesasForm(request.POST)
+            if form.is_valid():
+                form.save()
+                msg = 'Mesa creada correctamente'
+                return redirect('mesas')
+            else:
+                msg = 'Error al crear mesa'
+        else:
+            form = MesasForm()
+        return render(request, 'dashboard/manager/mesa/crear.html',{'form':form,'msg':msg})
+    else:
+        msg = {'msg':'No tiene permisos para acceder a esta sección'}
+        return render(request, 'accounts/request.html', msg)
+    
 '''----Dashboard - admin - FIN ---'''
