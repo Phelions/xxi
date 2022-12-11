@@ -329,7 +329,7 @@ def crear_mesas(request):
             if form.is_valid():
                 form.save()
                 msg = 'Mesa creada correctamente'
-                return redirect('mesas')
+                return redirect('admin_mesas')
             else:
                 msg = 'Error al crear mesa'
         else:
@@ -338,5 +338,22 @@ def crear_mesas(request):
     else:
         msg = {'msg':'No tiene permisos para acceder a esta sección'}
         return render(request, 'accounts/request.html', msg)
-    
+        
+@login_required
+def modificar_mesas(request, id):
+    if request.user.is_employee and request.user.empleado.rol == 'Admin':
+        msg=None
+        mesa = Mesa.objects.get(id_mesa=id)
+        form = MesasForm(request.POST or None,instance=mesa)
+        if form.is_valid() and request.POST:
+            form.save()
+            return redirect('admin_mesas')
+        else:
+            mesa = Mesa.objects.get(id_mesa=id)
+            form = MesasForm(request.POST, instance=mesa)
+        return render(request, 'dashboard/manager/mesa/modificar.html',{'form':form})
+    else:
+        msg = {'msg':'No tiene permisos para acceder a esta sección'}
+        return render(request, 'accounts/request.html', msg)
+
 '''----Dashboard - admin - FIN ---'''

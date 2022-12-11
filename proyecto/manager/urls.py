@@ -1,6 +1,6 @@
 
 from django.urls import path
-from manager.views import  perfil_admin, listar_cliente, admin_mesas, crear_empleado, modificar_empleado , administrar_reservas, administrar_menu, administrar_inventario, empleados, eliminar_empleado, crear_mesas, ingresar_empleado, modificar_turno, administrar_menu, crear_menu, crear_tipo_menu, eliminar_mesa, edit_perfil, eliminar_cliente, modificar_cliente, mod_p_perfil
+from manager.views import  perfil_admin, listar_cliente, admin_mesas, crear_empleado, modificar_empleado , administrar_reservas, administrar_menu, administrar_inventario, empleados, eliminar_empleado, crear_mesas, ingresar_empleado, modificar_turno, administrar_menu, crear_menu, crear_tipo_menu, eliminar_mesa, edit_perfil, eliminar_cliente, modificar_cliente, mod_p_perfil, modificar_mesas
 
 urlpatterns = [
     path('perfil_admin/editar/<int:id>',edit_perfil, name='edit_perfil'),
@@ -13,8 +13,10 @@ urlpatterns = [
     path('crear_tipo_menu/',crear_tipo_menu, name='crear_tipo_menu'),
     path('administrar_menu/',administrar_menu, name='administrar_menu'),
     path('crear_menu/',crear_menu, name='crear_menu'),
-    path('mesas/',admin_mesas, name='mesas'),
-    path('mesas/crear/',crear_mesas, name='crear'),
+
+    path('mesas/modificar/<int:id>',modificar_mesas, name='modificar_mesas'),
+    path('mesas/',admin_mesas, name='admin_mesas'),
+    path('mesas/crear/',crear_mesas, name='crear_mesas'),
     path('mesas/eliminar/<int:id>/',eliminar_mesa, name='eliminar_mesa'),
     
     path('crear_empleado/',crear_empleado, name='crear_empleado'),

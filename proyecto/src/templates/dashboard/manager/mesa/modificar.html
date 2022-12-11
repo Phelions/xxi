@@ -1,0 +1,37 @@
+{% extends 'dashboard/manager/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block admin-contenido %}
+
+<section>
+    <div class="container w-50 pb-5">
+        <div class="card">
+            <div class="card-header text-sm-center">
+                <h3 class="card-title"></h3>
+            </div>
+            <div class="card-body">
+                <h4 class="card-title text-center">Datos del Cliente</h4>
+                <form action="" method="POST" class="row g-3">
+                    {% csrf_token %}
+                    {% if msg %}
+                    <div class="alert alert-danger" role="alert">
+                        <h5>{{ msg }}</h5>
+                    </div>
+                    {% endif %}
+                    <div class="card">
+                        <div class="card-body">
+                            {{ form | crispy }}
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between btn-group" role="group">
+                        <button class="btn btn-success" type="submit">Guardar</button>
+                        <a type="button" href=" {% url 'admin_mesas' %} " class="btn btn-danger">Cancelar</a>
+                    </div>
+                  
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock admin-contenido %}
