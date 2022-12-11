@@ -1,1 +1,31 @@
 {% extends 'dashboard/manager/base.html' %}
+
+
+{% block admin-contenido %}
+
+<section>
+    <div class="container w-50">
+        <div class="card">
+            <div class="card-header text-sm-center">
+                <h3 class="card-title">Perfil</h3>
+            </div>
+            <div class="card-body text-center">
+                <div class="card-body">
+                    <h5>Rut: {{user.rut }}  </h5>
+                    <h5>Nombre: {{user.first_name |capfirst}} </h5>
+                    <h5>Apellido: {{ user.last_name |capfirst}}</h5>
+                    <h5>Correo: {{user.email}}</h5>
+                    <h5>Celular: {{user.celular}}</h5>
+                    <h5>Rol: {{user.empleado.rol}}</h5>
+                    <h5>Turno: {{user.empleado.turno}}</h5>
+                    <h5>Hora Entrada: {{user.empleado.hora_entrada}}</h5>
+                    <h5>Hora Salida: {{user.empleado.hora_salida}}</h5>
+                </div>
+            </div>
+            <a name="" id="" class="btn btn-primary" href="{% url 'edit_perfil' request.user.id_usuario %} " role="button">Modificar</a>
+
+        </div>
+    </div>
+</section>
+
+{% endblock admin-contenido %}

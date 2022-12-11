@@ -1,0 +1,171 @@
+{% extends 'client/home/base.html' %}
+{% load static %}
+
+{% block title %}
+<title>Carrito de pedidos</title>
+{% endblock title %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static '/client/css/style.css' %}">
+{% endblock css %}
+
+
+{% block contenido %}
+<section style="padding-bottom: 12%;">
+  <div class="container" style="padding-top: 2em ;">
+    <div class="row d-flex justify-content-center " style="padding-bottom: 1em ;">
+      <div class="col-md-4 ">
+        <select class="form-select id_mesa hid" id="id_mesa" name="id_mesa" required hidden>
+          <option selected>Selecione la mesa disponible</option>
+          {% for m in mesas %}
+          <option value="{{ m.data.0 }}">Mesa {{ m.data.0 }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+    <p class="fs-1 text-center">Carrito</p>
+    <div class="row">
+      {% load humanize %}
+      {% for m in menu %}
+      <div class="col-md-8 col-xl-6 text-center mx-auto">
+        <div class="card border-0">
+          <div class="card-body ">
+            <div class="card">
+              <img src="{% static 'client/img/lol.png' %}" class="card-img-top rounded mx-auto d-block" style="height: 50%; width: 50%;">
+              <input name="id_menu" id="id_menu" type="number" value="{{ m.data.0 }}" disabled hidden>
+              <h5 class="card-title h3">{{ m.data.1 }}</h5>
+              <p class="card-text h4">{{ m.data.3 }}</p>
+
+              <p class="card-text">${{ m.data.4 | intcomma }}</p>
+              <a href="{% url 'Add' m.data.0 %}" class="btn btn-primary">Agregar al carrito</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      <div class="col" style="padding-top: 1em;" >
+        <div class="card border-0 ">
+          <table class="table table-bordered">
+            <thead class="table-light">
+              <tr>
+                <th scope="col">NOMBRE</th>
+                <th scope="col">PRECIO</th>
+                <th scope="col">CANTIDAD</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% if request.session.carrito.items %}
+                {% for key, value in request.session.carrito.items %}
+                  <tr>
+                    <th scope="row">
+                      <input name="id_menu2" id="id_menu2" type="number" value="{{ value.id_menu }}" disabled hidden>{{value.nombre}}</th>
+                    <td>{{value.acumulado | intcomma }}</td>
+                    <td>
+                      <div class="btn-group" style="width: 30%;">
+                        <a href="{% url 'Add' value.id_menu %}" class="badge btn btn-dark badge-dark">+</a>
+                        <a style="padding-left: 9px ; padding-right: 8px;" id="cantidad2" name="cantidad2">{{value.cantidad}}</a>
+                        <a href="{% url 'Sub' value.id_menu %}" class="badge btn btn-dark badge-dark">-</a>
+                      </div>
+                    </td>
+                  </tr>
+                {% endfor %}
+              {% else %}
+              <tr>
+                <td colspan="3">
+                  <div class="alert alert-danger text-center"> Sin Productos </div>
+                </td>
+              </tr>
+              {% endif %}
+              <tr>
+                <th scope="row" class="table-active">IVA:</th>
+                <td colspan="2" class="table-active">${{iva_carrito | intcomma }}</td>
+              </tr>
+              <tr>
+                <th scope="row" class="table-active">Propina:</th>
+                <td colspan="2" class="table-active">${{propina_carrito | intcomma }}</td>
+              </tr>
+              <tr>
+                <th scope="row" class="table-active">Total:</th>
+                <td colspan="2" class="table-active Total" id="Total"><input type="hidden" id="TOTAL" value="{{total_carrito }}">${{total_carrito | intcomma }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="row text-center">
+          {% if request.session.carrito.items %}
+            <div id="paypal-button-container"></div>
+            <div class="col-6"><a href="{% url 'CLS' %}" class="btn btn-danger">Limpiar</a></div>
+            <div class="d-grid gap-2 col-6 mx-auto text-center" style="padding-bottom:1em;">
+              <button type="submit" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Efectivo</button>
+              <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-fullscreen">
+                  <div class="modal-content ">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="staticBackdropLabel">Efectivo</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <h1>Entregue el dispositivo al garzon</h1>
+                      <h2>Pague en efectivo</h2>
+                      <div class="card-body h2" style="padding-top: 9em ; ">
+                        <p>Total a pagar: ${{total_carrito | intcomma }}</p>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <a class="nav-link link-success" href="{% url 'menu' %} ">Volver al Menu</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+
+
+{% endblock contenido %}
+
+{% block script %}
+  <!-- Replace "test" with your own sandbox Business account app client ID -->
+  <script src="https://www.paypal.com/sdk/js?client-id=Ae_BAr7Xj2vam33d47VRNDLsaKl8ftxA1YUlOj7T7R2veZrK7whkqERyKD8oCQO5DnrjoRw3ra-72T7i&locale=es_CL&enable-funding=mercadopago"></script>
+  <!-- Set up a container element for the button -->
+  <script type="text/javascript"> 
+    function getTotal(){
+      var total = document.getElementById("TOTAL").value;
+      return total;
+    }
+ </script>
+  <script>
+    paypal.Buttons({
+      // Sets up the transaction when a payment button is clicked
+      createOrder: (data, actions) => {
+        return actions.order.create({
+          purchase_units: [{
+            amount: {
+              value: getTotal(), // Can also reference a variable or function 
+              currency: 'CLP'
+            }
+          }]
+        });
+      },
+      // Finalize the transaction after payer approval
+      onApprove: (data, actions) => {
+        return actions.order.capture().then(function(orderData) {
+          // Successful capture! For dev/demo purposes:
+          console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+          const transaction = orderData.purchase_units[0].payments.captures[0];
+          alert(`Transaction ${transaction.status}: ${transaction.id}\n\nSee console for all available details`);
+          actions.innerHtml = "{% url 'CLS' %}";
+          // When ready to go live, remove the alert and show a success message within this page. For example:
+          // const element = document.getElementById('paypal-button-container');
+          // element.innerHTML = '<h3>Thank you for your payment!</h3>';
+          // Or go to another URL:  actions.redirect('thank_you.html');
+        });
+      }
+    }).render('#paypal-button-container');
+  </script>
+{% endblock script %}

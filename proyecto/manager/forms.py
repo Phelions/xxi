@@ -84,3 +84,4 @@ class TipoMenuForm(forms.ModelForm):
     class Meta:
         model = TipoMenu
         fields = ['id_tipo_m','descripcion']
+

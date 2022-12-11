@@ -1,0 +1,62 @@
+{% extends 'client/home/base.html' %}
+
+{% load static %}
+
+{% block title %}
+<title>Listado de reservas</title>
+{% endblock title %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static '/client/css/reservation.css' %}">
+{% endblock css %}
+
+{% block contenido %}
+<section>
+  <br>
+  <br>
+ <div class="container">
+  <div class="row mb-5">
+    <div class="col-md-8 col-xl-6 text-center mx-auto">
+        <h2>Listado Reservas</h2>
+        <p class="w-lg-50">Aqui se listaran las reservas realizadas.</p>
+    </div>
+</div>
+<div class="card">
+  <div class="card-body">
+    <div class="row">
+      {% if user.is_authenticated %}
+
+      <table class="table table-striped table-hover table-responsive-xl text-center">
+        <thead >
+          <tr>
+            <th scope="col">Id Reserva</th>
+            <th scope="col">Rut</th>
+            <th scope="col">Mesa</th>
+            <th scope="col">Fecha y Hora</th>
+            <th scope="col">Opción</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+        {% for l in listarreservas %}
+              <tr>
+                <th scope="row"><input type="text" name="id_reserva" id="id_reserva" value="{{ l.data.0 }}" class="quantity-field border-0 text-center w-25" disabled></th>
+                <td>{{ user.rut }}</td>
+                <td>{{ l.data.2 }}</td>
+                <td>{{ l.data.3}}</td>
+                <td><a href="{% url 'eliminar_reserva' l.data.0 %} "><button type="submit" class="btn btn-danger btn-sm">Eliminar</button></td>
+              </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% endif %}
+
+  </div>
+  </div>
+
+</div>
+ </div>
+    <br>
+    <br>
+</section>
+{% endblock contenido %}

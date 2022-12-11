@@ -1,0 +1,27 @@
+{% extends 'dashboard/manager/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block admin-contenido %}
+
+<section>
+    <div class="container w-50 pb-5">
+        <div class="card">
+            <div class="card-header text-sm-center">
+                <h3 class="card-title">Editar Perfil</h3>
+            </div>
+            <div class="card-body text-center">
+                {{ form | crispy }}
+            </div>
+            <div class="d-flex justify-content-between btn-group" role="group">
+                <a name="" id="" class="btn btn-info" href=" {% url 'modificar_turno' form.id_usuario.value %} " role="button">Modificar turno</a> 
+                <button  class="btn btn-success" type="submit">Guardar</button>
+                
+                <a type="button" href=" {% url 'perfil_admin' %} " class="btn btn-danger">Cancelar</a>
+            </div>
+
+
+        </div>
+    </div>
+</section>
+
+{% endblock admin-contenido %}

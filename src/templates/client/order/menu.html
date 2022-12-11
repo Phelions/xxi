@@ -1,0 +1,134 @@
+{% extends 'client/home/base.html' %}
+{% load static %}
+
+{% block title %}
+<title>Menu</title>
+{% endblock title %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static '/client/css/menu.css' %}">
+{% endblock css %}
+
+{% block contenido %}
+<section>
+    <br>
+    <h1>Menu</h1>
+    <br>
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="blog-card blog-card-blog">
+                    <div class="blog-card-image">
+                        <a href="#"> <img class="img" src="{% static 'client/img/perubianfood.png'%}"> </a>
+                        <div class="ripple-cont"></div>
+                    </div>
+                    <div class="blog-table">
+                        <h6 class="blog-category blog-text-success"><i class="fas fa-cloud-meatball"></i></h6>
+                        <h4 class="blog-card-caption">
+                            <a href="#">pizza peperonni</a>
+                        </h4>
+                        <p class="blog-card-description">Lorem Ipsum is simply dummy text of the printing and
+                            typesetting industry.</p>
+                        <div class="text-md-center">
+                            <div class="stats"> <i class="fa-duotone fa-dollar-sign"></i> 4.990 </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="blog-card blog-card-blog">
+                    <div class="blog-card-image">
+                        <a href="#"> <img class="img" src="{% static 'client/img/vegano.png'%}"> </a>
+                        <div class="ripple-cont"></div>
+                    </div>
+                    <div class="blog-table">
+                        <h6 class="blog-category blog-text-success"><i class="fas fa-cloud-meatball"></i></h6>
+                        <h4 class="blog-card-caption">
+                            <a href="#">salshipapa</a>
+                        </h4>
+                        <p class="blog-card-description">Lorem Ipsum is simply dummy text of the printing and
+                            typesetting industry.</p>
+                        <div class="text-md-center">
+                            <div class="stats"> <i class="fa-duotone fa-dollar-sign"></i> 4.990 </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="blog-card blog-card-blog">
+                    <div class="blog-card-image">
+                        <a href="#"> <img class="img" src="{% static 'client/img/marraqueta.png'%}"> </a>
+                        <div class="ripple-cont"></div>
+                    </div>
+                    <div class="blog-table">
+                        <h6 class="blog-category blog-text-success"><i class="fas fa-cloud-meatball"></i></h6>
+                        <h4 class="blog-card-caption">
+                            <a href="#">salchi suprem</a>
+                        </h4>
+                        <p class="blog-card-description">Papas fritas, salchichas, ensalada.</p>
+                        <div class="text-md-center">
+                            <div class="stats"> <i class="fa-duotone fa-dollar-sign"></i> 4.990 </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="blog-card blog-card-blog">
+                    <div class="blog-card-image">
+                        <a href="#"> <img class="img" src="{% static 'client/img/mojito.png'%}"> </a>
+                        <div class="ripple-cont"></div>
+                    </div>
+                    <div class="blog-table">
+                        <h6 class="blog-category blog-text-success"><i class="fas fa-cloud-meatball"></i></h6>
+                        <h4 class="blog-card-caption">
+                            <a href="#">Congrio en dos cocciones</a>
+                        </h4>
+                        <p class="blog-card-description">Congrio escabechado sobre tibias papas con mayonesa / Mejillas de congrio fritas con tártaro de algas.</p>
+                        <div class="text-md-center">
+                            <div class="stats"> <i class="fa-duotone fa-dollar-sign"></i> 4.990 </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="blog-card blog-card-blog">
+                    <div class="blog-card-image">
+                        <a href="#"> <img class="img" src="{% static 'client/img/sendapizzzza.png'%}"> </a>
+                        <div class="ripple-cont"></div>
+                    </div>
+                    <div class="blog-table">
+                        <h6 class="blog-category blog-text-success"><i class="fas fa-cloud-meatball"></i></h6>
+                        <h4 class="blog-card-caption">
+                            <a href="#">Pechuga de pato especiada</a>
+                        </h4>
+                        <p class="blog-card-description">acompañada de hojas verdes con piñones en aderezo balsámico a la naranja y salsa de Rosa Mosqueta.</p>
+                        <div class="text-md-center">
+                            <div class="stats"> <i class="fa-duotone fa-dollar-sign"></i> 4.990 </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="blog-card blog-card-blog">
+                    <div class="blog-card-image">
+                        <a href="#"> <img class="img" src="{% static 'client/img/papasrusticass.png'%}"> </a>
+                        <div class="ripple-cont"></div>
+                    </div>
+                    <div class="blog-table">
+                        <h6 class="blog-category blog-text-success"><i class="fas fa-cloud-meatball"></i></h6>
+                        <h4 class="blog-card-caption">
+                            <a href="#">Róbalo marinado al cilantro con zeste de limón</a>
+                        </h4>
+                        <p class="blog-card-description">acompañado de ostras fritas sobre cremoso de coliflor.</p>
+                        <div class="text-md-center">
+                            <div class="stats"> <i class="fa-duotone fa-dollar-sign"></i> 4.990 </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

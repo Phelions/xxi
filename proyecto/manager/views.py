@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import SignupEmployeeForm, EmployeeForm , MenuForm, TipoMenuForm, MesasForm
 from django.db import connection
 from account.models import Usuario, Empleado
-from .models import AccountUsuario, AccountEmpleado, Mesa
+from .models import  Mesa
 
 
 
@@ -20,6 +20,23 @@ def perfil_admin(request):
         msg = {'msg':'No tiene permisos para acceder a esta sección'}
         return render(request, 'accounts/request.html', msg)
     #return render(request, 'dashboard/manager/perfil_admin.html')
+
+@login_required
+def edit_perfil(request,id):
+    if request.user.is_employee and request.user.empleado.rol == 'Admin':
+        perfil = Usuario.objects.get(id_usuario=id)
+        form = SignupEmployeeForm(request.POST or None,instance=perfil)
+        if form.is_valid() and request.POST:
+            form.save()
+            return redirect('perfil_admin')
+        else:
+            perfil = Usuario.objects.get(id_usuario=id)
+            form = SignupEmployeeForm(instance=perfil)
+        return render(request, 'dashboard/manager/edit_perfil.html',{'form':form})
+    else:
+        msg = {'msg':'No tiene permisos para acceder a esta sección'}
+        return render(request, 'accounts/request.html', msg)
+
 
 @login_required
 def listar_cliente(request):
