@@ -1,7 +1,5 @@
-# from django.contrib import admin
-# from .models import Mesa, Reserva, EstadoMesa, Empleado
+from django.contrib import admin
+from .models import EstadoMesa
 
-# admin.site.register(Mesa)
-# admin.site.register(Reserva)
-# admin.site.register(EstadoMesa)
-# admin.site.register(Empleado)
+
+admin.site.register(EstadoMesa)

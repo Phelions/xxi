@@ -16,25 +16,25 @@
                                 <th scope="col">N° Mesa</th>
                                 <th scope="col">Empleado</th>
                                 <th scope="col">Estado Mesa</th>
+                                <th scope="col">Capacidad</th>
                                 <th scope="col" class="text-center">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                        {% comment %} {% for e in empleados %} {% endcomment %}
+                         {% for m in mesas %}
                             <tr>
-                                <td> 1  </td>
-                                <td> 2 </td>
-                                <td> 3 </td>
-                                
-                                
+                                <td> {{ m.0 }}  </td>
+                                <td> {{ m.1 }}  </td>
+                                <td> {{ m.2 }}  </td>
+                                <td> {{ m.3 }}  </td>
                                 <!-- <td>{{ e.6 }}</td> 
                                 <td>{{ e.7 }}</td> 
                                 <td>{{ e.8 }}</td>  -->
                                 <td  class="d-flex justify-content-between btn-group" role="group"> 
                                     <a name="" id="" class="btn btn-info" href="#" role="button">Modificar</a> 
-                                    <a name="" id="" class="btn btn-danger" href="#" role="button">Eliminar</a></td>
+                                    <a name="" id="" class="btn btn-danger" href=" {% url 'eliminar_mesa' m.0 %} " role="button">Eliminar</a></td>
                                 </tr>
-                        {% comment %} {% endfor %} {% endcomment %}
+                        {% endfor %} 
                         </tbody>
                     </table>
                 </div>  

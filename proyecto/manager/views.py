@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from .forms import SignupEmployeeForm, EmployeeForm , MenuForm, TipoMenuForm, MesasForm
+from .forms import SignupEmployeeForm, EmployeeForm , MenuForm, TipoMenuForm, MesasForm, TurForm
+from account.forms import SignupForm
 from django.db import connection
 from account.models import Usuario, Empleado
 from .models import  Mesa
@@ -12,6 +13,23 @@ from .models import  Mesa
 
 
 '''----Dashboard - admin---'''
+
+@login_required
+def mod_p_perfil(request,id):
+    if request.user.is_employee and request.user.empleado.rol == 'Admin':
+        turno = Empleado.objects.get(usuario_id=id)
+        form = TurForm(request.POST or None,instance=turno)
+        if form.is_valid() and request.POST:
+            form.save()
+            return redirect('perfil_admin')
+        else:
+            turno = Empleado.objects.get(usuario_id=id)
+            form = TurForm(instance=turno)
+        return render(request, 'dashboard/manager/mod_p_perfil.html',{'form':form})
+    else:
+        msg = {'msg':'No tiene permisos para acceder a esta sección'}
+        return render(request, 'accounts/request.html', msg)
+
 @login_required
 def perfil_admin(request):
     if request.user.is_employee and request.user.empleado.rol == 'Admin':
@@ -38,10 +56,45 @@ def edit_perfil(request,id):
         return render(request, 'accounts/request.html', msg)
 
 
+def eliminar_cliente(request,id):
+    if request.user.is_employee and request.user.empleado.rol == 'Admin':
+        cliente = Usuario.objects.get(id_usuario=id)
+        cliente.delete()
+        return redirect('listar_cliente')
+    else:
+        msg = {'msg':'No tiene permisos para acceder a esta sección'}
+        return render(request, 'accounts/request.html', msg)
+
+def listado_clientes():
+    emp = Usuario.objects.values('id_usuario','rut','first_name','last_name','email','celular').exclude(is_employee=True)
+    lista = []
+    for fila in emp:
+        lista.append(fila)
+    return lista
+
+@login_required
+def modificar_cliente(request,id):
+    if request.user.is_employee and request.user.empleado.rol == 'Admin':
+        cliente = Usuario.objects.get(id_usuario=id)
+        form = SignupForm(request.POST or None,instance=cliente)
+        if form.is_valid() and request.POST:
+            form.save()
+            return redirect('listar_cliente')
+        else:
+            cliente = Usuario.objects.get(id_usuario=id)
+            form = SignupForm(instance=cliente)
+        return render(request, 'dashboard/manager/cliente/modificar.html',{'form':form})
+    else:
+        msg = {'msg':'No tiene permisos para acceder a esta sección'}
+        return render(request, 'accounts/request.html', msg)
+
 @login_required
 def listar_cliente(request):
     if request.user.is_employee and request.user.empleado.rol == 'Admin':
-        return render(request, 'dashboard/manager/cliente/listar_cliente.html')
+        data = {
+            'clientes': listado_clientes()
+        }
+        return render(request, 'dashboard/manager/cliente/index.html', data)
     else:
         msg = {'msg':'No tiene permisos para acceder a esta sección'}
         return render(request, 'accounts/request.html', msg)
@@ -259,19 +312,13 @@ def admin_mesas(request):
 
 
 def listar_mesas():
-    # if request.user.is_employee and request.user.empleado.rol == 'Admin':
-        # cursor = connection.cursor()
-        # cursor.execute("SELECT * FROM accounts_usuario WHERE rol != 'is_client' ")
-        # empleados = cursor.fetchall()
-    django_cursor = connection.cursor()
-    cursor = django_cursor.connection.cursor()
-    out_cur = django_cursor.connection.cursor()
-    cursor.callproc('SP_LISTAR_MESAS', [out_cur])
+    with connection.cursor() as cursor:
+        cursor.execute("select * from public.fn_listar_mesas() ")
+        out_cur = cursor.fetchall()
     lista = []
     for fila in out_cur:
         lista.append(fila)
     return lista
-
 
 @login_required
 def crear_mesas(request):

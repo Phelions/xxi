@@ -18,7 +18,8 @@ class Usuario(AbstractUser):
     REQUIRED_FIELDS = ['rut', 'first_name', 'last_name','username', 'celular']
     USERNAME_FIELD = 'email'
     def __str__(self):
-        return self.email
+        return self.first_name + " " + self.last_name
+        
     class Meta:
         managed = True
         verbose_name = 'Usuario'

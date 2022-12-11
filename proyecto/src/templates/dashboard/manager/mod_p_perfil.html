@@ -1,17 +1,16 @@
 {% extends 'dashboard/manager/base.html' %}
-{% load static %}
 {% load crispy_forms_tags %}
 
 {% block admin-contenido %}
 
 <section>
-    <div class="container pb-5">
+    <div class="container w-50 pb-5">
         <div class="card">
-            <div class="card-header">
-                Modificar Empleado
+            <div class="card-header text-sm-center">
+                <h3 class="card-title"></h3>
             </div>
             <div class="card-body">
-                <h4 class="card-title text-center">Datos del Empleado</h4>
+                <h4 class="card-title text-center">Modificar Turno</h4>
                 <form action="" method="POST" class="row g-3">
                     {% csrf_token %}
                     {% if msg %}
@@ -25,21 +24,18 @@
                         </div>
                     </div>
                     <div class="d-flex justify-content-between btn-group" role="group">
-                        <button class="btn btn-success" type="submit">Modificar</button>
-                        <a name="" id="" class="btn btn-info" href=" {% url 'modificar_turno' form.id_usuario.value %} " role="button">Modificar turnos</a> 
-                        <a type="button" href=" {% url 'empleados' %} " class="btn btn-danger">Cancelar</a>
+                        {% comment %} <a name="" id="" class="btn btn-info" href=" {% url 'modificar_turno' form.id_usuario.value %} " role="button">Modificar turno</a>  {% endcomment %}
+                        <button  class="btn btn-success" type="submit">Guardar</button>
+                        
+                        <a type="button" href=" {% url 'perfil_admin' %} " class="btn btn-danger">Cancelar</a>
                     </div>
                   
                 </form>
             </div>
         </div>
     </div>
-    <div class="card-footer text-muted">
-        
-    </div>
-    </div>
-    </div>
-
 </section>
 
 {% endblock admin-contenido %}
+
+

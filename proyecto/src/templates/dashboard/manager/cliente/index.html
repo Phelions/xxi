@@ -1,0 +1,56 @@
+{% extends 'dashboard/manager/base.html' %}
+{% block admin-contenido %}
+
+
+
+
+
+
+
+<section>
+    <div class="container">
+        <div class="card">
+            <div class="card-header text-center">
+                <h3>Clientes</h3>
+            </div>
+            <div class="card-body">
+        
+                <div class="table-responsive">
+                    <table class="table table-light">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Rut</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Apellido</th>
+                                <th scope="col">Correo</th>
+                                <th scope="col">Celular</th>
+                                <th scope="col">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for c in clientes %}
+                            <tr>
+                                <td>{{ c.id_usuario }}</td>
+                                <td>{{ c.rut }}</td>
+                                <td>{{ c.first_name }}</td>
+                                <td>{{ c.last_name }}</td>
+                                <td>{{ c.email }}</td>
+                                <td>{{ c.celular }}</td> 
+                        
+                                <td class="d-flex justify-content-between btn-group" role="group"> 
+                                    <a name="" id="" class="btn btn-info" href="  {% url 'modificar_cliente' c.id_usuario %} " role="button">Modificar</a>
+                                    <a name="" id="" class="btn btn-danger" href="{% url 'eliminar_cliente' c.id_usuario %}" role="button">Eliminar</a></td>
+                                </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>  
+            </div>
+            <div class="card-footer text-muted">
+                
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock admin-contenido %}

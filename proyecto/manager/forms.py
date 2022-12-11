@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from account.models import Usuario, Empleado
-from manager.models import Mesa , EstadoMesa, Menu, TipoMenu
+from manager.models import Mesa , EstadoMesa, Menu, TipoMenu, AccountEmpleado
 from crispy_forms.helper import FormHelper
 
     
@@ -50,6 +50,16 @@ class EmployeeForm(forms.ModelForm):
     class Meta:
         model = Empleado
         fields = ['usuario','rol','turno','hora_entrada','hora_salida']
+
+class TurForm(forms.ModelForm):
+    usuario = forms.ModelChoiceField(queryset=Usuario.objects.all(), required=True,widget=forms.HiddenInput())
+    rol = forms.ChoiceField(choices=ROL)
+    turno = forms.ChoiceField(choices=TURNO)
+    hora_entrada = forms.TimeField(required=True, label="Hora Entrada")
+    hora_salida = forms.TimeField(required=True, label="Hora Salida")
+    class Meta:
+        model = Empleado
+        fields = ['usuario','rol','turno','hora_entrada','hora_salida']
         
 ESTADO_MESA = [
     ('1', 'Disponible'),
@@ -58,14 +68,15 @@ ESTADO_MESA = [
     ('4', 'Deshabilitada'),
 ]
 
+
 class MesasForm(forms.ModelForm):
-    id_mesa = forms.IntegerField(required=True,  widget=forms.HiddenInput())
-    id_est_me = forms.ModelChoiceField(queryset=EstadoMesa.objects.all(),label="Estado de la mesa", required=True)
+
+    id_est_me = forms.ChoiceField(choices=ESTADO_MESA,label="Estado de la mesa", required=True)
     capacidad = forms.IntegerField(label="Capacidad de personas",required=True)
-    id_empleado = forms.ModelChoiceField(queryset=Empleado.objects.all(), required=True, label="Empleado encargado")
+    id_empleado = forms.ModelChoiceField(queryset=AccountEmpleado.objects.all(), required=True, label="Empleado encargado")
     class Meta:
         model = Mesa
-        fields = ['id_mesa','id_est_me','capacidad','id_empleado']
+        fields = ['id_est_me','capacidad','id_empleado']
         
         
 class MenuForm(forms.ModelForm):
