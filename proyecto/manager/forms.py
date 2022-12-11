@@ -63,19 +63,20 @@ class TurForm(forms.ModelForm):
         
 ESTADO_MESA = [
     ('1', 'Disponible'),
-    ('2', 'Reservada'),
-    ('3', 'Ocupada'),
+    ('2', 'Ocupada'),
+    ('3', 'Reservada'),
     ('4', 'Deshabilitada'),
 ]
 
 
 class MesasForm(forms.ModelForm):
+    id_mesa = forms.IntegerField(required=True, label="N° Mesa")
     id_est_me = forms.ChoiceField(choices=ESTADO_MESA,label="Estado de la mesa", required=True)
     capacidad = forms.IntegerField(label="Capacidad de personas",required=True)
     id_empleado = forms.ModelChoiceField(queryset=AccountEmpleado.objects.all(), required=True, label="Empleado encargado")
     class Meta:
         model = Mesa
-        fields = ['id_est_me','capacidad','id_empleado']
+        fields = ['id_mesa','id_est_me','capacidad','id_empleado']
         
         
 class MenuForm(forms.ModelForm):

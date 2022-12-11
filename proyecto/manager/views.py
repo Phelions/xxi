@@ -258,10 +258,10 @@ def crear_tipo_menu(request):
 @login_required
 def administrar_menu(request):
     if request.user.is_employee and request.user.empleado.rol == 'Admin':
-        data = {
-            'menus': listar_menu()
-        }
-        return render(request, 'dashboard/manager/menu/index.html',data)
+        # data = {
+        #     'menus': listar_menu()
+        # }
+        return render(request, 'dashboard/manager/menu/index.html')
     else:
         msg = {'msg':'No tiene permisos para acceder a esta sección'}
         return render(request, 'accounts/request.html', msg)
@@ -295,7 +295,7 @@ def administrar_inventario(request):
 def eliminar_mesa(request, id):
     mesa = Mesa.objects.get(id_mesa=id)
     mesa.delete()
-    return redirect('mesas')
+    return redirect('admin_mesas')
 
 
 @login_required
@@ -339,10 +339,10 @@ def crear_mesas(request):
         msg = {'msg':'No tiene permisos para acceder a esta sección'}
         return render(request, 'accounts/request.html', msg)
         
+
 @login_required
-def modificar_mesas(request, id):
+def modificar_mesas(request,id):
     if request.user.is_employee and request.user.empleado.rol == 'Admin':
-        msg=None
         mesa = Mesa.objects.get(id_mesa=id)
         form = MesasForm(request.POST or None,instance=mesa)
         if form.is_valid() and request.POST:
@@ -350,10 +350,9 @@ def modificar_mesas(request, id):
             return redirect('admin_mesas')
         else:
             mesa = Mesa.objects.get(id_mesa=id)
-            form = MesasForm(request.POST, instance=mesa)
+            form = MesasForm(instance=mesa)
         return render(request, 'dashboard/manager/mesa/modificar.html',{'form':form})
     else:
         msg = {'msg':'No tiene permisos para acceder a esta sección'}
         return render(request, 'accounts/request.html', msg)
-
 '''----Dashboard - admin - FIN ---'''

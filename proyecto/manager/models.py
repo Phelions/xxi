@@ -285,7 +285,7 @@ class Menu(models.Model):
 
 
 class Mesa(models.Model):
-    id_mesa = models.AutoField(primary_key=True)
+    id_mesa = models.IntegerField(primary_key=True)
     id_empleado = models.ForeignKey(AccountEmpleado, models.DO_NOTHING, db_column='id_empleado')
     id_est_me = models.IntegerField()
     capacidad = models.IntegerField()
