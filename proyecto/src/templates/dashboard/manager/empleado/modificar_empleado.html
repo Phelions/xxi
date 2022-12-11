@@ -5,7 +5,7 @@
 {% block admin-contenido %}
 
 <section>
-    <div class="container">
+    <div class="container pb-5">
         <div class="card">
             <div class="card-header">
                 Modificar Empleado
@@ -26,10 +26,7 @@
                     </div>
                     <div class="d-flex justify-content-between btn-group" role="group">
                         <button class="btn btn-success" type="submit">Modificar</button>
-                        
-                        
-                        
-                            
+                    
                         <a name="" id="" class="btn btn-info" href=" {% url 'modificar_turno' form.id_usuario.value %} " role="button">Modificar turnos</a> 
                         
                         <a type="button" href=" {% url 'empleados' %} " class="btn btn-danger">Cancelar</a>
@@ -40,7 +37,7 @@
         </div>
     </div>
     <div class="card-footer text-muted">
-        admin
+        
     </div>
     </div>
     </div>
