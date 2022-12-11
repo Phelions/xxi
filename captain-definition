@@ -4,6 +4,7 @@
     "FROM library/python:3.10.8-alpine3.16",
     "RUN apk update && apk upgrade && apk add --no-cache make g++ bash git openssh postgresql-dev curl",
     "RUN mkdir -p /usr/src/app",
+    "RUN python -m pip install --upgrade pip",
     "WORKDIR /usr/src/app",
     "COPY ./proyecto/ /usr/src/app",
     "RUN pip install -r requirements.txt",
