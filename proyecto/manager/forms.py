@@ -80,19 +80,20 @@ class MesasForm(forms.ModelForm):
         
         
 class MenuForm(forms.ModelForm):
-    id_menu = forms.IntegerField(required=True,  widget=forms.HiddenInput())
-    id_tipo_menu = forms.ModelChoiceField(queryset=Menu.objects.all(),label="Tipo de menu", required=True)
+    id_menu = forms.IntegerField(required=True, label="N° Menu")
+    id_tipo_m = forms.ModelChoiceField(queryset=TipoMenu.objects.all(),label="Tipo de menu", required=True)
     nombre_m = forms.CharField(required=True, label="Nombre")
-    descripcion = forms.CharField(required=True, label="Descripcion")
     precio = forms.IntegerField(required=True, label="Precio")
     class Meta:
         model = Menu
-        fields = ['id_menu','id_tipo_menu','nombre_m','detalle','porcion','tiempo','precio']
+        fields = ['id_menu','id_tipo_m','nombre_m','detalle','porcion','tiempo','precio']
 
 class TipoMenuForm(forms.ModelForm):
-    id_tipo_m = forms.IntegerField(required=True)
+    id_tipo_m = forms.IntegerField(required=True, label="N° Menu")
     descripcion = forms.CharField(required=True, label="PLato, Bebida, Postre, etc")
     class Meta:
         model = TipoMenu
         fields = ['id_tipo_m','descripcion']
+
+
 

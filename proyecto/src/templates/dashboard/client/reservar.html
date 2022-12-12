@@ -1,14 +1,46 @@
 {% extends 'dashboard/client/base.html' %}
-{% load static %}
+{% load crispy_forms_tags %}
+
 
 {% block client-contenido %}
-    <section>
-        <div class="container">
-            <div class="card">
-                <div class="card-body">
-                    <h1>reservar</h1>
+<section>
+    <div class="container">
+        <div class="card mx-auto">
+            <form action="" method="POST"  class="row g-3">
+                {% csrf_token %}
+                {% if msg %}
+                    <div class="alert alert-danger" role="alert">
+                        <h5>{{ msg }}</h5>
+                    </div>
+                {% endif %}
+                <div class="card">
+                    <div class="card-body">
+                        {% comment %} {{ form | crispy }} {% endcomment %}
+                        
+                        <div class="mb-3">
+                            <label for="" class="form-label">id usuario</label>
+                            <input type="number" name="id_usuario" value="{{form.instance.id_usuario}}"  id="id_usuario" class="form-control" >
+                        </div>
+                          <div class="mb-3">
+                            {{form.id_mesa | as_crispy_field }}
+                        </div>
+                        <div class="mb-3">
+                            {{form.fecha | as_crispy_field }}
+                        </div>
+                        <div class="mb-3">
+                            {{form.hora | as_crispy_field }}
+                        </div>
+                        <div class="d-flex justify-content-between btn-group" role="group">
+                            <button class=" btn  btn-warning" type="submit">Reservar</button>
+                            <a type="button" href=" {% url 'reservas' %} " class="btn btn-danger">Cancelar</a>
+                        </div>
+                        
+                    </div>
+                    <div class="card-footer text-muted">
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
-    </section>
+    </div>
+</section>
 {% endblock client-contenido %}

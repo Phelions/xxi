@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.db import connection
+from .forms import ReservaForm
+from manager.models import Reserva, EstadoMesa, Mesa
 # Create your views here.
 
 def index(request):
@@ -22,7 +24,6 @@ def menu(request):
         return render(request, 'accounts/request.html', msg)
     #return render(request, 'dashboard/client/menu.html')
     
-
 def add_reserva(id_usuario, id_mesa, fecha_hora):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
@@ -36,38 +37,30 @@ def listar_mesas(request):
     }
     return render(request, 'dashboard/client/crear.html', data)
 
-def listado_estados_mesas():
-    django_cursor = connection.cursor()
-    cursor = django_cursor.connection.cursor()
-    out_cur = django_cursor.connection.cursor()
-    cursor.callproc('SP_LISTAR_MESAS', [out_cur])
 
-    lista = []
-    for fila in out_cur:
-        data = {
-            'data': fila,
-        }
-        lista.append(data)
-    return lista
 
 @login_required
 def crear_reserva(request):
     if request.user.is_client:
-        data = {
-            'mesas': listado_estados_mesas(),
-        }
-        msg=None
+        msg = None
         if request.method == 'POST':
-            id_usuario = request.POST.get('id_usuario')
-            id_mesa = request.POST.get('id_mesa')
-            fecha_hora = request.POST.get('fecha_hora')
-            salida = add_reserva(id_usuario, id_mesa, fecha_hora)
-            if salida == 1:
-                data['mensaje'] = 'reservado correctamente'
-                data['mesas'] = listado_estados_mesas()
+            form = ReservaForm(request.POST)
+            if form.is_valid():
+                # form.save(commit=False)
+                # form.id_usuario = request.user.id_usuario
+                # id_usuario = form.cleaned_data['id_usuario']
+                # id_mesa = form.cleaned_data['id_mesa']
+                # fecha = form.cleaned_data['fecha']
+                # hora = form.cleaned_data['hora']
+                
+                form.save()
+                msg = 'Reserva ingresada correctamente'
+                return redirect('reservas')
             else:
-                data['mensaje'] = 'no se ha podido reservar'
-        return render(request, 'dashboard/client/crear.html', data)
+                msg = 'Error al ingresar su reserva'
+        else:
+            form = ReservaForm(request.POST)
+        return render(request, 'dashboard/client/reservar.html',{'form':form, 'msg':msg})
     else:
         msg = {'msg':'No tiene permisos para acceder a esta sección'}
         return render(request, 'accounts/request.html', msg)
@@ -76,28 +69,30 @@ def crear_reserva(request):
 def reservas(request):
     if request.user.is_client:
         data = {
-            'listarreservas': listado_reservas()
+            'reservas': listado_reservas()
         }
-        return render(request, 'dashboard/client/index.html',data)
+        return render(request, 'dashboard/client/index.html', data)
     else:
         msg = {'msg':'No tiene permisos para acceder a esta sección'}
         return render(request, 'accounts/request.html', msg)
     #return render(request, 'dashboard/client/reservas.html')
 
 def listado_reservas():
-    django_cursor = connection.cursor()
-    cursor = django_cursor.connection.cursor()
-    out_cur = django_cursor.connection.cursor()
-    cursor.callproc('SP_LISTAR_RESERVAS', [out_cur])
-
+    reserva = Reserva.objects.select_related("id_usuario").select_related("id_mesa").all()
     lista = []
-    for fila in out_cur:
+    for fila in reserva:
+        lista.append(fila)
+    return lista
+
+def listado_estados_mesas():
+    estados = Mesa.objects.select_related("id_empleado").select_related("id_est_me").all()
+    lista = []
+    for fila in estados:
         data = {
             'data': fila,
         }
         lista.append(data)
     return lista
-
 
 @login_required
 def perfil(request):

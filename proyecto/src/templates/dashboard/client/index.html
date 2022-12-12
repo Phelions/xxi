@@ -11,7 +11,7 @@
     <div class="container">
         <div class="card">
             <div class="card-header">
-                <a name="" id="" class="btn btn-success" href="#" role="button">Crear Reserva</a>
+                <a name="" id="" class="btn btn-success" href=" {% url 'crear_reserva' %} " role="button">Crear Reserva</a>
             </div>
             <div class="card-body">
         
@@ -19,8 +19,8 @@
                     <table class="table table-light">
                         <thead>
                             <tr>
-                                <th scope="col">Rut</th>
                                 <th scope="col">N° reserva</th>
+                                <th scope="col">Rut</th>
                                 <th scope="col">N° mesa</th>
                                 <th scope="col">Estado</th>
                                 <th scope="col">Fecha y Hora</th>
@@ -30,14 +30,14 @@
                         </thead>
                         <tbody>
                        
-                        {% for e in mesas %}
+                        {% for r in reservas %}
                             <tr>
-                                <td>{{ e.0 }}</td>
-                                <td>{{ e.1 }}</td>
-                                <td>{{ e.2 }}</td>
-                                <td>{{ e.3 }}</td>
-                                <td>{{ e.4 }}</td>
-                                <td>{{ e.5 }}</td>
+                                <td>{{ r.id_reserva }}</td>
+                                <td>{{ r.user.rut }}</td>
+                                <td>{{ r.id_mesa }}</td>
+                                <td>{{ r.3 }}</td>
+                                <td>{{ r.fecha_hora }}</td>
+                                <td>{{ r.5 }}</td>
                                 <td class="d-flex justify-content-between btn-group" role="group"> 
                                     <a name="" id="" class="btn btn-info " href="#" role="button">Modificar</a> 
                                     <a name="" id="" class="btn btn-danger" href="#" role="button">Eliminar</a>

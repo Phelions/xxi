@@ -1,10 +1,3 @@
-# This is an auto-generated Django model module.
-# You'll have to do the following manually to clean this up:
-#   * Rearrange models' order
-#   * Make sure each model has one field with primary_key=True
-#   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
-#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
-# Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 
 
@@ -20,7 +13,7 @@ class AccountEmpleado(models.Model):
         managed = False
         db_table = 'account_empleado'
     def __str__(self):
-            return self.usuario.first_name + " " + self.usuario.last_name + " - " + self.rol
+        return self.usuario.first_name + " " + self.usuario.last_name + " - " + self.rol
 
 class AccountUsuario(models.Model):
     password = models.CharField(max_length=128)
@@ -212,12 +205,12 @@ class EstadoMesa(models.Model):
     class Meta:
         managed = False
         db_table = 'estado_mesa'
+        
     def __str__(self):
         return self.descripcion
 
-
 class EstadoPedido(models.Model):
-    id_estado = models.AutoField(primary_key=True)
+    id_estado = models.IntegerField(primary_key=True)
     estado_pedido = models.CharField(max_length=20)
 
     class Meta:
@@ -226,7 +219,7 @@ class EstadoPedido(models.Model):
 
 
 class EstadoSolicitud(models.Model):
-    id_estado = models.AutoField(primary_key=True)
+    id_estado = models.IntegerField(primary_key=True)
     estado_solicitud = models.CharField(max_length=20)
 
     class Meta:
@@ -249,7 +242,7 @@ class Finanza(models.Model):
 
 
 class FormaPago(models.Model):
-    id_pago = models.AutoField(primary_key=True)
+    id_pago = models.IntegerField(primary_key=True)
     descripcion = models.CharField(max_length=50)
 
     class Meta:
@@ -258,7 +251,7 @@ class FormaPago(models.Model):
 
 
 class Insumo(models.Model):
-    id_insumo = models.AutoField(primary_key=True)
+    id_insumo = models.IntegerField(primary_key=True)
     id_proveedor = models.ForeignKey('Proveedor', models.DO_NOTHING, db_column='id_proveedor')
     id_empleado = models.ForeignKey(AccountEmpleado, models.DO_NOTHING, db_column='id_empleado')
     codigo = models.CharField(max_length=10)
@@ -271,7 +264,7 @@ class Insumo(models.Model):
 
 
 class Menu(models.Model):
-    id_menu = models.AutoField(primary_key=True)
+    id_menu = models.IntegerField(primary_key=True)
     id_tipo_m = models.ForeignKey('TipoMenu', models.DO_NOTHING, db_column='id_tipo_m')
     nombre_m = models.CharField(max_length=100)
     porcion = models.IntegerField()
@@ -287,13 +280,14 @@ class Menu(models.Model):
 class Mesa(models.Model):
     id_mesa = models.IntegerField(primary_key=True)
     id_empleado = models.ForeignKey(AccountEmpleado, models.DO_NOTHING, db_column='id_empleado')
-    id_est_me = models.IntegerField()
+    id_est_me = models.ForeignKey('EstadoMesa', models.DO_NOTHING, db_column='id_est_me')
     capacidad = models.IntegerField()
 
     class Meta:
         managed = False
         db_table = 'mesa'
-
+    def __str__(self):
+        return  "mesa" + " " + str(self.id_mesa) + " - " + str(self.capacidad) + " personas" 
 
 class Pedido(models.Model):
     id_pedido = models.AutoField(primary_key=True)
@@ -328,7 +322,7 @@ class Proveedor(models.Model):
 
 
 class Receta(models.Model):
-    id_receta = models.AutoField(primary_key=True)
+    id_receta = models.IntegerField(primary_key=True)
     id_empleado = models.ForeignKey(AccountEmpleado, models.DO_NOTHING, db_column='id_empleado')
     id_menu = models.ForeignKey(Menu, models.DO_NOTHING, db_column='id_menu')
     nombre_receta = models.CharField(max_length=100)
@@ -342,9 +336,10 @@ class Receta(models.Model):
 
 class Reserva(models.Model):
     id_reserva = models.AutoField(primary_key=True)
-    id_usuario = models.IntegerField()
+    id_usuario = models.ForeignKey(AccountUsuario, models.DO_NOTHING, db_column='id_usuario')
     id_mesa = models.ForeignKey(Mesa, models.DO_NOTHING, db_column='id_mesa')
-    fecha_hora = models.CharField(max_length=20)
+    fecha = models.DateField()
+    hora = models.TimeField()
 
     class Meta:
         managed = False
@@ -363,9 +358,11 @@ class Solicitud(models.Model):
 
 
 class TipoMenu(models.Model):
-    id_tipo_m = models.AutoField(primary_key=True)
+    id_tipo_m = models.IntegerField(primary_key=True)
     descripcion = models.CharField(max_length=20)
 
     class Meta:
         managed = False
         db_table = 'tipo_menu'
+    def __str__(self):
+        return self.descripcion

@@ -6,7 +6,8 @@
         <div class="card">
             <div class="card-header ">
                 <a name="" id="" class="btn btn-success" href="{% url 'crear_menu' %}" role="button">Agregar Menu</a>
-                <a name="" id="" class="btn btn-success " href="{% url 'crear_tipo_menu' %}" role="button">Agregar Tipo Menu</a>
+                <a name="" id="" class="btn btn-success " href="{% url 'tipos_menus' %} " role="button">Tipos Menu</a>
+
             </div>
             <div class="card-body">
         
@@ -27,17 +28,18 @@
                         <tbody>
                         {% for m in menus %}
                             <tr>
-                                <td>{{ m.0 }}</td> 
-                                <td>{{ m.1 }}</td> 
-                                <td>{{ m.2 }}</td> 
-                                <td>{{ m.3 }}</td>
-                                <td>{{ m.4 }}</td>
-                                <td>{{ m.5 }}</td>
-                                <td>{{ m.6 }}</td>
+                                <td>{{ m.id_menu }}</td> 
+                                <td>{{ m.id_tipo_m }}</td>
+                                <td>{{ m.nombre_m }}</td> 
+                                <td>{{ m.porcion }}</td>
+                                <td>{{ m.tiempo }}</td>
+                                <td>{{ m.detalle }}</td>
+                                <td>{{ m.precio }}</td>
+                                
                             
                                 <td  class="d-flex justify-content-between btn-group" role="group"> 
-                                    <a name="" id="" class="btn btn-info" href="#" role="button">Modificar</a> 
-                                    <a name="" id="" class="btn btn-danger" href="#" role="button">Eliminar</a></td>
+                                    <a name="" id="" class="btn btn-info" href="{% url 'modificar_menu' m.id_menu %} " role="button">Modificar</a> 
+                                    <a name="" id="" class="btn btn-danger" href=" {% url 'eliminar_menu' m.id_menu %} " role="button">Eliminar</a></td>
                                 </tr>
                         {% endfor %}
                         </tbody>

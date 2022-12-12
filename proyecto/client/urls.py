@@ -5,6 +5,6 @@ urlpatterns = [
     path('', index, name='index'),
     path('perfil/', perfil, name='perfil'),
     path('menu/', menu, name='menu'),
-    path('crear_reserva/', crear_reserva, name='crear_reserva'),
+    path('reservas/crear/', crear_reserva, name='crear_reserva'),
     path('reservas/', reservas, name='reservas'),
 ]

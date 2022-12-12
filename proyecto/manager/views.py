@@ -4,7 +4,8 @@ from .forms import SignupEmployeeForm, EmployeeForm , MenuForm, TipoMenuForm, Me
 from account.forms import SignupForm
 from django.db import connection
 from account.models import Usuario, Empleado
-from .models import  Mesa
+from .models import  Mesa, Menu, TipoMenu
+
 
 
 
@@ -66,7 +67,7 @@ def eliminar_cliente(request,id):
         return render(request, 'accounts/request.html', msg)
 
 def listado_clientes():
-    emp = Usuario.objects.values('id_usuario','rut','first_name','last_name','email','celular').exclude(is_employee=True)
+    emp = Usuario.objects.values('id_usuario','rut','first_name','last_name','email','celular').exclude(is_employee=True).order_by('id_usuario')
     lista = []
     for fila in emp:
         lista.append(fila)
@@ -227,7 +228,7 @@ def crear_menu(request):
             if form.is_valid():
                 form.save()
                 msg = 'Menu ingresado correctamente'
-                return redirect('menu')
+                return redirect('administrar_menu')
             else:
                 msg = 'Error al ingresar el Menu'
         else:
@@ -245,7 +246,7 @@ def crear_tipo_menu(request):
             if form.is_valid():
                 form.save()
                 msg = 'Tipo de Menu ingresado correctamente'
-                return redirect('administrar_menu')
+                return redirect('tipos_menus')
             else:
                 msg = 'Error al ingresar el Tipo de Menu'
         else:
@@ -256,30 +257,83 @@ def crear_tipo_menu(request):
         return render(request, 'accounts/request.html', msg)
 
 @login_required
+def mod_tipos_menus(request,id):
+    if request.user.is_employee and request.user.empleado.rol == 'Admin':
+        tipo_menu = TipoMenu.objects.get(id_tipo_m=id)
+        form = TipoMenuForm(request.POST or None,instance=tipo_menu)
+        if form.is_valid() and request.POST:
+            form.save()
+            return redirect('tipos_menus')
+        else:
+            tipo_menu = TipoMenu.objects.get(id_tipo_m=id)
+            form = TipoMenuForm(instance=tipo_menu)
+        return render(request, 'dashboard/manager/menu/mod_tipo_menu.html',{'form':form})
+    else:
+        msg = {'msg':'No tiene permisos para acceder a esta sección'}
+        return render(request, 'accounts/request.html', msg)
+
+@login_required
+def modificar_menu(request,id):
+    if request.user.is_employee and request.user.empleado.rol == 'Admin':
+        menu = Menu.objects.get(id_menu=id)
+        form = MenuForm(request.POST or None,instance=menu)
+        if form.is_valid() and request.POST:
+            form.save()
+            return redirect('administrar_menu')
+        else:
+            menu = Menu.objects.get(id_menu=id)
+            form = MenuForm(instance=menu)
+        return render(request, 'dashboard/manager/menu/modificar.html',{'form':form})
+    else:
+        msg = {'msg':'No tiene permisos para acceder a esta sección'}
+        return render(request, 'accounts/request.html', msg)
+
+def eliminar_menu(request, id):
+    menu = Menu.objects.get(id_menu=id)
+    menu.delete()
+    return redirect('administrar_menu')
+
+def listado_menu():
+    menu = Menu.objects.select_related("id_tipo_m").order_by('id_menu')
+    lista = []
+    for fila in menu:
+        lista.append(fila)
+    return lista
+
+def eliminar_tipos_menus(request, id):
+    menu = TipoMenu.objects.get(id_tipo_m=id)
+    menu.delete()
+    return redirect('tipos_menus')
+
+def tipo_menus():
+    menu = TipoMenu.objects.values('id_tipo_m','descripcion').order_by('id_tipo_m')
+    lista = []
+    for fila in menu:
+        lista.append(fila)
+    return lista
+
+@login_required
+def tipos_menus(request):
+    if request.user.is_employee and request.user.empleado.rol == 'Admin':
+        data = {
+            'tipos': tipo_menus()
+        }
+        return render(request, 'dashboard/manager/menu/tipos_menus.html',data)
+    else:
+        msg = {'msg':'No tiene permisos para acceder a esta sección'}
+        return render(request, 'accounts/request.html', msg)
+
+@login_required
 def administrar_menu(request):
     if request.user.is_employee and request.user.empleado.rol == 'Admin':
-        # data = {
-        #     'menus': listar_menu()
-        # }
-        return render(request, 'dashboard/manager/menu/index.html')
+        data = {
+            'menus': listado_menu()
+        }
+        return render(request, 'dashboard/manager/menu/index.html', data)
     else:
         msg = {'msg':'No tiene permisos para acceder a esta sección'}
         return render(request, 'accounts/request.html', msg)
     #return render(request, 'dashboard/manager/menu_admin.html')
-
-def listar_menu():
-    # if request.user.is_employee and request.user.empleado.rol == 'Admin':
-        # cursor = connection.cursor()
-        # cursor.execute("SELECT * FROM accounts_usuario WHERE rol != 'is_client' ")
-        # empleados = cursor.fetchall()
-    django_cursor = connection.cursor()
-    cursor = django_cursor.connection.cursor()
-    out_cur = django_cursor.connection.cursor()
-    cursor.callproc('SP_LISTAR_MENU', [out_cur])
-    lista = []
-    for fila in out_cur:
-        lista.append(fila)
-    return lista
 
 
 @login_required

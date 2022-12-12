@@ -1,6 +1,6 @@
 
 from django.urls import path
-from manager.views import  perfil_admin, listar_cliente, admin_mesas, crear_empleado, modificar_empleado , administrar_reservas, administrar_menu, administrar_inventario, empleados, eliminar_empleado, crear_mesas, ingresar_empleado, modificar_turno, administrar_menu, crear_menu, crear_tipo_menu, eliminar_mesa, edit_perfil, eliminar_cliente, modificar_cliente, mod_p_perfil, modificar_mesas
+from manager.views import  perfil_admin, listar_cliente, admin_mesas, crear_empleado, modificar_empleado , administrar_reservas, administrar_menu, administrar_inventario, empleados, eliminar_empleado, crear_mesas, ingresar_empleado, modificar_turno, administrar_menu, crear_menu, crear_tipo_menu, eliminar_mesa, edit_perfil, eliminar_cliente, modificar_cliente, mod_p_perfil, modificar_mesas, eliminar_menu,tipos_menus, eliminar_tipos_menus, modificar_menu, mod_tipos_menus
 
 urlpatterns = [
     path('perfil_admin/editar/<int:id>',edit_perfil, name='edit_perfil'),
@@ -10,9 +10,14 @@ urlpatterns = [
     path('cliente/eliminar/<int:id>/',eliminar_cliente, name='eliminar_cliente'),
     path('cliente/modificar/<int:id>',modificar_cliente, name='modificar_cliente'),
 
-    path('crear_tipo_menu/',crear_tipo_menu, name='crear_tipo_menu'),
+    path('administrar_menu/crear_tipo_menu/',crear_tipo_menu, name='crear_tipo_menu'),
     path('administrar_menu/',administrar_menu, name='administrar_menu'),
-    path('crear_menu/',crear_menu, name='crear_menu'),
+    path('administrar_menu/crear/',crear_menu, name='crear_menu'),
+    path('administrar_menu/modificar_tipo_menu/<int:id>',mod_tipos_menus, name='mod_tipos_menus'),
+    path('administrar_menu/modificar/<int:id>',modificar_menu, name='modificar_menu'),
+    path('administrar_menu/eliminar/<int:id>',eliminar_menu, name='eliminar_menu'),
+    path('administrar/menu/tipos_menus/',tipos_menus, name='tipos_menus'),
+    path('administrar/menu/tipos_menus/eliminar/<int:id>',eliminar_tipos_menus, name='eliminar_tipos_menus'),
 
     path('mesas/modificar/<int:id>',modificar_mesas, name='modificar_mesas'),
     path('mesas/',admin_mesas, name='admin_mesas'),
