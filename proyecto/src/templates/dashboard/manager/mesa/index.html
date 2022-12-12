@@ -28,9 +28,11 @@
                                 <td> {{ m.2 }}  </td>
                                 <td> {{ m.3 }}  </td>
 
-                                <td  class="d-flex justify-content-between btn-group" role="group"> 
-                                    <a name="" id="" class="btn btn-info" href=" {% url 'modificar_mesas' m.0 %} " role="button">Modificar</a> 
-                                    <a name="" id="" class="btn btn-danger" href=" {% url 'eliminar_mesa' m.0 %} " role="button">Eliminar</a></td>
+                                <td> 
+                                    <div class="d-flex justify-content-between btn-group" role="group">
+                                        <a name="" id="" class="btn btn-warning" href=" {% url 'modificar_mesas' m.0 %} " role="button">Modificar</a> 
+                                        <a name="" id="" class="btn btn-danger" href=" {% url 'eliminar_mesa' m.0 %} " role="button">Eliminar</a></td>
+                                    </div>
                                 </tr>
                         {% endfor %} 
                         </tbody>

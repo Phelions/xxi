@@ -1,5 +1,6 @@
 {% extends 'dashboard/manager/base.html' %}
 {% block admin-contenido %}
+{% load humanize %}
 
 <section>
     <div class="container">
@@ -34,12 +35,13 @@
                                 <td>{{ m.porcion }}</td>
                                 <td>{{ m.tiempo }}</td>
                                 <td>{{ m.detalle }}</td>
-                                <td>{{ m.precio }}</td>
-                                
-                            
-                                <td  class="d-flex justify-content-between btn-group" role="group"> 
-                                    <a name="" id="" class="btn btn-info" href="{% url 'modificar_menu' m.id_menu %} " role="button">Modificar</a> 
-                                    <a name="" id="" class="btn btn-danger" href=" {% url 'eliminar_menu' m.id_menu %} " role="button">Eliminar</a></td>
+                                <td>${{ m.precio | intcomma }}</td>
+
+                                <td> 
+                                    <div class="d-flex justify-content-between btn-group" role="group">
+                                        <a name="" id="" class="btn btn-info" href="{% url 'modificar_menu' m.id_menu %} " role="button">Modificar</a> 
+                                        <a name="" id="" class="btn btn-danger" href=" {% url 'eliminar_menu' m.id_menu %} " role="button">Eliminar</a></td>
+                                    </div>
                                 </tr>
                         {% endfor %}
                         </tbody>

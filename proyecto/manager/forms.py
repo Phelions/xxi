@@ -4,7 +4,24 @@ from account.models import Usuario, Empleado
 from manager.models import Mesa , EstadoMesa, Menu, TipoMenu, AccountEmpleado, AccountUsuario
 from crispy_forms.helper import FormHelper
 
-    
+TURNO = [
+    ('Full-Time', 'Full-Time'),
+]
+
+ROL = [
+    ('Mesa', 'Mesa'),
+]
+
+
+class UsuarioMesaForm(forms.ModelForm):
+    usuario = forms.ModelChoiceField(queryset=Usuario.objects.all().filter(first_name='mesa'), required=True)
+    rol = forms.ChoiceField(choices=ROL, widget=forms.HiddenInput())
+    turno = forms.ChoiceField(choices=TURNO, initial='Full-Time', widget=forms.HiddenInput())
+    hora_entrada = forms.TimeField(required=True, label="Hora Entrada")
+    hora_salida = forms.TimeField(required=True, label="Hora Salida")
+    class Meta:
+        model = Empleado
+        fields = ['usuario','rol','turno','hora_entrada','hora_salida']
 
 
 class SignupEmployeeForm(UserCreationForm):

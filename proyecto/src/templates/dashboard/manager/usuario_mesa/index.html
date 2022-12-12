@@ -7,8 +7,7 @@
     <div class="container">
         <div class="card">
             <div class="card-header">
-                <a name="" id="" class="btn btn-success" href="{% url 'crear_empleado' %}" role="button">Agregar Empleado</a>
-                <a name="" id="" class="btn btn-success" href=" {% url 'usuario_mesa' %} " role="button">Usuarios Mesa</a>
+                <a name="" id="" class="btn btn-success" href="{% url 'crear_usuario_mesa' %}" role="button">Agregar Usuarios Mesa</a>
 
             </div>
             <div class="card-body">
@@ -23,14 +22,11 @@
                                 <th scope="col">Correo</th>
                                 <th scope="col">Celular</th>
                                 <th scope="col">Rol</th>
-                                <th scope="col">Hora Entrada</th>
-                                <th scope="col">Hora Salida</th>
-                                <th scope="col">Turno</th>
                                 <th scope="col">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                        {% for e in empleados %}
+                        {% for e in usr_mesas %}
                             <tr>
                                 <td>{{ e.0 }}</td>
                                 <td>{{ e.1 }}</td>
@@ -39,15 +35,11 @@
                                 <td>{{ e.4 }}</td>
                                 <td>{{ e.5 }}</td>
                                 <td>{{ e.6 }}</td> 
-                                <td>{{ e.7 }}</td> 
-                                <td>{{ e.8 }}</td> 
-                                <td>{{ e.9 }}</td> 
                                 <td >
                                     <div class="d-flex justify-content-between btn-group" role="group">
-                                        <a name="" id="" class="btn btn-warning" href=" {% url 'modificar' e.0 %} " role="button">Modificar</a>
+                                        <a name="" id="" class="btn btn-warning" href=" {% url 'modificar_usuario_mesa' e.0 %} " role="button">Modificar</a>
                                         <a name="" id="" class="btn btn-danger" href="{% url 'eliminar' e.0 %}" role="button">Eliminar</a>
                                     </div>
-
                                 </td>
                             </tr>
                         {% endfor %}

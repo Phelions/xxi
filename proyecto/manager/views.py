@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from .forms import SignupEmployeeForm, EmployeeForm , MenuForm, TipoMenuForm, MesasForm, TurForm
+from .forms import SignupEmployeeForm, EmployeeForm , MenuForm, TipoMenuForm, MesasForm, TurForm, UsuarioMesaForm
 from account.forms import SignupForm
 from manager.models import AccountUsuario
 from django.db import connection
@@ -8,9 +8,91 @@ from account.models import Usuario, Empleado
 from .models import  Mesa, Menu, TipoMenu
 
 
-
-
 # Create your views here.
+
+@login_required
+def modificar_usuario_mesa(request, id):
+    if request.user.is_employee and request.user.empleado.rol == 'Admin':
+        msg=None
+        if request.method =='POST':
+            usuario = Empleado.objects.get(usuario_id=id)
+            form = UsuarioMesaForm(request.POST or None,instance=usuario)
+            if form.is_valid():
+                form.save()
+                msg = 'Usuario mesa modificado correctamente'
+                return redirect('usuario_mesa')
+            else:
+                msg = 'Error al modificar el usuario mesa'
+        else:
+            usuario = Empleado.objects.get(usuario_id=id)
+            form = UsuarioMesaForm(instance=usuario)
+        return render(request, 'dashboard/manager/usuario_mesa/modificar.html',{'form':form, 'msg':msg})
+    else:
+        msg = {'msg':'No tiene permisos para acceder a esta sección'}
+        return render(request, 'accounts/request.html', msg)
+
+
+@login_required
+def crear_usuario_mesa(request):
+    if request.user.is_employee and request.user.empleado.rol == 'Admin':
+        msg=None
+        if request.method =='POST':
+            form = SignupEmployeeForm(request.POST)
+            if form.is_valid():
+                form.save(commit=False)
+                form.instance.is_employee = True
+                form.save()
+                msg = 'Usuario mesa creado correctamente'
+                return redirect('ingresar_usuario_mesa')
+            else:
+                msg = 'Error al crear Usuario mesa'
+        else:
+             form = SignupEmployeeForm()
+        return render(request, 'dashboard/manager/usuario_mesa/crear.html',{'form':form, 'msg':msg})
+    else:
+        msg = {'msg':'No tiene permisos para acceder a esta sección'}
+        return render(request, 'accounts/request.html', msg)
+
+@login_required
+def ingresar_usuario_mesa(request):
+    if request.user.is_employee and request.user.empleado.rol == 'Admin':
+        msg=None
+        if request.POST:
+            form = UsuarioMesaForm(request.POST)
+            if form.is_valid():
+                form.save()
+                msg = 'Usuario mesa ingresado correctamente'
+                return redirect('usuario_mesa')
+            else:
+                msg = 'Error al ingresar el usuario mesa'
+        else:
+            form = UsuarioMesaForm(request.POST)
+        return render(request, 'dashboard/manager/usuario_mesa/ingresar_usuario_mesa.html',{'form':form, 'msg':msg})
+    else:
+        msg = {'msg':'No tiene permisos para acceder a esta sección'}
+        return render(request, 'accounts/request.html', msg)
+
+
+@login_required
+def usuario_mesa(request):
+    if request.user.is_employee and request.user.empleado.rol == 'Admin':
+        data = {
+            'usr_mesas': listar_usuarios_mesa()
+        }
+        return render(request, 'dashboard/manager/usuario_mesa/index.html', data)
+    else:
+        msg = {'msg':'No tiene permisos para acceder a esta sección'}
+        return render(request, 'accounts/request.html', msg)
+
+
+def listar_usuarios_mesa():
+    with connection.cursor() as cursor:
+        cursor.execute("select * from public.fn_listar_usuario_mesa() ")
+        out_cur = cursor.fetchall()
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
 
 
 

@@ -35,8 +35,8 @@ def login(request):
                 login(request, user)
                 return redirect('reservas')
             elif user is not None and user.is_employee and user.empleado.rol == 'Mesa':
-                login(request, user)
-                return redirect('reservas')
+                django_login(request, user)
+                return redirect('res_mesa')
             else:
                 msg = 'Correos o contraseña incorrectos'
         else:

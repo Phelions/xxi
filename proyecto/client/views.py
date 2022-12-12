@@ -9,6 +9,13 @@ def index(request):
     return render(request, 'index.html')
 
 
+@login_required
+def res_mesa(request):
+    return render(request, 'dashboard/mesas/index.html')
+
+
+
+
 '''----Dashboard - cliente---'''
 
 
@@ -24,20 +31,18 @@ def menu(request):
         return render(request, 'accounts/request.html', msg)
     #return render(request, 'dashboard/client/menu.html')
     
-def add_reserva(id_usuario, id_mesa, fecha_hora):
-    django_cursor = connection.cursor()
-    cursor = django_cursor.connection.cursor()
-    salida = cursor.var(NUMBER)
-    cursor.callproc('SP_CREAR_RESERVA', [id_usuario, id_mesa, fecha_hora, salida])
-    return salida.getvalue()
+# def add_reserva(id_usuario, id_mesa, fecha_hora):
+#     django_cursor = connection.cursor()
+#     cursor = django_cursor.connection.cursor()
+#     salida = cursor.var(cx_Oracle.NUMBER)
+#     cursor.callproc('SP_CREAR_RESERVA', [id_usuario, id_mesa, fecha_hora, salida])
+#     return salida.getvalue()
 
 def listar_mesas(request):
     data = {
         'mesas': listado_estados_mesas,
     }
     return render(request, 'dashboard/client/crear.html', data)
-
-
 
 @login_required
 def crear_reserva(request):
@@ -46,13 +51,6 @@ def crear_reserva(request):
         if request.method == 'POST':
             form = ReservaForm(request.POST)
             if form.is_valid():
-                # form.save(commit=False)
-                # form.id_usuario = request.user.id_usuario
-                # id_usuario = form.cleaned_data['id_usuario']
-                # id_mesa = form.cleaned_data['id_mesa']
-                # fecha = form.cleaned_data['fecha']
-                # hora = form.cleaned_data['hora']
-                
                 obj = form.save(commit=False)
                 obj.id_usuario = request.user.id_usuario
                 obj.save()

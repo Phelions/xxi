@@ -2,11 +2,6 @@
 {% block admin-contenido %}
 
 
-
-
-
-
-
 <section>
     <div class="container">
         <div class="card">
@@ -38,9 +33,11 @@
                                 <td>{{ c.email }}</td>
                                 <td>{{ c.celular }}</td> 
                         
-                                <td class="d-flex justify-content-between btn-group" role="group"> 
-                                    <a name="" id="" class="btn btn-info" href="  {% url 'modificar_cliente' c.id_usuario %} " role="button">Modificar</a>
-                                    <a name="" id="" class="btn btn-danger" href="{% url 'eliminar_cliente' c.id_usuario %}" role="button">Eliminar</a></td>
+                                <td > 
+                                    <div class="d-flex justify-content-between btn-group" role="group">
+                                        <a name="" id="" class="btn btn-warning" href="  {% url 'modificar_cliente' c.id_usuario %} " role="button">Modificar</a>
+                                        <a name="" id="" class="btn btn-danger" href="{% url 'eliminar_cliente' c.id_usuario %}" role="button">Eliminar</a></td>
+                                    </div>
                                 </tr>
                         {% endfor %}
                         </tbody>

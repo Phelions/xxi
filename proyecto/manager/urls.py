@@ -1,8 +1,13 @@
 
 from django.urls import path
-from manager.views import  perfil_admin, listar_cliente, admin_mesas, crear_empleado, modificar_empleado , administrar_reservas, administrar_menu, administrar_inventario, empleados, eliminar_empleado, crear_mesas, ingresar_empleado, modificar_turno, administrar_menu, crear_menu, crear_tipo_menu, eliminar_mesa, edit_perfil, eliminar_cliente, modificar_cliente, mod_p_perfil, modificar_mesas, eliminar_menu,tipos_menus, eliminar_tipos_menus, modificar_menu, mod_tipos_menus
+from manager.views import  perfil_admin, listar_cliente, admin_mesas, crear_empleado, modificar_empleado , administrar_reservas, administrar_menu, administrar_inventario, empleados, eliminar_empleado, crear_mesas, ingresar_empleado, modificar_turno, administrar_menu, crear_menu, crear_tipo_menu, eliminar_mesa, edit_perfil, eliminar_cliente, modificar_cliente, mod_p_perfil, modificar_mesas, eliminar_menu,tipos_menus, eliminar_tipos_menus, modificar_menu, mod_tipos_menus, usuario_mesa, crear_usuario_mesa, ingresar_usuario_mesa, modificar_usuario_mesa
 
 urlpatterns = [
+    path('usuario_mesa/ingresar/',ingresar_usuario_mesa, name='ingresar_usuario_mesa'),
+    path('usuario_mesa/crear/',crear_usuario_mesa, name='crear_usuario_mesa'),
+    path('usuario_mesa/',usuario_mesa, name='usuario_mesa'),
+    path('usuario_mesa/modificar/<int:id>',modificar_usuario_mesa, name='modificar_usuario_mesa'),
+
     path('perfil_admin/editar/<int:id>',edit_perfil, name='edit_perfil'),
     path('perfil_admin/',perfil_admin, name='perfil_admin'),
     path('perfil_admin/modificar/<int:id>',mod_p_perfil, name='mod_p_perfil'),
