@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .forms import SignupEmployeeForm, EmployeeForm , MenuForm, TipoMenuForm, MesasForm, TurForm
 from account.forms import SignupForm
+from manager.models import AccountUsuario
 from django.db import connection
 from account.models import Usuario, Empleado
 from .models import  Mesa, Menu, TipoMenu

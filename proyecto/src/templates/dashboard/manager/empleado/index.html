@@ -10,13 +10,11 @@
                 <a name="" id="" class="btn btn-success" href="{% url 'crear_empleado' %}" role="button">Agregar Empleado</a>
             </div>
             <div class="card-body">
-        
                 <div class="table-responsive">
                     <table class="table table-light">
                         <thead>
                             <tr>
                                 <th scope="col">ID</th>
-
                                 <th scope="col">Rut</th>
                                 <th scope="col">Nombre</th>
                                 <th scope="col">Apellido</th>
@@ -26,7 +24,6 @@
                                 <th scope="col">Hora Entrada</th>
                                 <th scope="col">Hora Salida</th>
                                 <th scope="col">Turno</th>
-
                                 <th scope="col">Acciones</th>
                             </tr>
                         </thead>
@@ -45,8 +42,9 @@
                                 <td>{{ e.9 }}</td> 
                                 <td class="d-flex justify-content-between btn-group" role="group"> 
                                     <a name="" id="" class="btn btn-info" href=" {% url 'modificar' e.0 %} " role="button">Modificar</a>
-                                    <a name="" id="" class="btn btn-danger" href="{% url 'eliminar' e.0 %}" role="button">Eliminar</a></td>
-                                </tr>
+                                    <a name="" id="" class="btn btn-danger" href="{% url 'eliminar' e.0 %}" role="button">Eliminar</a>
+                                </td>
+                            </tr>
                         {% endfor %}
                         </tbody>
                     </table>

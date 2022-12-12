@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from account.models import Usuario, Empleado
-from manager.models import Mesa , EstadoMesa, Menu, TipoMenu, AccountEmpleado
+from manager.models import Mesa , EstadoMesa, Menu, TipoMenu, AccountEmpleado, AccountUsuario
 from crispy_forms.helper import FormHelper
 
     
