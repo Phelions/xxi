@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.db import connection
 from .forms import ReservaForm
-from manager.models import Reserva, EstadoMesa, Mesa
+from manager.models import Reserva, EstadoMesa, Mesa, AccountUsuario
 # Create your views here.
 
 def index(request):
@@ -53,7 +53,9 @@ def crear_reserva(request):
                 # fecha = form.cleaned_data['fecha']
                 # hora = form.cleaned_data['hora']
                 
-                form.save()
+                obj = form.save(commit=False)
+                obj.id_usuario = request.user.id_usuario
+                obj.save()
                 msg = 'Reserva ingresada correctamente'
                 return redirect('reservas')
             else:

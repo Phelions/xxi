@@ -34,6 +34,9 @@ def login(request):
             elif user is not None and user.is_employee and user.empleado.rol == 'Finanza':
                 login(request, user)
                 return redirect('reservas')
+            elif user is not None and user.is_employee and user.empleado.rol == 'Mesa':
+                login(request, user)
+                return redirect('reservas')
             else:
                 msg = 'Correos o contraseña incorrectos'
         else:

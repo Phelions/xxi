@@ -15,9 +15,9 @@
                 {% endif %}
                 <div class="card">
                     <div class="card-body">
-                        {% comment %} {{ form | crispy }} {% endcomment %}
+                        {{ form | crispy }}
                         
-                        <div class="mb-3">
+                        {% comment %} <div class="mb-3">
                             <label for="" class="form-label">id usuario</label>
                             <input type="number" name="id_usuario" value="{{form.instance.id_usuario}}"  id="id_usuario" class="form-control" >
                         </div>
@@ -29,7 +29,7 @@
                         </div>
                         <div class="mb-3">
                             {{form.hora | as_crispy_field }}
-                        </div>
+                        </div> {% endcomment %}
                         <div class="d-flex justify-content-between btn-group" role="group">
                             <button class=" btn  btn-warning" type="submit">Reservar</button>
                             <a type="button" href=" {% url 'reservas' %} " class="btn btn-danger">Cancelar</a>
