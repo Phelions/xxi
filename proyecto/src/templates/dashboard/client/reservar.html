@@ -16,25 +16,10 @@
                 <div class="card">
                     <div class="card-body">
                         {{ form | crispy }}
-                        
-                        {% comment %} <div class="mb-3">
-                            <label for="" class="form-label">id usuario</label>
-                            <input type="number" name="id_usuario" value="{{form.instance.id_usuario}}"  id="id_usuario" class="form-control" >
-                        </div>
-                          <div class="mb-3">
-                            {{form.id_mesa | as_crispy_field }}
-                        </div>
-                        <div class="mb-3">
-                            {{form.fecha | as_crispy_field }}
-                        </div>
-                        <div class="mb-3">
-                            {{form.hora | as_crispy_field }}
-                        </div> {% endcomment %}
                         <div class="d-flex justify-content-between btn-group" role="group">
-                            <button class=" btn  btn-warning" type="submit">Reservar</button>
+                            <button class=" btn btn-warning" type="submit">Reservar</button>
                             <a type="button" href=" {% url 'reservas' %} " class="btn btn-danger">Cancelar</a>
                         </div>
-                        
                     </div>
                     <div class="card-footer text-muted">
                     </div>
