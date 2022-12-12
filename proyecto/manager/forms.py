@@ -71,7 +71,7 @@ ESTADO_MESA = [
 
 class MesasForm(forms.ModelForm):
     id_mesa = forms.IntegerField(required=True, label="N° Mesa")
-    id_est_me = forms.ChoiceField(choices=ESTADO_MESA,label="Estado de la mesa", required=True)
+    id_est_me = forms.ModelChoiceField(label="Estado de la mesa", required=True, queryset=EstadoMesa.objects.all())
     capacidad = forms.IntegerField(label="Capacidad de personas",required=True)
     id_empleado = forms.ModelChoiceField(queryset=AccountEmpleado.objects.all(), required=True, label="Empleado encargado")
     class Meta:
