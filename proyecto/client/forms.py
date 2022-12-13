@@ -15,3 +15,10 @@ class ReservaForm(ModelForm):
     class Meta:
         model = Reserva
         fields = ['id_usuario','id_mesa', 'fecha','hora']
+
+
+class res_login_mesas(ModelForm):
+    rut = forms.CharField(required=True, label="Rut", widget=TextInput(attrs={'placeholder':'Rut', 'min':'100000000', 'max':'999999999', 'step':'1' ,'title':'9 numeros - rut sin puntos y guion, remplace "K" por 0'}))
+    class Meta:
+        model = AccountUsuario
+        fields = ['rut']

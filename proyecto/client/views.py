@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.db import connection
-from .forms import ReservaForm
+from .forms import ReservaForm, res_login_mesas
 from manager.models import Reserva, EstadoMesa, Mesa, AccountUsuario
 # Create your views here.
 
@@ -11,9 +11,8 @@ def index(request):
 
 @login_required
 def res_mesa(request):
-    if request.user.is_employee:
-        
-        return render(request, 'dashboard/mesas/index.html')
+    if request.user.is_employee and request.user.empleado.rol == 'Mesa':
+        return render(request, 'dashboard/mesas/carrito/index.html')
     else:
         msg = {'msg':'No tiene permisos para acceder a esta sección'}
         return render(request, 'accounts/request.html', msg)

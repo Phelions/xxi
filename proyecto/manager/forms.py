@@ -87,7 +87,7 @@ ESTADO_MESA = [
 
 
 class MesasForm(forms.ModelForm):
-    id_mesa = forms.IntegerField(required=True, label="N° Mesa")
+    id_mesa = forms.IntegerField(required=True, label="N° Mesa", widget= forms.NumberInput(attrs={'min':'1', 'max':'1000'}))
     id_est_me = forms.ModelChoiceField(label="Estado de la mesa", required=True, queryset=EstadoMesa.objects.all())
     capacidad = forms.IntegerField(label="Capacidad de personas",required=True)
     id_empleado = forms.ModelChoiceField(queryset=AccountEmpleado.objects.all(), required=True, label="Empleado encargado")
@@ -97,7 +97,7 @@ class MesasForm(forms.ModelForm):
         
         
 class MenuForm(forms.ModelForm):
-    id_menu = forms.IntegerField(required=True, label="N° Menu")
+    id_menu = forms.IntegerField(required=True, label="N° Menu", widget= forms.NumberInput(attrs={'min':'1', 'max':'500'}))
     id_tipo_m = forms.ModelChoiceField(queryset=TipoMenu.objects.all(),label="Tipo de menu", required=True)
     nombre_m = forms.CharField(required=True, label="Nombre")
     precio = forms.IntegerField(required=True, label="Precio")
@@ -106,7 +106,7 @@ class MenuForm(forms.ModelForm):
         fields = ['id_menu','id_tipo_m','nombre_m','detalle','porcion','tiempo','precio']
 
 class TipoMenuForm(forms.ModelForm):
-    id_tipo_m = forms.IntegerField(required=True, label="N° Menu")
+    id_tipo_m = forms.IntegerField(required=True, label="N° Menu",  widget= forms.NumberInput(attrs={'min':'1', 'max':'500'}))
     descripcion = forms.CharField(required=True, label="PLato, Bebida, Postre, etc")
     class Meta:
         model = TipoMenu

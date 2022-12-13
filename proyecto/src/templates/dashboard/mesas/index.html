@@ -77,17 +77,11 @@
       {% endif %}
       {{ field.errors }}
 			<div class="form-floating">
-				<input type="number" class="form-control" id="floatingInput" title="sdaffd" required=True placeholder="123456789" name="rut" min="100000000" max="999999999" >
+				<input type="number" class="form-control" id="rut" title="rut" required=True placeholder="123456789" name="rut" min="100000000" max="999999999" >
 				<label for="floatingInput">Rut</label>
 			</div>
         <br>
-			<button class="w-100 btn btn-lg btn-primary" type="submit">Ingresar</button>
-			{% comment %} <div class="mt-2 mb-3" >
-				<a class="text-muted" href=" {% url 'signup' %} ">No esta registrado ? Registrate</a>
-			</div>
-			<div class="mt-2 mb-3" >
-				<a class="text-muted" href=" {% url 'index' %} ">Volver al Inicio</a>
-			</div> {% endcomment %}
+        <a name="" id="rut" class="w-100 btn btn-lg btn-primary" href="#" role="button">Ingresar</a>
 
 
 			<p class="mt-5 mb-3 text-muted">Restaurante Siglo-xxi &copy; 2022–2023</p>
@@ -95,5 +89,7 @@
 
 
 	</main>
+
+
   </body>
 </html>

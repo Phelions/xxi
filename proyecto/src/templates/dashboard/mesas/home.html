@@ -3,7 +3,7 @@
 
 {% block mesas-contenido %}
 
-{% if not mesas %}
+{% comment %} {% if not mesas %}
     <div class="alert alert-info">
         <p>No hay mesas disponibles.</p>
     </div>
@@ -27,6 +27,6 @@
             {% endfor %}
         </tbody>
     </table>
-{% endif %}
+{% endif %} {% endcomment %}
 
 {% endblock mesas-contenido %}
