@@ -15,8 +15,8 @@ def modificar_usuario_mesa(request, id):
     if request.user.is_employee and request.user.empleado.rol == 'Admin':
         msg=None
         if request.method =='POST':
-            usuario = Empleado.objects.get(usuario_id=id)
-            form = UsuarioMesaForm(request.POST or None,instance=usuario)
+            usuario = Usuario.objects.get(id_usuario=id)
+            form = SignupEmployeeForm(request.POST or None,instance=usuario)
             if form.is_valid():
                 form.save()
                 msg = 'Usuario mesa modificado correctamente'
@@ -24,9 +24,9 @@ def modificar_usuario_mesa(request, id):
             else:
                 msg = 'Error al modificar el usuario mesa'
         else:
-            usuario = Empleado.objects.get(usuario_id=id)
-            form = UsuarioMesaForm(instance=usuario)
-        return render(request, 'dashboard/manager/usuario_mesa/modificar.html',{'form':form, 'msg':msg})
+            usuario = Usuario.objects.get(id_usuario=id)
+            form = SignupEmployeeForm(instance=usuario)
+        return render(request, 'dashboard/manager/usuario_mesa/modificar_usuario_mesa.html',{'form':form, 'msg':msg})
     else:
         msg = {'msg':'No tiene permisos para acceder a esta sección'}
         return render(request, 'accounts/request.html', msg)

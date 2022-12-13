@@ -8,10 +8,10 @@
     <div class="container pb-5">
         <div class="card">
             <div class="card-header">
-                Modificar Empleado
+                Modificar Mesa
             </div>
             <div class="card-body">
-                <h4 class="card-title text-center">Datos del Empleado</h4>
+                <h4 class="card-title text-center">Datos de la mesa</h4>
                 <form action="" method="POST" class="row g-3">
                     {% csrf_token %}
                     {% if msg %}
@@ -26,7 +26,6 @@
                     </div>
                     <div class="d-flex justify-content-between btn-group" role="group">
                         <button class="btn btn-success" type="submit">Modificar</button>
-                        <a name="" id="" class="btn btn-info" href=" {% url 'modificar_turno' form.id_usuario.value %} " role="button">Modificar turnos</a> 
                         <a type="button" href=" {% url 'usuario_mesa' %} " class="btn btn-danger">Cancelar</a>
                     </div>
                   

@@ -1,26 +1,99 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dash-Pedidos</title>
-</head>
-<body>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Signin Template · Bootstrap v5.2</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    {% load static %}
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+
+      .b-example-divider {
+        height: 3rem;
+        background-color: rgba(0, 0, 0, .1);
+        border: solid rgba(0, 0, 0, .15);
+        border-width: 1px 0;
+        box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+      }
+
+      .b-example-vr {
+        flex-shrink: 0;
+        width: 1.5rem;
+        height: 100vh;
+      }
+
+      .bi {
+        vertical-align: -.125em;
+        fill: currentColor;
+      }
+
+      .nav-scroller {
+        position: relative;
+        z-index: 2;
+        height: 2.75rem;
+        overflow-y: hidden;
+      }
+
+      .nav-scroller .nav {
+        display: flex;
+        flex-wrap: nowrap;
+        padding-bottom: 1rem;
+        margin-top: -1px;
+        overflow-x: auto;
+        text-align: center;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+      }
+    </style>
+
     
-    <section>
-        <div class="container">
-            .<div class="card">
-                <div class="card-body">
-                    <div class="mb-3">
-                        <h4 class="card-title">Ingrese su RUT</h4>
-                        <input type="text"
-                            class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
-                        <small id="helpId" class="form-text text-muted">Help text</small>
-                    </div>
-                </div>
-            </div>
+    <!-- Custom styles for this template -->
+    <link href=" {% static 'accounts/signin.css' %}" rel="stylesheet">
+  </head>
+  <body class="text-center">
+	<main class="form-signin w-100 m-auto">
+		<form action="" method="post">
+			{% csrf_token %}
+			<h1 class="h3 mb-3 fw-normal">Ingrese su Rut</h1>
+      {% if msg %}
+        <div class="alert alert-danger" role="alert">
+          <h5>{{ msg }}</h5>
         </div>
-    </section>
-</body>
+      {% endif %}
+      {{ field.errors }}
+			<div class="form-floating">
+				<input type="number" class="form-control" id="floatingInput" title="sdaffd" required=True placeholder="123456789" name="rut" min="100000000" max="999999999" >
+				<label for="floatingInput">Rut</label>
+			</div>
+        <br>
+			<button class="w-100 btn btn-lg btn-primary" type="submit">Ingresar</button>
+			{% comment %} <div class="mt-2 mb-3" >
+				<a class="text-muted" href=" {% url 'signup' %} ">No esta registrado ? Registrate</a>
+			</div>
+			<div class="mt-2 mb-3" >
+				<a class="text-muted" href=" {% url 'index' %} ">Volver al Inicio</a>
+			</div> {% endcomment %}
+
+
+			<p class="mt-5 mb-3 text-muted">Restaurante Siglo-xxi &copy; 2022–2023</p>
+		</form>
+
+
+	</main>
+  </body>
 </html>

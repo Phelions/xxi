@@ -1,0 +1,32 @@
+{% extends 'dashboard/mesas/base.html' %}
+
+
+{% block mesas-contenido %}
+
+{% if not mesas %}
+    <div class="alert alert-info">
+        <p>No hay mesas disponibles.</p>
+    </div>
+{% else %}
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for mesa in mesas %}
+                <tr>
+                    <td>{{ mesa.nombre }}</td>
+                    <td>
+                        <a href="{{ url_for('dashboard.mesas.editar', mesa_id=mesa.id) }}" class="btn btn-primary btn-xs">Editar</a>
+                        <a href="{{ url_for('dashboard.mesas.eliminar', mesa_id=mesa.id) }}" class="btn btn-danger btn-xs">Eliminar</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+
+{% endblock mesas-contenido %}
