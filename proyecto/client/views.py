@@ -11,7 +11,12 @@ def index(request):
 
 @login_required
 def res_mesa(request):
-    return render(request, 'dashboard/mesas/index.html')
+    if request.user.is_employee:
+        
+        return render(request, 'dashboard/mesas/index.html')
+    else:
+        msg = {'msg':'No tiene permisos para acceder a esta sección'}
+        return render(request, 'accounts/request.html', msg)
 
 
 
