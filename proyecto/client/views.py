@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.db import connection
+from manager.models import Menu, TipoMenu, EstadoMesa, Mesa, Reserva, AccountUsuario
 from .forms import ReservaForm, res_login_mesas
 from manager.models import Reserva, EstadoMesa, Mesa, AccountUsuario
 # Create your views here.
@@ -8,11 +9,21 @@ from manager.models import Reserva, EstadoMesa, Mesa, AccountUsuario
 def index(request):
     return render(request, 'index.html')
 
+def listado_menus():
+    menu = Menu.objects.select_related("id_tipo_m").order_by('id_menu')
+    lista = []
+    for fila in menu:
+        lista.append(fila)
+    return lista
+
 
 @login_required
 def res_mesa(request):
     if request.user.is_employee and request.user.empleado.rol == 'Mesa':
-        return render(request, 'dashboard/mesas/carrito/index.html')
+        data = {
+            'menu': listado_menus(),
+        }
+        return render(request, 'dashboard/mesas/carrito/index.html', data)
     else:
         msg = {'msg':'No tiene permisos para acceder a esta sección'}
         return render(request, 'accounts/request.html', msg)

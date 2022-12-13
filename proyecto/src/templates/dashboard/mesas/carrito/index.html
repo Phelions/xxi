@@ -1,57 +1,9 @@
 {% extends 'dashboard/mesas/base.html' %}
-
-
+{% load unicorn %}
+{% load humanize %}
 {% block mesas-contenido %}
 
-<section class="w-100">
-    <div class="container pt-5">
-        <div class="row">
-            <div class="col-12">
-                <h1 class="text-center">Añada el plato o bebestible </h1>
-            </div>
-        </div>
-        <div class="row row-cols-1 row-cols-md-2 text-center pt-5">
+{% unicorn 'carrito' user=request.user.last_name m=menu %}
 
-            <div class="col mb-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Titulo menu</h5>
-                        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to
-                            additional content. This content is a little bit longer.</p>
-                        <p class="card-text">
-                            <small class="text-muted">Porcion 1</small>
-                            <br>
-                            <small class="text-muted">Tiempo preparación 3 minutos</small>
-                        </p>
-                        <p>$3.333</p>
-                    </div>
-                    <div class="card-footer bg-transparent "><a href="#" class="btn btn-primary">Añadir</a></div>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="row text-center">
-          <div class="col-sm-6 pt-5">
-            <div class="card">
-              <div class="card-body">
-                <h3 class="card-title">Contenidos añadido</h3>
-                <p class="card-text">palto - blabla</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-6 pt-5 pb-5">
-            <div class="card">
-              <div class="card-body">
-                <h3 class="card-title">Total</h3>
-                <p class="card-text">Detalles</p>
-              </div>
-            </div>
-          </div>
-        </div>
-    </div>
-
-
-</section>
 
 {% endblock mesas-contenido %}
