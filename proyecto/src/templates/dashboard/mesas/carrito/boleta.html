@@ -1,0 +1,52 @@
+{% extends 'dashboard/mesas/base.html' %}
+
+{% load humanize %}
+{% block mesas-contenido %}
+
+<section>
+    <div class="container  mx-auto mt-4">
+        <div class="grid grid-cols-3 gap-4  m-12" >
+            <div class=" col-span-2">
+                
+                <h2 class="font-medium leading-tight text-center text-4xl mt-0 mb-4 text-blue-600">Boleta</h2>
+                <form action="" method="post">
+                <div class="flex flex-wrap">
+    
+                    {% for m in menus %}
+                        <div class=" max-w-sm p-6 block  bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
+                            
+                            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ m.nombre_m }}</h5>
+                            
+                            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Detalles: {{ m.detalle }}</p>
+                            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Tiempo de preparación: {{ m.tiempo }}</p>
+                            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Porcion: {{ m.porcion }}</p>
+    
+                            <div class="flex justify-between">
+                                <p class="font-normal text-gray-700 dark:text-gray-400">Precio: ${{ m.precio | intcomma }}</p>
+    
+                                <a href="{% url 'agregar_pedido' m.id_menu %}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                    Añadir al carrito
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+    
+                </div>
+                </form>
+            </div>
+                <div>
+                <h2 class="font-medium leading-tight  text-center text-4xl mt-0 mb-4 text-blue-600">Metodos de Pago</h2>
+                
+                    <div class="flex flex-col justify-between block p-6 rounded-lg shadow-lg bg-white">
+                    
+                        <div class="flex justify-between">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock mesas-contenido %}

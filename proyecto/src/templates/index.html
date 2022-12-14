@@ -48,6 +48,12 @@
                                     {% if user.is_client %}
                                         <li class="nav-item"><a class="nav-link link-warning" href=" {% url 'reservas' %} ">INGRESAR</a></li>
                                     {% endif %}
+                                    {% if user.is_employee and user.empleado.rol == 'Mesa' %}
+                                        <li class="nav-item"><a class="nav-link link-warning" href=" {% url 'usuario_mesa' %} ">Ingresar</a></li>
+                                    {% endif %}
+                                    {% if user.is_employee and user.empleado.rol == 'Cocina' %}
+                                        <li class="nav-item"><a class="nav-link link-warning" href=" {% url 'cocina' %} ">Ingresar</a></li>
+                                    {% endif %}
                                 {% else %}
                                     <li class="nav-item"><a class="nav-link link-warning" href=" {% url 'login' %} ">INGRESAR</a></li>
 

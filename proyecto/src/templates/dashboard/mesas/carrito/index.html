@@ -1,9 +1,158 @@
 {% extends 'dashboard/mesas/base.html' %}
-{% load unicorn %}
+
 {% load humanize %}
 {% block mesas-contenido %}
+<div class="container">
+    <header
+        class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between  py-3 mb-4 border-0">
+        <a href="{% url 'res_mesa' %}" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+            <span style="font-weight: normal !important; color: rgb(0, 0, 0);"> Inicio
 
-{% unicorn 'carrito' user=request.user.last_name m=menu %}
 
+                <use xlink:href="#bootstrap" />
+            </span>
+        </a>
+
+
+
+        <div class="col-md-3 text-end">
+
+            <a href=" {% url 'logout' %} " type="button" class="btn btn-warning">Cerrar sesión</a>
+        </div>
+    </header>
+</div>
+<section>
+    <div class="container  mx-auto mt-4">
+        <div class="grid grid-cols-3 gap-4  m-12" >
+            <div class=" col-span-2">
+                <a href="{% url 'crear_pedido' %}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    Crear Pedido
+                </a>
+                <h2 class="font-medium leading-tight text-center text-4xl mt-0 mb-4 text-blue-600">Menu</h2>
+                <form action="" method="post">
+                <div class="flex flex-wrap">
+    
+                    {% for m in menus %}
+                        <div class=" max-w-sm p-6 block  bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
+                            
+                            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ m.nombre_m }}</h5>
+                            
+                            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Detalles: {{ m.detalle }}</p>
+                            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Tiempo de preparación: {{ m.tiempo }}</p>
+                            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Porcion: {{ m.porcion }}</p>
+    
+                            <div class="flex justify-between">
+                                <p class="font-normal text-gray-700 dark:text-gray-400">Precio: ${{ m.precio | intcomma }}</p>
+    
+                                <a href="{% url 'agregar_pedido' m.id_menu %}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                    Añadir al carrito
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+    
+                </div>
+                </form>
+            </div>
+             <div>
+                <h2 class="font-medium leading-tight  text-center text-4xl mt-0 mb-4 text-blue-600">Carrito</h2>
+                {% if carrito %}
+                
+
+                    <div class="flex flex-col justify-between block p-6 rounded-lg shadow-lg bg-white">
+                    {% for c in carrito %}
+                        <div class="flex justify-between">
+                            <p>
+                                {{c.0}} x <b>{{c.1}}</b>
+                            </p>
+                            <p>
+                                <span>${{c.2 | intcomma}}</span>
+                                <button class="ml-2 bg-red-500 hover:bg-red-700 text-white font-bold px-1 rounded">
+                                    <a href="{% url 'eliminar_pedido_menu' c.3 %}">X</a>
+                                </button>
+                            </p>
+                        </div>
+                    {% endfor %}
+                    {% for t in total %}
+                        <div class="mt-2 border-t-2">
+                            <div class="mt-2 flex justify-between">
+                                <p class="font-bold">TOTAL:</p>
+                                <p class="font-bold " id="Total" value="{{ t.0 }}"><input type="hidden" id="Total" value="{{ t.0 }}">${{ t.0 | intcomma }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                          <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Efectivo</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                          <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Tarjeta</button>
+                        </li>
+
+                      </ul>
+                      <div class="tab-content" id="pills-tabContent">
+                        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                            porfavor pase el dispositivo al garzon
+                        </div>
+                        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                            <div id="paypal-button-container"></div> 
+                        </div>
+                      </div>
+                {% else %}
+                    <div class="flex flex-col items-center justify-center h-full">
+                        <p class="text-2xl text-gray-600">No hay productos en el carrito</p>
+                    </div>
+                {% endif %}
+                
+             </div>
+         </div>
+    </div>
+</section>
 
 {% endblock mesas-contenido %}
+
+{% block scriptss %}
+
+  <!-- Replace "test" with your own sandbox Business account app client ID -->
+  <script src="https://www.paypal.com/sdk/js?client-id=Ae_BAr7Xj2vam33d47VRNDLsaKl8ftxA1YUlOj7T7R2veZrK7whkqERyKD8oCQO5DnrjoRw3ra-72T7i&locale=es_CL&enable-funding=mercadopago"></script>
+  <!-- Set up a container element for the button -->
+  <script type="text/javascript"> 
+    function getTotal(){
+      var total = document.getElementById("Total").value;
+      return total;
+    }
+ </script>
+ <script type="text/javascript" >
+    var Total = document.getElementById('Total').value;
+ </script>
+  <script>
+    paypal.Buttons({
+      // Sets up the transaction when a payment button is clicked
+      createOrder: (data, actions) => {
+        return actions.order.create({
+          purchase_units: [{
+            amount: {
+              value: '20.00', // Can also reference a variable or function 
+              currency: 'usd'
+            }
+          }]
+        });
+      },
+      // Finalize the transaction after payer approval
+      onApprove: (data, actions) => {
+        return actions.order.capture().then(function(orderData) {
+          // Successful capture! For dev/demo purposes:
+          console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+          const transaction = orderData.purchase_units[0].payments.captures[0];
+          alert(`Transaction ${transaction.status}: ${transaction.id}\n\nSee console for all available details`);
+          actions.innerHtml = "#";
+          // When ready to go live, remove the alert and show a success message within this page. For example:
+          const element = document.getElementById('paypal-button-container');
+          element.innerHTML = '<h3>¡Gracias por tu pago!</h3>';
+          // Or go to another URL:  actions.redirect('thank_you.html');
+        });
+      }
+    }).render('#paypal-button-container');
+  </script>
+{% endblock scriptss %}

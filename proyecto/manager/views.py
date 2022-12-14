@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from .forms import SignupEmployeeForm, EmployeeForm , MenuForm, TipoMenuForm, MesasForm, TurForm, UsuarioMesaForm
+from .forms import SignupEmployeeForm, EmployeeForm , MenuForm, TipoMenuForm, MesasForm, TurForm, UsuarioMesaForm, RecetaForm
 from account.forms import SignupForm
-from manager.models import AccountUsuario
+from manager.models import AccountUsuario, AccountEmpleado
 from django.db import connection
 from account.models import Usuario, Empleado
 from .models import  Mesa, Menu, TipoMenu
@@ -515,3 +515,25 @@ def ver(request):
         return render(request, 'accounts/request.html', msg)
     #return render(request, 'dashboard/manager/ver.html')
 '''----Dashboard - admin - FIN ---'''
+
+def receta(request):
+    if request.user.is_employee and request.user.empleado.rol == 'Cocina':
+        msg=None
+        
+        if request.method =='POST':
+            form = RecetaForm(request.POST)
+            if form.is_valid():
+                obj = form.save(commit=False)
+                obj.id_usuario = request.user.empleado.id_empleado
+                obj.save()
+                msg = 'Receta creada correctamente'
+                return redirect('cocina')
+            else:
+                msg = 'Error al crear receta'
+        else:
+            form = RecetaForm()
+        return render(request, 'dashboard/manager/cocina/receta.html',{'form':form,'msg':msg})
+    else:
+        msg = {'msg':'No tiene permisos para acceder a esta sección'}
+        return render(request, 'accounts/request.html', msg)
+

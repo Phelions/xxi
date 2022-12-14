@@ -1,10 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.db import connection
-from manager.models import Menu, TipoMenu, EstadoMesa, Mesa, Reserva, AccountUsuario
+from manager.models import Menu, TipoMenu, EstadoMesa, Mesa, Reserva, AccountUsuario, Menu
 from .forms import ReservaForm, res_login_mesas
-from manager.models import Reserva, EstadoMesa, Mesa, AccountUsuario
-from account.models import Usuario
 # Create your views here.
 
 def index(request):
@@ -17,20 +15,72 @@ def listado_menus():
         lista.append(fila)
     return lista
 
+@login_required
+def res_boleta(request):
+    if request.user.is_employee and request.user.empleado.rol == 'Boleta':
+        data = {
+            'menus': listado_menus(),
+        }
+        return render(request, 'dashboard/mesas/carrito/boleta.html', data)
+    else:
+        msg = {'msg':'No tiene permisos para acceder a esta sección'}
+        return render(request, 'accounts/request.html', msg)
 
 @login_required
 def res_mesa(request):
     if request.user.is_employee and request.user.empleado.rol == 'Mesa':
+        id_mesa = request.user.last_name
         data = {
-            'menu': listado_menus(),
+            'menus': listado_menus(),
+            'carrito': listado_pedido_menu(id_mesa),
+            'total': total(id_mesa),
         }
         return render(request, 'dashboard/mesas/carrito/index.html', data)
     else:
         msg = {'msg':'No tiene permisos para acceder a esta sección'}
         return render(request, 'accounts/request.html', msg)
 
+def agregar_pedido(request, id_menu):
+    if request.user.is_employee and request.user.empleado.rol == 'Mesa':
+        id_mesa = request.user.last_name
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT * FROM public.fn_agregar_pedido_menu(%s, %s)", [id_mesa, id_menu])
+            
+        return redirect('res_mesa')
+        
+def crear_pedido(request):
+    if request.user.is_employee and request.user.empleado.rol == 'Mesa':
+        id_mesa = request.user.last_name
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT * FROM public.fn_crear_pedido(%s)", [id_mesa])
+        return redirect('res_mesa')
+    
+def eliminar_pedido_menu(request, id_menu):
+    if request.user.is_employee and request.user.empleado.rol == 'Mesa':
+        id_mesa = request.user.last_name
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT * FROM public.fn_eliminar_pedido_menu(%s, %s)", [id_mesa, id_menu])
+        return redirect('res_mesa')            
 
+def listado_pedido_menu(id_mesa):
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT * FROM public.fn_listar_pedido_menu(%s)", [id_mesa])
+        out_cur = cursor.fetchall()
+        
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
 
+def total(id_mesa):
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT * FROM public.fn_total_neto_pedido(%s)", [id_mesa])
+        out_cur = cursor.fetchall()
+        
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
 
 '''----Dashboard - cliente---'''
 
@@ -68,7 +118,7 @@ def crear_reserva(request):
             form = ReservaForm(request.POST)
             if form.is_valid():
                 obj = form.save(commit=False)
-                obj.id_usuario = AccountUsuario.objects.get(pk=request.user.id_usuario)
+                obj.id_usuario = request.user.id_usuario
                 obj.save()
                 msg = 'Reserva ingresada correctamente'
                 return redirect('reservas')
@@ -77,25 +127,6 @@ def crear_reserva(request):
         else:
             form = ReservaForm(request.POST)
         return render(request, 'dashboard/client/reservar.html',{'form':form, 'msg':msg})
-    else:
-        msg = {'msg':'No tiene permisos para acceder a esta sección'}
-        return render(request, 'accounts/request.html', msg)
-
-@login_required
-def modificar_reserva(request,id):
-    if request.user.is_client:
-        reserva = Reserva.objects.get(id_reserva=id)
-        form = ReservaForm(request.POST or None,instance=reserva)
-        if form.is_valid() and request.POST:
-            obj = form.save(commit=False)
-            obj.id_usuario = AccountUsuario.objects.get(pk=request.user.id_usuario)
-            obj.id_reserva = Reserva.objects.get(pk = request.id_reserva)
-            form.save()
-            return redirect('reservas')
-        else:
-            reserva = Reserva.objects.get(id_reserva=id)
-            form = ReservaForm(instance=reserva)
-        return render(request, 'dashboard/client/modificar.html',{'form':form})
     else:
         msg = {'msg':'No tiene permisos para acceder a esta sección'}
         return render(request, 'accounts/request.html', msg)
@@ -129,12 +160,12 @@ def listado_estados_mesas():
         lista.append(data)
     return lista
 
-def eliminar_reserva(request, id):
-    menu = Reserva.objects.get(id_reserva=id)
-    menu.delete()
-    return redirect('reservas')
-
-
+def listado_mesas():
+    mesa = Mesa.objects.all()
+    lista = []
+    for fila in mesa:
+        lista.append(fila)
+    return lista
 
 @login_required
 def perfil(request):

@@ -275,7 +275,8 @@ class Menu(models.Model):
     class Meta:
         managed = False
         db_table = 'menu'
-
+    def __str__(self):
+        return self.nombre_m
 
 class Mesa(models.Model):
     id_mesa = models.IntegerField(primary_key=True)
@@ -322,7 +323,7 @@ class Proveedor(models.Model):
 
 
 class Receta(models.Model):
-    id_receta = models.IntegerField(primary_key=True)
+    id_receta = models.AutoField(primary_key=True)
     id_empleado = models.ForeignKey(AccountEmpleado, models.DO_NOTHING, db_column='id_empleado')
     id_menu = models.ForeignKey(Menu, models.DO_NOTHING, db_column='id_menu')
     nombre_receta = models.CharField(max_length=100)
@@ -332,7 +333,8 @@ class Receta(models.Model):
     class Meta:
         managed = False
         db_table = 'receta'
-
+    def __str__(self):
+        return self.nombre_receta
 
 class Reserva(models.Model):
     id_reserva = models.AutoField(primary_key=True)

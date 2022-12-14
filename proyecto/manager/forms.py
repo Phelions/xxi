@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from account.models import Usuario, Empleado
-from manager.models import Mesa , EstadoMesa, Menu, TipoMenu, AccountEmpleado, AccountUsuario
+from manager.models import Mesa , EstadoMesa, Menu, TipoMenu, AccountEmpleado, AccountUsuario, Receta
 from crispy_forms.helper import FormHelper
 
 TURNO = [
@@ -113,4 +113,13 @@ class TipoMenuForm(forms.ModelForm):
         fields = ['id_tipo_m','descripcion']
 
 
-
+class RecetaForm(forms.ModelForm):
+    id_receta = forms.IntegerField(widget=forms.HiddenInput(),required=False)
+    id_empleado = forms.ModelChoiceField(queryset=AccountEmpleado.objects.all(), required=False, label="Empleado encargado",widget=forms.HiddenInput())
+    id_menu = forms.ModelChoiceField(queryset=Menu.objects.all(), required=True, label="Menu")
+    nombre_receta = forms.CharField(required=True, label="Nombre")
+    ingredientes = forms.CharField(required=True, label="Ingredientes")
+    preparacion = forms.CharField(required=True, label="Preparacion")
+    class Meta:
+        model = Receta
+        fields = ['id_receta', 'id_empleado','id_menu','nombre_receta','ingredientes','preparacion']

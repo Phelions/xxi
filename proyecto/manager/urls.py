@@ -1,6 +1,6 @@
 
 from django.urls import path
-from manager.views import  perfil_admin, listar_cliente, admin_mesas, crear_empleado, modificar_empleado , administrar_reservas, administrar_menu, administrar_inventario, empleados, eliminar_empleado, crear_mesas, ingresar_empleado, modificar_turno, administrar_menu, crear_menu, crear_tipo_menu, eliminar_mesa, edit_perfil, eliminar_cliente, modificar_cliente, mod_p_perfil, modificar_mesas, eliminar_menu,tipos_menus, eliminar_tipos_menus, modificar_menu, mod_tipos_menus, usuario_mesa, crear_usuario_mesa, ingresar_usuario_mesa, modificar_usuario_mesa, cocina, ver
+from manager.views import  perfil_admin, listar_cliente, admin_mesas, crear_empleado, modificar_empleado , administrar_reservas, administrar_menu, administrar_inventario, empleados, eliminar_empleado, crear_mesas, ingresar_empleado, modificar_turno, administrar_menu, crear_menu, crear_tipo_menu, eliminar_mesa, edit_perfil, eliminar_cliente, modificar_cliente, mod_p_perfil, modificar_mesas, eliminar_menu,tipos_menus, eliminar_tipos_menus, modificar_menu, mod_tipos_menus, usuario_mesa, crear_usuario_mesa, ingresar_usuario_mesa, modificar_usuario_mesa, cocina, ver, receta
 
 
 urlpatterns = [
@@ -42,7 +42,9 @@ urlpatterns = [
     path('administrar_menu/',administrar_menu, name='administrar_menu'),
     path('administrar_inventario/',administrar_inventario, name='administrar_inventario'),
 
+    path('receta/',receta, name='receta'),
     path('cocina/',cocina, name='cocina'),
     path('cocina/ver/pedido',ver, name='ver'),
+
 
 ]
