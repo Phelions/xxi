@@ -279,13 +279,13 @@ def modificar_turno(request,id):
 @login_required
 def modificar_empleado(request,id):
     if request.user.is_employee and request.user.empleado.rol == 'Admin':
-        empleado = Usuario.objects.get(id_usuario=id)
+        empleado = AccountUsuario.objects.get(id_usuario=id)
         form = SignupEmployeeForm(request.POST or None,instance=empleado)
         if form.is_valid() and request.POST:
             form.save()
             return redirect('empleados')
         else:
-            empleado = Usuario.objects.get(id_usuario=id)
+            empleado = AccountUsuario.objects.get(id_usuario=id)
             form = SignupEmployeeForm(instance=empleado)
         return render(request, 'dashboard/manager/empleado/modificar_empleado.html',{'form':form})
     else:

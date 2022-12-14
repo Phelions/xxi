@@ -1,0 +1,31 @@
+{% extends 'dashboard/client/base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block client-contenido %}
+<section>
+    <div class="container">
+        <div class="card mx-auto">
+            <form action="" method="POST"  class="row g-3">
+                {% csrf_token %}
+                {% if msg %}
+                    <div class="alert alert-danger" role="alert">
+                        <h5>{{ msg }}</h5>
+                    </div>
+                {% endif %}
+                <div class="card">
+                    <div class="card-body">
+                        {{ form | crispy }}
+                        <div class="d-flex justify-content-between btn-group" role="group">
+                            <button class=" btn btn-warning" type="submit">Modificar</button>
+                            <a type="button" href=" {% url 'reservas' %} " class="btn btn-danger">Cancelar</a>
+                        </div>
+                    </div>
+                    <div class="card-footer text-muted">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock client-contenido %}

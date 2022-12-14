@@ -22,8 +22,8 @@
                                 <th scope="col">N° reserva</th>
                                 <th scope="col">Rut</th>
                                 <th scope="col">N° mesa</th>
-                                <th scope="col">Estado</th>
-                                <th scope="col">Fecha y Hora</th>
+                                <th scope="col">Fecha</th>
+                                <th scope="col">Hora</th>
                                 <th scope="col">Garzon</th>
                                 <th scope="col">Acciones</th>
                             </tr>
@@ -33,15 +33,15 @@
                         {% for r in reservas %}
                             <tr>
                                 <td>{{ r.id_reserva }}</td>
-                                <td>{{ r.user.rut }}</td>
+                                <td>{{ r.id_usuario.rut }}</td>
                                 <td>{{ r.id_mesa }}</td>
-                                <td>{{ r.3 }}</td>
-                                <td>{{ r.fecha_hora }}</td>
-                                <td>{{ r.5 }}</td>
+                                <td>{{ r.fecha }}</td>
+                                <td>{{ r.hora }}</td>
+                                <td>{{ r.id_mesa.id_empleado }}</td>
                                 <td > 
                                     <div class="d-flex justify-content-between btn-group" role="group">
-                                        <a name="" id="" class="btn btn-info " href="#" role="button">Modificar</a> 
-                                        <a name="" id="" class="btn btn-danger" href="#" role="button">Eliminar</a>
+                                        <a name="" id="" class="btn btn-info " href=" {% url 'modificar_reserva' r.id_reserva %} " role="button">Modificar</a> 
+                                        <a name="" id="" class="btn btn-danger" href=" {% url 'eliminar_reserva' r.id_reserva %} " role="button">Eliminar</a>
                                     </div>
                                 </td>
                             </tr>

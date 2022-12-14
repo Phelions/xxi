@@ -4,6 +4,7 @@ from django.db import connection
 from manager.models import Menu, TipoMenu, EstadoMesa, Mesa, Reserva, AccountUsuario
 from .forms import ReservaForm, res_login_mesas
 from manager.models import Reserva, EstadoMesa, Mesa, AccountUsuario
+from account.models import Usuario
 # Create your views here.
 
 def index(request):
@@ -67,7 +68,7 @@ def crear_reserva(request):
             form = ReservaForm(request.POST)
             if form.is_valid():
                 obj = form.save(commit=False)
-                obj.id_usuario = request.user.id_usuario
+                obj.id_usuario = AccountUsuario.objects.get(pk=request.user.id_usuario)
                 obj.save()
                 msg = 'Reserva ingresada correctamente'
                 return redirect('reservas')
@@ -76,6 +77,25 @@ def crear_reserva(request):
         else:
             form = ReservaForm(request.POST)
         return render(request, 'dashboard/client/reservar.html',{'form':form, 'msg':msg})
+    else:
+        msg = {'msg':'No tiene permisos para acceder a esta sección'}
+        return render(request, 'accounts/request.html', msg)
+
+@login_required
+def modificar_reserva(request,id):
+    if request.user.is_client:
+        reserva = Reserva.objects.get(id_reserva=id)
+        form = ReservaForm(request.POST or None,instance=reserva)
+        if form.is_valid() and request.POST:
+            obj = form.save(commit=False)
+            obj.id_usuario = AccountUsuario.objects.get(pk=request.user.id_usuario)
+            obj.id_reserva = Reserva.objects.get(pk = request.id_reserva)
+            form.save()
+            return redirect('reservas')
+        else:
+            reserva = Reserva.objects.get(id_reserva=id)
+            form = ReservaForm(instance=reserva)
+        return render(request, 'dashboard/client/modificar.html',{'form':form})
     else:
         msg = {'msg':'No tiene permisos para acceder a esta sección'}
         return render(request, 'accounts/request.html', msg)
@@ -108,6 +128,13 @@ def listado_estados_mesas():
         }
         lista.append(data)
     return lista
+
+def eliminar_reserva(request, id):
+    menu = Reserva.objects.get(id_reserva=id)
+    menu.delete()
+    return redirect('reservas')
+
+
 
 @login_required
 def perfil(request):

@@ -1,4 +1,24 @@
 {% load humanize %}
+<div class="container">
+    <header
+        class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between  py-3 mb-4 border-0">
+        <a href="{% url 'res_mesa' %}" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+            <span style="font-weight: normal !important; color: rgb(0, 0, 0);"> Inicio
+
+
+                <use xlink:href="#bootstrap" />
+            </span>
+        </a>
+
+
+
+        <div class="col-md-3 text-end">
+
+            <a href=" {% url 'logout' %} " type="button" class="btn btn-warning">Cerrar sesión</a>
+        </div>
+    </header>
+</div>
+
 <div class="container  mx-auto mt-4">
     <div class="grid grid-cols-3 gap-4  m-12" >
         <div class=" col-span-2">
@@ -32,7 +52,7 @@
         </div>
          <div>
              <h2 class="font-medium leading-tight  text-center text-4xl mt-0 mb-4 text-blue-600">Carrito</h2>
-             {% if user_menus %}
+             {% comment %} {% if user_menus %}
                 {% for  in  %}
                 {% endfor %}
             
@@ -40,7 +60,7 @@
                 <p class="text-center">No hay productos en el carrito</p>
                 
 
-             {% endif %}
+             {% endif %} {% endcomment %}
          </div>
      </div>
 </div>

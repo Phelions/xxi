@@ -1,14 +1,13 @@
 {% extends 'dashboard/manager/base.html' %}
-{% load static %}
 {% load crispy_forms_tags %}
 
 {% block admin-contenido %}
 
 <section>
-    <div class="container pb-5">
+    <div class="container w-50 pb-5">
         <div class="card">
-            <div class="card-header">
-                Modificar Empleado
+            <div class="card-header text-sm-center">
+                <h3 class="card-title"></h3>
             </div>
             <div class="card-body">
                 <h4 class="card-title text-center">Datos del Empleado</h4>
@@ -34,12 +33,6 @@
             </div>
         </div>
     </div>
-    <div class="card-footer text-muted">
-        
-    </div>
-    </div>
-    </div>
-
 </section>
 
 {% endblock admin-contenido %}
