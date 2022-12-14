@@ -20,19 +20,19 @@ def login(request):
                 django_login(request, user)
                 return redirect('empleados')
             elif user is not None and user.is_employee and user.empleado.rol == 'Bodega':
-                login(request, user)
+                django_login(request, user)
                 return redirect('reservas')
             elif user is not None and user.is_employee and user.empleado.rol == 'Cocina':
-                login(request, user)
-                return redirect('reservas')
+                django_login(request, user)
+                return redirect('cocina')
             elif user is not None and user.is_employee and user.empleado.rol == 'Barman':
-                login(request, user)
+                django_login(request, user)
                 return redirect('reservas')
             elif user is not None and user.is_employee and user.empleado.rol == 'Garzon':
-                login(request, user)
+                django_login(request, user)
                 return redirect('reservas')
             elif user is not None and user.is_employee and user.empleado.rol == 'Finanza':
-                login(request, user)
+                django_login(request, user)
                 return redirect('reservas')
             elif user is not None and user.is_employee and user.empleado.rol == 'Mesa':
                 django_login(request, user)

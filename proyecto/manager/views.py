@@ -492,4 +492,26 @@ def modificar_mesas(request,id):
     else:
         msg = {'msg':'No tiene permisos para acceder a esta sección'}
         return render(request, 'accounts/request.html', msg)
+
+
+@login_required
+def cocina(request):
+    if request.user.is_employee and request.user.empleado.rol == 'Cocina':
+
+        return render(request, 'dashboard/manager/cocina/index.html')
+    else:
+        msg = {'msg':'No tiene permisos para acceder a esta sección'}
+        return render(request, 'accounts/request.html', msg)
+    #return render(request, 'dashboard/manager/cocina.html')  
+    # 
+
+
+@login_required
+def ver(request):
+    if request.user.is_employee and request.user.empleado.rol == 'Cocina':
+        return render(request, 'dashboard/manager/cocina/ver.html')
+    else:
+        msg = {'msg':'No tiene permisos para acceder a esta sección'}
+        return render(request, 'accounts/request.html', msg)
+    #return render(request, 'dashboard/manager/ver.html')
 '''----Dashboard - admin - FIN ---'''

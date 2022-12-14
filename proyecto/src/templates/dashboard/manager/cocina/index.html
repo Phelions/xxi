@@ -1,0 +1,47 @@
+{% extends 'dashboard/manager/cocina/base.html' %}
+{% load static %}
+
+
+{% block cocina-contenido %}
+<section>
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive text-center">
+                    <table class="table table-light">
+                        <thead>
+                            <tr>
+                                <th scope="col">id pedido</th>
+                                <th scope="col">id estado</th>
+                                <th scope="col">id mesa</th>
+                                <th scope="col">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                       
+                        
+                            <tr>
+                                <td>1</td>
+                                <td>Pedido</td>
+                                <td>Mesa 1 - 4 personas</td>
+                                <td >
+                                    <div class="d-flex justify-content-between btn-group" role="group">
+                                        <a name="" id="" class="btn btn-success" href=" {% url 'ver' %} " role="button">Ver</a>
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                        
+                        
+                        </tbody>
+                    </table>
+                </div>  
+            </div>
+            <div class="card-footer text-muted">
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock cocina-contenido %}
